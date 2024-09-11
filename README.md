@@ -5,7 +5,12 @@ Demo projects to demonstrate the usage of TaskC
 |- [test case name]
     |- [case repo]
     |- test
-        |- xxx.py
+        |- x.py
+        |- xx.jpg
+        |- xxx.txt
+        |- xxxx.mp3
+        |- xxxxx.mp4
+        |- (res*)
     |- cpuDockerfile
     |- cpuDockerfile.web
     |- gpuDockerfile
