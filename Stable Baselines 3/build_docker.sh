@@ -1,22 +1,23 @@
 #!/bin/bash
+USE_GPU="True"
 
 CPU_PARENT=mambaorg/micromamba:1.5-jammy
 GPU_PARENT=mambaorg/micromamba:1.5-jammy-cuda-11.7.1
 
-TAG=stablebaselines/stable-baselines3
+TAG=stable-baselines3
 
-VERSION=$(cat ./stable_baselines3/version.txt)
-
-USE_GPU="True"
+# VERSION=$(cat ./stable_baselines3/version.txt)
 
 if [[ ${USE_GPU} == "True" ]]; then
-  echo "Using GPU base image"
   PARENT=${GPU_PARENT}
   PYTORCH_DEPS="pytorch-cuda=11.7"
+  VERSION="gpu"
+  echo "USE_GPU selected"
 else
   PARENT=${CPU_PARENT}
   PYTORCH_DEPS="cpuonly"
-  TAG="${TAG}-cpu"
+  VERSION="cpu"
+  # TAG="${TAG}-cpu"
 fi
 
 echo "docker build --build-arg PARENT_IMAGE=${PARENT} --build-arg PYTORCH_DEPS=${PYTORCH_DEPS} -t ${TAG}:${VERSION} ."
