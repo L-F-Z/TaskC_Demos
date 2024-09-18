@@ -5,3 +5,6 @@ docker run -it --rm -v ./test:/workspace/stablediffusion/test stablediffusion:cp
 
 docker build -f gpuDockerfile -t stablediffusion:gpu .
 docker run -it --rm --gpus all -v ./test:/workspace/stablediffusion/test stablediffusion:gpu
+
+// weight file, need predownload to current directory before build 
+//wget https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt
