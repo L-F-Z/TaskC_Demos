@@ -1,0 +1,51 @@
+FROM ubuntu:18.04
+LABEL maintainer="Hugging Face"
+LABEL repository="transformers"
+
+RUN apt update && \
+    apt install -y bash \
+                   build-essential \
+                   git \
+                   curl \
+                   vim \
+                   cmake \
+                   ca-certificates \
+                   python3 \
+                   python3-pip && \
+    rm -rf /var/lib/apt/lists
+
+RUN python3 -m pip install --no-cache-dir --upgrade pip && \
+    python3 -m pip install --no-cache-dir \
+    jupyter \
+    packaging==20.9 \
+    datasets==2.0.0 \
+    sentencepiece==0.1.91 \
+    black==20.8b1 \
+    cookiecutter==1.7.2 \
+    flake8==3.8.3 \
+    flax==0.3.2 \
+    fugashi==1.0 \
+    importlib_metadata \
+    ipadic==1.0.0 \
+    isort==5.5.4 \
+    jax==0.2.8 \
+    unidic==1.0.2 \
+    unidic_lite==1.0.7 \
+    tokenizers==0.10.2
+
+RUN python3 -m pip install --no-cache-dir \
+    torch==1.9.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
+
+WORKDIR /workspace
+
+COPY loralib/ loralib/
+COPY setup.py setup.py
+COPY *.md .
+RUN python3 -m pip install --no-cache-dir .
+
+COPY examples/NLU transformers/
+
+RUN cd transformers/ && \
+    python3 -m pip install --no-cache-dir .
+
+CMD ["/bin/bash"]
