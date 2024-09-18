@@ -25,3 +25,11 @@ docker run -v ./test:/app/test \
     python3 /app/Deep-Live-Cam/run.py --execution-provider cuda -s /app/test/pic.jpg -t /app/test/video360.mp4 -o /app/test/res.mp4
 
 rm  ./test/res*
+
+# Apptainer CPU version
+apptainer build /tmp/cam_cpu.sif ./cpuApptainer.def
+apptainer exec --bind ./test:/app/test --bind /tmp/.X11-unix:/tmp/.X11-unix /tmp/cam_cpu.sif python3 run.py --execution-provider cpu -s /app/test/pic.jpg -t /app/test/video360.mp4 -o /app/test/res.mp4
+
+# Apptainer GPU version
+apptainer build /tmp/cam_gpu.sif ./gpuApptainer.def
+apptainer exec --nv --bind ./test:/app/test --bind /tmp/.X11-unix:/tmp/.X11-unix /tmp/cam_gpu.sif python3 /app/Deep-Live-Cam/run.py --execution-provider cuda -s /app/test/pic.jpg -t /app/test/video360.mp4 -o /app/test/res.mp4

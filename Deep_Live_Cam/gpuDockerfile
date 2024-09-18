@@ -34,10 +34,3 @@ RUN pip3 uninstall -y onnxruntime onnxruntime-gpu && \
 RUN mkdir -p models && \
     wget -O models/GFPGANv1.4.pth https://huggingface.co/hacksider/deep-live-cam/resolve/main/GFPGANv1.4.pth && \
     wget -O models/inswapper_128_fp16.onnx https://huggingface.co/hacksider/deep-live-cam/resolve/main/inswapper_128_fp16.onnx
-
-
-# Set the entrypoint
-# ENTRYPOINT ["python3", "run.py", "--execution-provider", "cuda"]
-
-# Default command (can be overridden)
-# CMD ["--help"]
