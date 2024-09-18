@@ -1,4 +1,3 @@
-# 自己实现
 FROM ubuntu:20.04
 
 # Set up environment variables
