@@ -1,0 +1,49 @@
+Bootstrap: docker  
+From: ubuntu:20.04  
+
+# Set working directory and copy files
+%setup  
+    mkdir -p ${APPTAINER_ROOTFS}/app/segment-anything-2 
+    cp -r ./segment-anything-2/* ${APPTAINER_ROOTFS}/app/segment-anything-2/
+
+%post
+    cd /app/segment-anything-2
+    ls -l
+
+%environment  
+    export DEBIAN_FRONTEND=noninteractive  
+    export PATH="${PATH}:/home/user/.local/bin"  
+
+%post  
+    echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections  
+    apt-get update && apt-get install -y apt-transport-https ca-certificates  
+    apt-get install -y git vim tmux nano htop sudo curl wget gnupg2  
+    apt-get install -y bash-completion  
+    apt-get install -y guvcview  
+    rm -rf /var/lib/apt/lists/*  
+    
+    apt-get update && apt-get install -y ffmpeg libsm6 libxext6  
+    
+    apt-get update  
+    apt-get install -y software-properties-common  
+    add-apt-repository ppa:deadsnakes/ppa  
+    apt-get update  
+    apt-get install -y python3.11 python3.11-venv python3.11-dev  
+    apt-get install -y python3.11-tk  
+    
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1  
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 2  
+    
+    curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11  
+
+%post  
+    cd /app/segment-anything-2
+    python3 -m pip install -e . -v  
+    python3 -m pip install -e ".[demo]"  
+    cd checkpoints && ./download_ckpts.sh && cd ..  
+
+%startscript  
+    exec /bin/bash  
+
+%runscript  
+    exec /bin/bash
