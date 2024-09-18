@@ -24,7 +24,7 @@ RUN rm -rf /usr/src/app && mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Copy contents
-# COPY . /usr/src/app
+COPY . /usr/src/app
 
 # Install pip packages
 COPY requirements.txt .
@@ -39,7 +39,7 @@ ENV OMP_NUM_THREADS=1
 # Cleanup
 ENV DEBIAN_FRONTEND teletype
 
-ENTRYPOINT [ "python3", "test.py" ]
+ENTRYPOINT [ "python3", "yolov5/detect.py", "--project", "./test/runs/detect", "--weights", "./test/yolov5s.pt", "--source", "./test/zidane.jpg" ]
 # Usage Examples -------------------------------------------------------------------------------------------------------
 
 # Build and Push
