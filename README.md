@@ -16,7 +16,8 @@ Demo projects to demonstrate the usage of TaskC
     |- gpuDockerfile
     |- gpuDockerfile.web
     |- build.sh
-    |- apptainer.def
+    |- cpuApptainer.def
+    |- gpuApptainer.def
 ```
 + [test case name]： 项目名称
 + [case repo]： 项目仓库代码，注意git checkout到指定版本，先将commit的版本号记录在build.sh中
@@ -26,5 +27,5 @@ Demo projects to demonstrate the usage of TaskC
 + gpuDockerfile：本地GPU版本的docker构建文件
 + gpuDockerfile.web：原版GPU版本的docker构建文件
 + build.sh：记录commit的版本号，CPU版本和GPU版本的构建的命令和测试构建的命令
-+ cpuApptianer.def：apptainer CPU版本构建的定义文件
-+ gpuApptianer.def：apptainer GPU版本构建的定义文件
++ cpuApptainer.def：apptainer CPU版本构建的定义文件
++ gpuApptainer.def：apptainer GPU版本构建的定义文件
