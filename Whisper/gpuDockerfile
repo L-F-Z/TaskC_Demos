@@ -17,9 +17,6 @@ RUN cd /app/whisper && \
 # RUN pip install --no-cache-dir git+https://github.com/openai/whisper.git 
 RUN whisper --model_dir /usr/local --model medium audio >> /dev/null 2>&1; exit 0
 
-# COPY ./app.py /app/app.py
-# Set working directory
+
 WORKDIR /app
 
-# Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
-# CMD [ "app.handler" ]

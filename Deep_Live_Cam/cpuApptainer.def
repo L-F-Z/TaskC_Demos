@@ -1,0 +1,44 @@
+Bootstrap: docker
+From: ubuntu:22.04
+
+%environment  
+    export DEBIAN_FRONTEND=noninteractive  
+    export PYTHONUNBUFFERED=1  
+    export TZ=Asia/Shanghai
+
+# Set working directory and copy files
+%setup  
+    mkdir -p ${APPTAINER_ROOTFS}/app/Deep-Live-Cam
+    cp -r ./Deep-Live-Cam/* ${APPTAINER_ROOTFS}/app/Deep-Live-Cam/
+
+%post
+    cd /app/Deep-Live-Cam
+    ls -l
+
+%post 
+    echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections 
+    apt-get update && apt-get install -y \
+        python3.10-tk \
+        python3-pip \
+        git \
+        ffmpeg \
+        libsm6 \
+        libxext6 \
+        libgl1-mesa-glx \
+        wget \
+        && rm -rf /var/lib/apt/lists/*
+    
+
+%post
+    cd /app/Deep-Live-Cam
+    pip3 install --no-cache-dir -r requirements.txt --timeout=1000
+    
+    mkdir -p models
+    wget -O models/GFPGANv1.4.pth https://huggingface.co/hacksider/deep-live-cam/resolve/main/GFPGANv1.4.pth
+    wget -O models/inswapper_128_fp16.onnx https://huggingface.co/hacksider/deep-live-cam/resolve/main/inswapper_128_fp16.onnx
+
+%startscript
+    exec /bin/bash
+
+%runscript
+    exec /bin/bash
