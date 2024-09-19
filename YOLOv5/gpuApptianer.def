@@ -1,0 +1,43 @@
+
+
+Bootstrap: docker
+From: pytorch/pytorch:2.0.0-cuda11.7-cudnn8-runtime
+
+%setup  
+    mkdir -p ${APPTAINER_ROOTFS}/.config/Ultralytics/
+    mkdir -p ${APPTAINER_ROOTFS}/app
+    cp -r requirements.txt ${APPTAINER_ROOTFS}/app/
+    cp -r . ${APPTAINER_ROOTFS}/app
+    cd ${APPTAINER_ROOTFS}/app
+    ls -l
+
+%environment
+    export OMP_NUM_THREADS=1
+    # 清理
+    export DEBIAN_FRONTEND=teletype
+    # 设置非交互式前端
+    export DEBIAN_FRONTEND=noninteractive
+
+%post
+    # 安装Linux软件包
+    apt-get update
+    TZ=Etc/UTC apt-get install -y tzdata
+    apt-get install --no-install-recommends -y gcc git zip curl htop libgl1 libglib2.0-0 libpython3-dev gnupg wget
+
+    # 下载字体到用户配置目录
+    cd /.config/Ultralytics/
+    wget https://ultralytics.com/assets/Arial.ttf
+    wget https://ultralytics.com/assets/Arial.Unicode.ttf
+
+    # 安全更新
+    apt-get upgrade --no-install-recommends -y openssl
+
+    # 安装pip包
+    cd /app
+    python3 -m pip install --upgrade pip wheel
+    pip3 install --no-cache -r requirements.txt albumentations comet gsutil notebook \
+        coremltools onnx onnx-simplifier onnxruntime 'openvino-dev>=2023.0'
+        # tensorflow tensorflowjs \
+
+%runscript
+    exec python3 yolov5/detect.py --project ./test/runs/detect --weights ./test/yolov5s.pt --source ./test/zidane.jpg
