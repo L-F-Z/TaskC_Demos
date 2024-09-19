@@ -1,0 +1,67 @@
+Bootstrap: docker
+From: pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
+
+%setup
+    # 将主机上的'ultralytics'目录复制到容器中
+    mkdir -p ${APPTAINER_ROOTFS}/ultralytics
+    cp -r ${PWD}/ultralytics/* ${APPTAINER_ROOTFS}/ultralytics/
+    mkdir -p ${APPTAINER_ROOTFS}/.config/Ultralytics/
+
+%post
+    # 设置环境变量
+    export PYTHONUNBUFFERED=1
+    export PYTHONDONTWRITEBYTECODE=1
+    export PIP_NO_CACHE_DIR=1
+    export PIP_BREAK_SYSTEM_PACKAGES=1
+    export MKL_THREADING_LAYER=GNU
+    export DEBIAN_FRONTEND=noninteractive
+
+    # 安装必要的Linux包
+    apt-get update && apt-get install --no-install-recommends -y \
+        gcc git zip unzip wget curl htop libgl1 libglib2.0-0 libpython3-dev gnupg g++ libusb-1.0-0 libsm6
+
+    # 安全更新
+    apt-get upgrade --no-install-recommends -y openssl tar
+
+    # 下载字体到用户配置目录
+    mkdir -p /root/.config/Ultralytics/
+    cd /root/.config/Ultralytics/
+    wget https://github.com/ultralytics/assets/releases/download/v0.0.0/Arial.ttf
+    wget https://github.com/ultralytics/assets/releases/download/v0.0.0/Arial.Unicode.ttf
+
+    # 配置git
+    cd /ultralytics
+    if [ -f .git/config ]; then
+        sed -i '/^\[http "https:\/\/github\.com\/"\]/,+1d' .git/config
+    fi
+
+    # 下载yolov8n.pt模型
+    cd /ultralytics
+    wget https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt
+
+    # 升级pip并安装Python包
+    python3 -m pip install --upgrade pip wheel --break-system-packages
+    # 修正numpy版本以避免分段错误
+    pip install numpy==1.24 --break-system-packages
+
+    pip install -e ".[export]" "tensorrt-cu12==10.1.0" "albumentations>=1.4.6" comet pycocotools --break-system-packages
+
+    # 运行yolo导出命令以自动安装所需的包
+    yolo export model=tmp/yolov8n.pt format=edgetpu imgsz=32 || yolo export model=tmp/yolov8n.pt format=edgetpu imgsz=32
+    yolo export model=tmp/yolov8n.pt format=ncnn imgsz=32
+
+    # 安装paddlepaddle和x2paddle
+    pip install "paddlepaddle>=2.6.0" x2paddle --break-system-packages
+
+    # 删除导出的临时文件
+    rm -rf tmp
+
+%environment
+    export PYTHONUNBUFFERED=1
+    export PYTHONDONTWRITEBYTECODE=1
+    export PIP_NO_CACHE_DIR=1
+    export PIP_BREAK_SYSTEM_PACKAGES=1
+    export MKL_THREADING_LAYER=GNU
+
+%runscript
+    exec yolo predict model=yolov8n.pt source=https://ultralytics.com/images/bus.jpg

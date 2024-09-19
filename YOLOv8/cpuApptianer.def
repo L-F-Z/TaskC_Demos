@@ -1,0 +1,63 @@
+Bootstrap: docker  
+From: ubuntu:23.10
+
+%setup
+    # 将主机上的'ultralytics'目录复制到容器中
+    mkdir -p ${APPTAINER_ROOTFS}/ultralytics
+    cp -r ${PWD}/ultralytics/* ${APPTAINER_ROOTFS}/ultralytics/
+    mkdir -p ${APPTAINER_ROOTFS}/.config/Ultralytics/
+
+
+%post
+    # 设置非交互式前端
+    export DEBIAN_FRONTEND=noninteractive
+
+    # 设置环境变量
+    export PYTHONUNBUFFERED=1
+    export PYTHONDONTWRITEBYTECODE=1
+    export PIP_NO_CACHE_DIR=1
+    export PIP_BREAK_SYSTEM_PACKAGES=1
+
+    # 更新并安装必要的Linux包
+    apt-get update && apt-get install --no-install-recommends -y \
+        python3-pip git zip unzip wget curl htop libgl1 libglib2.0-0 libpython3-dev gnupg g++ libusb-1.0-0
+
+    # 下载字体到用户配置目录
+    cd /.config/Ultralytics/
+    wget https://github.com/ultralytics/assets/releases/download/v0.0.0/Arial.ttf
+    wget https://github.com/ultralytics/assets/releases/download/v0.0.0/Arial.Unicode.ttf
+
+    # 进入工作目录
+    cd /ultralytics
+
+    # 修改.git/config文件（如果存在）
+    if [ -f .git/config ]; then
+        sed -i '/^\[http "https:\/\/github\.com\/"\]/,+1d' .git/config
+    fi
+
+    # 下载yolov8n.pt模型文件
+    wget https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt
+
+    # 升级pip并安装Python包
+    python3 -m pip install --upgrade pip wheel
+    pip install -e ".[export]" --extra-index-url https://download.pytorch.org/whl/cpu
+
+    # 运行yolo导出命令以自动安装所需的包
+    yolo export model=tmp/yolov8n.pt format=edgetpu imgsz=32
+    yolo export model=tmp/yolov8n.pt format=ncnn imgsz=32
+
+    # 删除导出的临时文件
+    rm -rf tmp
+
+    # 创建Python的符号链接
+    ln -sf /usr/bin/python3 /usr/bin/python
+
+%environment
+    export PYTHONUNBUFFERED=1
+    export PYTHONDONTWRITEBYTECODE=1
+    export PIP_NO_CACHE_DIR=1
+    export PIP_BREAK_SYSTEM_PACKAGES=1
+
+%runscript
+    exec yolo predict model=yolov8n.pt source=https://ultralytics.com/images/bus.jpg
+
