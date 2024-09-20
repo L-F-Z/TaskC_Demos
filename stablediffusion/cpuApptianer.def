@@ -1,0 +1,30 @@
+Bootstrap: docker  
+From: pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel
+
+%setup  
+    mkdir -p ${APPTAINER_ROOTFS}/workspace/stablediffusion  
+    cp -r stablediffusion ${APPTAINER_ROOTFS}/workspace/  
+    cp environment.yaml v2-1_768-ema-pruned.ckpt ${APPTAINER_ROOTFS}/workspace/stablediffusion/
+    # export HOME=/root
+    # mkdir -p ${HOME}
+%post  
+    apt update && apt install --yes ffmpeg libsm6 libxext6  
+
+    cd /workspace/stablediffusion/  
+
+    conda config --add channels defaults  
+    conda config --set show_channel_urls true  
+    conda config --add default_channels https://mirrors.ustc.edu.cn/anaconda/pkgs/main  
+    conda config --add default_channels https://mirrors.ustc.edu.cn/anaconda/pkgs/r  
+    conda config --add default_channels https://mirrors.ustc.edu.cn/anaconda/pkgs/msys2  
+    # conda config --add custom_channels.conda-forge https://mirrors.ustc.edu.cn/anaconda/cloud  
+    # conda config --add custom_channels.pytorch https://mirrors.ustc.edu.cn/anaconda/cloud  
+
+    # conda update -n base -c defaults conda -y  
+    conda env create -f environment.yaml  
+
+    conda init bash  
+    echo "conda activate ldm" >> ${APPTAINER_ROOTFS}/.bashrc  
+
+%runscript  
+    exec conda run -n ldm python scripts/txt2img.py "\$@"  
