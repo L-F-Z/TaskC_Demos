@@ -51,5 +51,5 @@ From: pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel
 
 %runscript
     # 定义容器运行时的默认命令
-    echo "欢迎使用 MMPretrain 容器环境！"
+    echo "Welcome to MMPretrain!"
     exec "$@"
