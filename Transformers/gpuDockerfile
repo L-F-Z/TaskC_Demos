@@ -1,0 +1,12 @@
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Install Transformers library
+RUN pip install --no-cache-dir transformers torch torchvision timm
+
+COPY example-gpu.py /app
+
+CMD ["python", "example-gpu.py"]
