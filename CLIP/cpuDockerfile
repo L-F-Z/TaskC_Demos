@@ -24,8 +24,12 @@ RUN pip install --no-cache-dir \
     regex \
     tqdm
 
-RUN pip install --no-cache-dir git+https://github.com/openai/CLIP.git
+WORKDIR /app/CLIP  
+COPY ./CLIP /app/CLIP  
 
-COPY . /app
+RUN pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir .  
 
-CMD ["python", "example.py"]
+# COPY . /app
+# CMD ["python", "example.py"]
+CMD ["/bin/bash"]

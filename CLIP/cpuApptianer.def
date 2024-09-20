@@ -1,0 +1,46 @@
+Bootstrap: docker
+From: python:3.9-slim-buster
+
+%environment
+    export PATH=/usr/local/bin:$PATH
+    export PYTHONUNBUFFERED=1
+
+%setup
+    # 创建目标目录
+    mkdir -p ${APPTAINER_ROOTFS}/app/CLIP
+
+    # 复制主机上的 CLIP 源码到容器文件系统
+    cp -r ./CLIP/* ${APPTAINER_ROOTFS}/app/CLIP/
+
+%post
+    # 更新并安装必要的依赖项
+    apt-get update && apt-get install -y \
+        libgl1-mesa-glx \
+        libegl1-mesa \
+        libxrandr2 \
+        libxss1 \
+        libxcursor1 \
+        libxcomposite1 \
+        libasound2 \
+        libxi6 \
+        libxtst6 \
+        git \
+        && apt-get clean \
+        && rm -rf /var/lib/apt/lists/*
+
+    # 安装 Python 包
+    pip install --no-cache-dir \
+        torch \
+        torchvision \
+        torchaudio \
+        ftfy \
+        regex \
+        tqdm
+
+    # 进入 CLIP 目录并安装依赖
+    cd /app/CLIP
+    pip install --no-cache-dir -r requirements.txt
+    pip install --no-cache-dir .
+
+%runscript
+    exec /bin/bash "$@"
