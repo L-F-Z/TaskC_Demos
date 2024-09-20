@@ -10,8 +10,8 @@ RUN pip3 install torch torchaudio --extra-index-url https://download.pytorch.org
 RUN rm -rf /root/.cache/pip
 
 # Copy TTS repository contents:
-WORKDIR /root
-COPY . /root
+WORKDIR /root/TTS
+COPY ./TTS/* /root/TTS/
 
 RUN make install
 

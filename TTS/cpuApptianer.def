@@ -1,0 +1,24 @@
+Bootstrap: docker
+From: nvidia/cuda:11.8.0-base-ubuntu22.04
+
+%setup
+    mkdir -p ${APPTAINER_ROOTFS}/TTS
+    cp -r ./TTS/* ${APPTAINER_ROOTFS}/TTS/
+
+%post
+    apt-get update && apt-get upgrade -y
+    apt-get install -y --no-install-recommends \
+        gcc g++ make python3 python3-dev python3-pip python3-venv python3-wheel \
+        espeak-ng libsndfile1-dev
+    rm -rf /var/lib/apt/lists/*
+
+    pip3 install llvmlite --ignore-installed
+
+    pip3 install torch torchaudio --extra-index-url https://download.pytorch.org/whl/cu118
+    rm -rf ${APPTAINER_ROOTFS}/.cache/pip
+
+    cd ${APPTAINER_ROOTFS}/TTS
+    make install
+
+%runscript
+    tts "$@"
