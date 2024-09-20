@@ -3,6 +3,7 @@ mmpretrain/mmpretrain/
 SAM2/segment-anything-2/
 Stable-Baselines3/stable-baselines3
 stablediffusion/stablediffusion/
+stablediffusion/v2-1_768-ema-pruned.ckpt
 Whisper/whisper/
 YOLOv5/yolov5/
 YOLOv5/v2-1_768-ema-pruned.ckpt

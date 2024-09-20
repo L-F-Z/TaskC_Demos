@@ -12,10 +12,10 @@ From: mambaorg/micromamba:1.5-jammy
     mkdir -p ${APPTAINER_ROOTFS}${CODE_DIR}/stable-baselines3/stable_baselines3
     mkdir -p ${APPTAINER_ROOTFS}${CODE_DIR}/stable-baselines3/tests
 
-    cp -r ./stable_baselines3/* ${APPTAINER_ROOTFS}${CODE_DIR}/stable-baselines3/stable_baselines3/
-    # cp ${PWD}/setup.py ${APPTAINER_ROOTFS}${CODE_DIR}/stable-baselines3/
-    # cp -r ${PWD}/tests/* ${APPTAINER_ROOTFS}${CODE_DIR}/stable-baselines3/tests/
-    cp ${PWD}/stable_baselines3/version.txt ${APPTAINER_ROOTFS}${CODE_DIR}/stable-baselines3/stable_baselines3/
+    cp -r ./stable-baselines3/stable_baselines3/* ${APPTAINER_ROOTFS}${CODE_DIR}/stable-baselines3/stable_baselines3/
+    cp ./stable-baselines3/setup.py ${APPTAINER_ROOTFS}${CODE_DIR}/stable-baselines3/
+    cp -r ./stable-baselines3/tests/* ${APPTAINER_ROOTFS}${CODE_DIR}/stable-baselines3/tests/
+    cp ./stable-baselines3/stable_baselines3/version.txt ${APPTAINER_ROOTFS}${CODE_DIR}/stable-baselines3/stable_baselines3/
 
 %post
     export PYTORCH_DEPS=cpuonly
