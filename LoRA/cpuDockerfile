@@ -38,12 +38,12 @@ RUN python3 -m pip install --no-cache-dir \
 
 WORKDIR /workspace
 
-COPY loralib/ loralib/
-COPY setup.py setup.py
-COPY *.md .
+COPY ./LoRA/loralib/ loralib/
+COPY ./LoRA/setup.py setup.py
+COPY ./LoRA/*.md .
 RUN python3 -m pip install --no-cache-dir .
 
-COPY examples/NLU transformers/
+COPY ./LoRA/examples/NLU transformers/
 
 RUN cd transformers/ && \
     python3 -m pip install --no-cache-dir .

@@ -1,0 +1,66 @@
+Bootstrap: docker
+From: nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04
+
+%labels
+    maintainer "Hugging Face"
+    repository "transformers"
+
+%setup
+    mkdir -p ${APPTAINER_ROOTFS}/workspace/loralib
+    cp -r ./LoRA/loralib/* ${APPTAINER_ROOTFS}/workspace/loralib/
+    cp ./LoRA/setup.py ${APPTAINER_ROOTFS}/workspace/setup.py
+    cp ./LoRA/*.md ${APPTAINER_ROOTFS}/workspace/
+    mkdir -p ${APPTAINER_ROOTFS}/workspace/transformers
+    cp -r ./LoRA/examples/NLU/* $APPTAINER_ROOTFS/workspace/transformers/
+
+%post
+    apt update && \
+        apt install -y bash \
+                       build-essential \
+                       git \
+                       curl \
+                       cmake \
+                       vim \
+                       ca-certificates \
+                       python3 \
+                       python3-pip && \
+        rm -rf /var/lib/apt/lists
+
+    python3 -m pip install --no-cache-dir --upgrade pip
+    python3 -m pip install --no-cache-dir \
+        numpy \
+        mkl \
+        packaging==20.9 \
+        datasets==2.0.0 \
+        sentencepiece==0.1.91 \
+        black==20.8b1 \
+        cookiecutter==1.7.2 \
+        flake8==3.8.3 \
+        flax==0.3.2 \
+        fugashi==1.0 \
+        importlib_metadata \
+        ipadic==1.0.0 \
+        isort==5.5.4 \
+        jax==0.2.8 \
+        unidic==1.0.2 \
+        unidic_lite==1.0.7 \
+        tokenizers==0.10.2
+
+    python3 -m pip install --no-cache-dir \
+        torch==1.9.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
+
+    # 可选：安装 apex（在原Dockerfile中被注释）
+    # git clone https://github.com/NVIDIA/apex /opt/apex
+    # cd /opt/apex && \
+    #     python3 setup.py install && \
+    #     pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
+
+    cd /workspace
+    python3 -m pip install --no-cache-dir .
+
+    cd /workspace/transformers
+    python3 -m pip install --no-cache-dir .
+
+%runscript
+    cd /workspace
+    exec /bin/bash "$@"
