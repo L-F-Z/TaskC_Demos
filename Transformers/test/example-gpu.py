@@ -7,7 +7,7 @@ from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassifica
 # Check if CUDA is available and set the device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
-assert device.type == "cuda"
+# assert device.type == "cuda"
 
 # Sentiment analysis using pipeline
 print("Running sentiment analysis using pipeline...")

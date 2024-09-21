@@ -1,3 +1,6 @@
 [submodule "TTS/test"]
 	path = TTS/test
 	url = https://github.com/coqui-ai/TTS
+[submodule "Transformers/test/transformers"]
+	path = Transformers/test/transformers
+	url = https://github.com/huggingface/transformers.git

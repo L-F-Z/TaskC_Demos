@@ -4,9 +4,20 @@ FROM python:3.9-slim
 # Set the working directory in the container
 WORKDIR /app
 
-# Install Transformers library
-RUN pip install --no-cache-dir transformers torch torchvision timm
+# Install git and other dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY example-gpu.py /app
+# Copy the cloned transformers repository into the container
+COPY transformers /app/transformers
 
+# Install the Transformers library in editable mode and other dependencies
+RUN pip install --no-cache-dir -e /app/transformers \
+    torch torchvision timm
+
+# Copy your Python script into the container
+COPY example-gpu.py /app/
+
+# Run your script when the container launches
 CMD ["python", "example-gpu.py"]
