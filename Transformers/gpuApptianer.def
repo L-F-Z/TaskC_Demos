@@ -1,0 +1,24 @@
+Bootstrap: docker  
+From: python:3.9-slim  
+
+%setup  
+    # Create the working directory  
+    mkdir -p ${APPTAINER_ROOTFS}/app  
+
+    # Copy the cloned transformers repository into the container  
+    cp -r ./transformers ${APPTAINER_ROOTFS}/app/transformers  
+
+%post  
+    # Set the working directory  
+    cd /app  
+
+    # Install git and other dependencies  
+    apt-get update && apt-get install -y git \
+        && rm -rf /var/lib/apt/lists/*  
+
+    # Install the Transformers library in editable mode and other dependencies  
+    pip install --no-cache-dir -e /app/transformers \
+        torch torchvision timm  
+
+%runscript  
+    exec /bin/bash

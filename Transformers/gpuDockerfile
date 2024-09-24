@@ -6,18 +6,19 @@ WORKDIR /app
 
 # Install git and other dependencies
 RUN apt-get update && apt-get install -y \
-    git \
+    # git \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy the cloned transformers repository into the container
-COPY transformers /app/transformers
+COPY ./transformers /app/transformers
 
 # Install the Transformers library in editable mode and other dependencies
 RUN pip install --no-cache-dir -e /app/transformers \
     torch torchvision timm
 
 # Copy your Python script into the container
-COPY example-gpu.py /app/
+# COPY example-gpu.py /app/
 
 # Run your script when the container launches
-CMD ["python", "example-gpu.py"]
+# CMD ["python", "example-gpu.py"]
+CMD [ "/bin/bash" ]
