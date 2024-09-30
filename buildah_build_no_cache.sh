@@ -2,17 +2,18 @@
 
 # 定义项目列表  
 projects=(  
-    "Cam"  
-    "LoRA"  
-    "SAM2"  
-    "Stable-Baselines3"  
-    "TTS"  
-    "Transformers"  
-    "Whisper"  
-    "YOLOv5"  
-    "YOLOv8"  
-    "mmpretrain"  
-    "stablediffusion"  
+    "CLIP"
+    "Deep_Live_Cam"
+    "LoRA"
+    "SAM2"
+    "Stable-Baselines3"
+    "TTS"
+    "Transformers"
+    "Whisper"
+    "YOLOv5"
+    "YOLOv8"
+    "mmpretrain"
+    "stablediffusion"
 )  
 
 # 构建时间和镜像大小记录文件  

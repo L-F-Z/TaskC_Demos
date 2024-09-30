@@ -1,0 +1,50 @@
+CLIP-cpu 构建时间：276.462481857秒，镜像大小：5.57 GB字节
+CLIP-gpu 构建时间：259.019218945秒，镜像大小：5.57 GB字节
+Deep_Live_Cam-cpu 构建时间：957.031117801秒，镜像大小：12.5 GB字节
+Deep_Live_Cam-gpu 构建失败，已重试3次
+失败信息：STEP 1/9: FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
+Error: creating build container: short-name "nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04" did not resolve to an alias and no unqualified-search registries are defined in "/etc/containers/registries.conf"
+LoRA-cpu 构建时间：333.194466614秒，镜像大小：5.97 GB字节
+LoRA-gpu 构建失败，已重试3次
+失败信息：STEP 1/15: FROM nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04
+Error: creating build container: short-name "nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04" did not resolve to an alias and no unqualified-search registries are defined in "/etc/containers/registries.conf"
+SAM2-cpu 构建时间：857.391549247秒，镜像大小：11.3 GB字节
+SAM2-gpu 构建失败，已重试3次
+失败信息：STEP 1/19: FROM nvidia/cuda:12.6.0-devel-ubuntu20.04
+Error: creating build container: short-name "nvidia/cuda:12.6.0-devel-ubuntu20.04" did not resolve to an alias and no unqualified-search registries are defined in "/etc/containers/registries.conf"
+Stable-Baselines3-cpu 构建失败，已重试3次
+失败信息：STEP 1/12: FROM mambaorg/micromamba:1.5-jammy
+Error: creating build container: short-name "mambaorg/micromamba:1.5-jammy" did not resolve to an alias and no unqualified-search registries are defined in "/etc/containers/registries.conf"
+Stable-Baselines3-gpu 构建失败，已重试3次
+失败信息：STEP 1/12: FROM mambaorg/micromamba:1.5-jammy-cuda-11.7.1
+Error: creating build container: short-name "mambaorg/micromamba:1.5-jammy-cuda-11.7.1" did not resolve to an alias and no unqualified-search registries are defined in "/etc/containers/registries.conf"
+TTS-cpu 构建失败，已重试3次
+失败信息：STEP 1/11: FROM nvidia/cuda:11.8.0-base-ubuntu22.04
+Error: creating build container: short-name "nvidia/cuda:11.8.0-base-ubuntu22.04" did not resolve to an alias and no unqualified-search registries are defined in "/etc/containers/registries.conf"
+TTS-gpu 构建失败，已重试3次
+失败信息：STEP 1/11: FROM nvidia/cuda:11.8.0-base-ubuntu22.04
+Error: creating build container: short-name "nvidia/cuda:11.8.0-base-ubuntu22.04" did not resolve to an alias and no unqualified-search registries are defined in "/etc/containers/registries.conf"
+Transformers-cpu 构建时间：251.251405054秒，镜像大小：5.75 GB字节
+Transformers-gpu 构建时间：235.109041315秒，镜像大小：5.75 GB字节
+Whisper-cpu 构建时间：372.311258597秒，镜像大小：7.29 GB字节
+Whisper-gpu 构建时间：344.336943697秒，镜像大小：7.29 GB字节
+YOLOv5-cpu 构建时间：992.347305571秒，镜像大小：9 GB字节
+YOLOv5-gpu 构建失败，已重试3次
+失败信息：STEP 1/16: FROM pytorch/pytorch:2.0.0-cuda11.7-cudnn8-runtime
+Error: creating build container: short-name "pytorch/pytorch:2.0.0-cuda11.7-cudnn8-runtime" did not resolve to an alias and no unqualified-search registries are defined in "/etc/containers/registries.conf"
+YOLOv8-cpu 构建时间：446.075138499秒，镜像大小：5.32 GB字节
+YOLOv8-gpu 构建失败，已重试3次
+失败信息：STEP 1/17: FROM pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
+Error: creating build container: short-name "pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime" did not resolve to an alias and no unqualified-search registries are defined in "/etc/containers/registries.conf"
+mmpretrain-cpu 构建失败，已重试3次
+失败信息：STEP 1/8: FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel
+Error: creating build container: short-name "pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel" did not resolve to an alias and no unqualified-search registries are defined in "/etc/containers/registries.conf"
+mmpretrain-gpu 构建失败，已重试3次
+失败信息：STEP 1/12: FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel
+Error: creating build container: short-name "pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel" did not resolve to an alias and no unqualified-search registries are defined in "/etc/containers/registries.conf"
+stablediffusion-cpu 构建失败，已重试3次
+失败信息：STEP 1/13: FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel
+Error: creating build container: short-name "pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel" did not resolve to an alias and no unqualified-search registries are defined in "/etc/containers/registries.conf"
+stablediffusion-gpu 构建失败，已重试3次
+失败信息：STEP 1/13: FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel
+Error: creating build container: short-name "pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel" did not resolve to an alias and no unqualified-search registries are defined in "/etc/containers/registries.conf"

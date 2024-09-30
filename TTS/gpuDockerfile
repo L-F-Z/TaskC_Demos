@@ -11,7 +11,7 @@ RUN rm -rf /root/.cache/pip
 
 # Copy TTS repository contents:
 WORKDIR /root/TTS
-COPY ./TTS/* /root/TTS/
+COPY ./TTS/ /root/TTS/
 
 RUN make install
 
