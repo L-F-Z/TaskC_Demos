@@ -1,0 +1,39 @@
+[BLUEPRINT] v1
+[NAME] SAM2
+[TYPE] Prefab
+[VERSION] latest
+[ENVIRONMENT] any
+
+[DEPEND]
+- [BASE] python [3.11]
+- [APT] ffmpeg [any]
+- [APT] libavutil-dev [any]
+- [APT] libavcodec-dev [any]
+- [APT] libavformat-dev [any]
+- [APT] libswscale-dev [any]
+- [APT] pkg-config [any]
+- [APT] build-essential [any]
+- [APT] libffi-dev [any]
+- [PYTHON] torch [>=2.3.1]
+- [PYTHON] torchvision [>=0.18.1]
+- [PYTHON] numpy [>=1.24.4]
+- [PYTHON] tqdm [>=4.66.1]
+- [PYTHON] hydra-core [>=1.3.2]
+- [PYTHON] iopath [>=0.1.10]
+- [PYTHON] pillow [>=9.4.0]
+- [PYTHON] setuptools [>=61.0]
+- [PYTHON] Flask [>=3.0.3]
+- [PYTHON] Flask-Cors [>=5.0.0]
+- [PYTHON] av [>=13.0.0]
+- [PYTHON] dataclasses-json [>=0.6.7]
+- [PYTHON] eva-decord [>=0.6.1]
+- [PYTHON] gunicorn [>=23.0.0]
+- [PYTHON] imagesize [>=1.4.1]
+- [PYTHON] pycocotools [>=2.0.8]
+- [PYTHON] strawberry-graphql [>=0.239.2]
+- [PYTHON] . []
+- [LOCAL] ./sam2 [/sam2]
+
+[WORKDIR] /sam2
+[CMD]
+- /bin/bash

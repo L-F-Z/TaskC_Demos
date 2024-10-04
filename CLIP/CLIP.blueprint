@@ -1,0 +1,29 @@
+[BLUEPRINT] v1
+[NAME] CLIP
+[TYPE] Prefab
+[VERSION] latest
+[ENVIRONMENT] any
+
+[DEPEND]
+- [BASE] python [any]
+- [APT] libgl1-mesa-glx [any]
+- [APT] libegl1-mesa [any]
+- [APT] libxrandr2 [any]
+- [APT] libxss1 [any]
+- [APT] libxcursor1 [any]
+- [APT] libxcomposite1 [any]
+- [APT] libasound2 [any]
+- [APT] libxi6 [any]
+- [APT] libxtst6 [any]
+- [PYTHON] torch [any]
+- [PYTHON] torchvision [any]
+- [PYTHON] torchaudio [any]
+- [PYTHON] ftfy [any]
+- [PYTHON] regex [any]
+- [PYTHON] tqdm [any]
+- [PYTHON] packaging [any]
+- [LOCAL]  []
+
+[WORKDIR] /
+[CMD]
+- bin/bash
