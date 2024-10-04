@@ -16,74 +16,82 @@ projects=(
     "stablediffusion"
 )
 
-# 构建时间和镜像大小记录文件
-log_file="build_log.log"
+# 记录构建时间和镜像大小的日志文件
+log_file="docker_build_with_cache.log"
 
-# 清空或创建记录文件
+# 清空或创建日志文件
 > "$log_file"
 
 # 遍历每个项目
 for project in "${projects[@]}"; do
-    echo "正在构建项目：$project"
+    echo "Building project: $project"
 
     # 进入项目目录
-    cd "$project" || exit 1
+    cd "$project" || {
+        echo "Failed to enter project directory: $project" | tee -a "../$log_file"
+        continue
+    }
 
-    # 构建CPU Docker镜像并记录时间和镜像大小
-    echo "构建CPU镜像..."
-    attempt=1
-    max_attempts=3  # 总共尝试次数，包括初次构建和两次重试
+    # 定义构建镜像的函数
+    build_image() {
+        local variant=$1      # "cpu" 或 "gpu"
+        local dockerfile=$2   # "cpuDockerfile" 或 "gpuDockerfile"
 
-    while [ $attempt -le $max_attempts ]; do
-        start_time=$(date +%s)
-        docker build -f cpuDockerfile -t "${project,,}-cpu:latest" .
-        build_status=$?
-        end_time=$(date +%s)
-        build_time=$((end_time - start_time))
+        echo "Building ${variant^^} image..."
 
-        if [ $build_status -eq 0 ]; then
-            image_size=$(docker image inspect "${project,,}-cpu:latest" --format='{{.Size}}')
-            image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
-            echo "${project}-cpu 构建时间：${build_time}秒，镜像大小：${image_size_mb} MB" | tee -a "../$log_file"
-            break
-        else
-            echo "构建CPU镜像失败，重试次数：$attempt"
-            if [ $attempt -eq $max_attempts ]; then
-                echo "${project}-cpu 构建失败，已重试${max_attempts}次" | tee -a "../$log_file"
+        attempt=1
+        max_attempts=3      # 总共尝试次数，包括初始构建和两次重试
+
+        while [ $attempt -le $max_attempts ]; do
+            # 使用内置的 time 命令测量构建时间
+            # 将构建输出和时间输出分别重定向
+            { time docker build -t "${project,,}-${variant}" -f "$dockerfile" . > build_output.log; } 2> time_output.log
+            build_status=$?
+
+            # 读取构建输出
+            build_output=$(cat build_output.log)
+            rm build_output.log
+
+            # 提取构建时间（real 时间）
+            build_time=$(grep real time_output.log | awk '{print $2}')
+            rm time_output.log
+
+            if [ $build_status -eq 0 ]; then
+                image_size=$(docker image inspect "${project,,}-${variant}:latest" --format='{{.Size}}')
+                image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
+                echo "${project}-${variant}, ${build_time}, ${image_size_mb}MB" | tee -a "../$log_file"
+                break
+            else
+                echo "Failed to build ${variant^^} image, attempt: $attempt"
+                if [ $attempt -eq $max_attempts ]; then
+                    echo "${project}-${variant} failed to build after ${max_attempts} attempts" | tee -a "../$log_file"
+                    echo "Error message: $build_output" | tee -a "../$log_file"
+                else
+                    echo "Waiting 1 second before retrying..."
+                    sleep 1
+                fi
+                attempt=$((attempt + 1))
             fi
-            attempt=$((attempt + 1))
-        fi
-    done
+        done
+    }
 
-    # 构建GPU Docker镜像并记录时间和镜像大小
-    echo "构建GPU镜像..."
-    attempt=1
-    max_attempts=3  # 总共尝试次数，包括初次构建和两次重试
+    # 构建 CPU 镜像
+    build_image "cpu" "cpuDockerfile"
 
-    while [ $attempt -le $max_attempts ]; do
-        start_time=$(date +%s)
-        docker build -f gpuDockerfile -t "${project,,}-gpu:latest" .
-        build_status=$?
-        end_time=$(date +%s)
-        build_time=$((end_time - start_time))
+    # 在开始下一个镜像构建任务前暂停 1 秒
+    echo "Waiting 1 second before starting the next image build task..."
+    sleep 1
 
-        if [ $build_status -eq 0 ]; then
-            image_size=$(docker image inspect "${project,,}-gpu:latest" --format='{{.Size}}')
-            image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
-            echo "${project}-gpu 构建时间：${build_time}秒，镜像大小：${image_size_mb} MB" | tee -a "../$log_file"
-            break
-        else
-            echo "构建GPU镜像失败，重试次数：$attempt"
-            if [ $attempt -eq $max_attempts ]; then
-                echo "${project}-gpu 构建失败，已重试${max_attempts}次" | tee -a "../$log_file"
-            fi
-            attempt=$((attempt + 1))
-        fi
-    done
+    # 构建 GPU 镜像
+    build_image "gpu" "gpuDockerfile"
 
-    # 返回上级目录
+    # 在继续下一个项目前暂停 1 秒
+    echo "Waiting 1 second before continuing to the next project..."
+    sleep 1
+
+    # 返回到父目录
     cd ..
 
-    echo "$project 构建完成"
+    echo "$project build completed"
     echo "---------------------------"
 done

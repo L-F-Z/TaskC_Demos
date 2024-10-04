@@ -3,6 +3,7 @@ FROM nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04
 LABEL maintainer="Hugging Face"
 LABEL repository="transformers"
 
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update && \
     apt install -y bash \
                    build-essential \

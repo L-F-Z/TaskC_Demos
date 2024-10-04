@@ -1,0 +1,10 @@
+CLIP-cpu, 0m3.389ss, 5289.14MB
+CLIP-gpu, 0m0.900ss, 5289.14MB
+Deep_Live_Cam-cpu, 0m3.094ss, 11836.69MB
+Deep_Live_Cam-gpu, 0m3.096ss, 21236.65MB
+LoRA-cpu, 0m1.785ss, 5664.04MB
+LoRA-gpu, 0m1.836ss, 15576.07MB
+SAM2-cpu, 0m1.788ss, 10755.48MB
+SAM2-gpu, 0m2.010ss, 17429.47MB
+Stable-Baselines3-cpu, 0m2.821ss, 2544.27MB
+Stable-Baselines3-gpu, 0m0.938ss, 4301.64MB

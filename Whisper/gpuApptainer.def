@@ -1,5 +1,5 @@
 Bootstrap: docker  
-From: python:3.12-slim  
+From: python:3.10-slim  
 
 # Set working directory and copy files  
       
@@ -14,17 +14,7 @@ From: python:3.12-slim
 
 %post  
     # Update and install necessary packages  
-    apt-get update && apt-get install -y git wget tar xz-utils  
-
-    # Static Build of ffmpeg  
-    wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz  
-    tar xvf ffmpeg-release-amd64-static.tar.xz  
-    mv ffmpeg-*-amd64-static/ffmpeg /usr/bin/ffmpeg  
-    rm -Rf ffmpeg*  
-
-    # Install Python packages  
-    pip install --no-cache-dir setuptools-rust  
-
+    apt-get update && apt-get install -y ffmpeg 
 
     # Install whisper  
     cd /app/whisper  

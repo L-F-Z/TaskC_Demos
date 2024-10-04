@@ -14,6 +14,9 @@ From: nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04
     cp -r ./LoRA/examples/NLU/* $APPTAINER_ROOTFS/workspace/transformers/
 
 %post
+    export DEBIAN_FRONTEND=noninteractive  
+    export TZ=Asia/Shanghai
+    echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections 
     apt update && \
         apt install -y bash \
                        build-essential \

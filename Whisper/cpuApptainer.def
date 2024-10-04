@@ -1,0 +1,29 @@
+Bootstrap: docker  
+From: python:3.10-slim  
+
+# Set working directory and copy files  
+      
+%post
+    mkdir -p /app/whisper
+%files
+    ./whisper/* /app/whisper/
+%post
+    cd /app/whisper
+    ls
+    
+%post  
+    # Update and install necessary packages  
+    apt-get update && apt-get install -y ffmpeg 
+
+    # Install whisper  
+    cd /app/whisper  
+    pip install --no-cache-dir .  
+
+    # Run whisper command  
+    whisper --model_dir /usr/local --model medium audio >> /dev/null 2>&1 || true  
+
+%environment  
+    export PATH=/usr/bin/ffmpeg:$PATH  
+
+%help  
+    This container is built to run whisper with ffmpeg support.
