@@ -1,6 +1,13 @@
+# this Dockerfile should be run outside LoRA repo (LoRA and this Dockerfile should be in the same directory: [/test/LoRA/... and /test/this.Dockerfile]).
+
 FROM ubuntu:18.04
 LABEL maintainer="Hugging Face"
 LABEL repository="transformers"
+
+# Modify /etc/apt/sources.list to use PkgCache
+RUN total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
+RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+RUN mv /etc/apt/sources.list.new /etc/apt/sources.list
 
 RUN apt update && \
     apt install -y bash \
@@ -13,6 +20,9 @@ RUN apt update && \
                    python3 \
                    python3-pip && \
     rm -rf /var/lib/apt/lists
+
+# Modify ~/.pip/pip.conf to use PkgCache
+RUN mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
 
 RUN python3 -m pip install --no-cache-dir --upgrade pip && \
     python3 -m pip install --no-cache-dir \
@@ -33,8 +43,11 @@ RUN python3 -m pip install --no-cache-dir --upgrade pip && \
     unidic_lite==1.0.7 \
     tokenizers==0.10.2
 
-RUN python3 -m pip install --no-cache-dir \
-    torch==1.9.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
+# RUN python3 -m pip install -v --no-cache-dir \
+#    torch==1.9.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
+
+# To Manually Install Wheel
+RUN python3 -m pip install -v http://192.168.2.25:9081/repository/python/packages/torch/1.9.0%2Bcu111/torch-1.9.0%2Bcu111-cp36-cp36m-linux_x86_64.whl
 
 WORKDIR /workspace
 
