@@ -2,28 +2,41 @@ ARG PYTORCH="1.12.1"
 ARG CUDA="11.3"
 ARG CUDNN="8"
 
+# pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel
 FROM pytorch/pytorch:${PYTORCH}-cuda${CUDA}-cudnn${CUDNN}-devel
 
 # fetch the key refer to https://forums.developer.nvidia.com/t/18-04-cuda-docker-image-is-broken/212892/9
-# RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub 32
-# RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/7fa2af80.pub
+RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub 32
+RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/7fa2af80.pub
 
-# ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0+PTX"
-# ENV TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
+ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0+PTX"
+ENV TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
 ENV CMAKE_PREFIX_PATH="(dirname(which conda))/../"
 
-RUN apt-get update && apt-get install -y ffmpeg libsm6 libxext6 git ninja-build libglib2.0-0 libsm6 libxrender-dev libxext6 \
+# Modify /etc/apt/sources.list to use PkgCache
+RUN total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
+RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+RUN mv /etc/apt/sources.list.new /etc/apt/sources.list
+
+RUN apt-get update && apt-get install -y ffmpeg libsm6 curl libxext6 git ninja-build libglib2.0-0 libsm6 libxrender-dev libxext6 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# Modify ~/.pip/pip.conf to use PkgCache
+RUN mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
 
 # Install MIM
 RUN pip install openmim
 
+# Modify ~/.conda/.condarc to use PkgCache
+RUN mkdir ~/.conda/; test -f ~/.conda/.condarc && mv ~/.conda/.condarc ~/.conda/.condarc.bak; curl -s -o ~/.conda/.condarc -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/.condarc
+
 # Install MMPretrain
 RUN conda clean --all
+# RUN git clone https://github.com/open-mmlab/mmpretrain.git
+COPY ./mmpretrain /mmpretrain
 WORKDIR /mmpretrain
 
-# RUN git clone https://github.com/open-mmlab/mmpretrain.git
-COPY ./mmpretrain /mmpretrain 
+RUN mim install -v --no-cache-dir -e .
 
-RUN mim install --no-cache-dir -e .
+# NOTE: In the `mim install` step, there would be connections made to `download.openmmlab.com` to download their `mmcv` package. The domain `download.openmmlab.com` is hard-coded in `https://github.com/open-mmlab/mim/blob/main/mim/utils/default.py` which could NOT be modified easily due to the fact that `openmim` (`mim`) is installed as a Python package in the previous steps in this Dockerfile. Besides, `download.openmmlab.com` is resolved to 阿里云（国内）, making caching & proxying that domain become useless. Connections to that domain would consume ~70MiB data which causes 4~5 seconds, which can be ignored in my perspective.
