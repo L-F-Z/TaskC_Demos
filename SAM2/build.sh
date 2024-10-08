@@ -1,5 +1,11 @@
 # repo commit id
-commit 7e1596c0b6462eb1d1ba7e1492430fed95023598 (HEAD -> main, origin/main, origin/HEAD)
+old: commit 7e1596c0b6462eb1d1ba7e1492430fed95023598 (HEAD -> main, origin/main, origin/HEAD)
+new: commit 29267c8e3965bb7744a436ab7db555718d20391a (HEAD -> main, origin/main, origin/HEAD)
+
+wget https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_large.pt
+wget https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_base_plus.pt
+wget https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_small.pt
+wget https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_tiny.pt
 
 # docker CPU version
 docker build -f cpuDockerfile -t sam2:cpu .

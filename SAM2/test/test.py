@@ -78,11 +78,11 @@ def show_masks(image, masks, scores, point_coords=None, box_coords=None, input_l
         picname+=1
         plt.show()
 
-image = Image.open('/app/segment-anything-2/notebooks/images/truck.jpg')
+image = Image.open('/app/sam2/notebooks/images/truck.jpg')
 image = np.array(image.convert("RGB"))
 
-sam2_checkpoint = "/app/segment-anything-2/checkpoints/sam2_hiera_large.pt"
-model_cfg = "sam2_hiera_l.yaml"
+sam2_checkpoint = "/app/sam2/checkpoints/sam2.1_hiera_large.pt"
+model_cfg = "configs/sam2.1/sam2.1_hiera_l.yaml"
 
 sam2_model = build_sam2(model_cfg, sam2_checkpoint, device=device)
 

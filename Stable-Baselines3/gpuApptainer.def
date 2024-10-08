@@ -1,0 +1,39 @@
+Bootstrap: docker
+From: mambaorg/micromamba:1.5-jammy
+
+%setup
+    # Create necessary directories
+    mkdir -p ${APPTAINER_ROOTFS}/stable-baselines3/stable_baselines3
+    mkdir -p ${APPTAINER_ROOTFS}/stable-baselines3/tests
+
+    # Copy files to the container's filesystem
+    cp -r ./stable-baselines3/stable_baselines3/* ${APPTAINER_ROOTFS}/stable-baselines3/stable_baselines3/
+    cp ./stable-baselines3/setup.py ${APPTAINER_ROOTFS}/stable-baselines3/setup.py
+    cp -r ./stable-baselines3/tests/* ${APPTAINER_ROOTFS}/stable-baselines3/tests/
+    cp ./stable-baselines3/stable_baselines3/version.txt ${APPTAINER_ROOTFS}/stable-baselines3/stable_baselines3/version.txt
+
+%post
+    export PYTORCH_DEPS=cpuonly
+    export PYTHON_VERSION=3.10
+    export MAMBA_DOCKERFILE_ACTIVATE=1
+    export MAMBA_USER=micromamba
+    export CODE_DIR=${APPTAINER_ROOTFS}
+
+%post
+    # Update and install micromamba dependencies
+    micromamba install -n base -y python=${PYTHON_VERSION} \
+        pytorch ${PYTORCH_DEPS} -c conda-forge -c pytorch -c nvidia && \
+        micromamba clean --all --yes
+
+    # Install pip dependencies
+    micromamba run -n base bash -c "  
+        cd ${APPTAINER_ROOTFS}/stable-baselines3 && \
+        pip install -e .[extra,tests,docs] && \
+        # Use headless version for container environments  
+        pip uninstall -y opencv-python && \
+        pip install opencv-python-headless && \
+        pip cache purge  
+    " 
+
+%runscript
+    exec /bin/bash
