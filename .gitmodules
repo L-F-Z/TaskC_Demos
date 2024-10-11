@@ -31,3 +31,6 @@
 [submodule "YOLO11/ultralytics"]
 	path = YOLO11/ultralytics
 	url = https://github.com/ultralytics/ultralytics.git
+[submodule "YOLOv5/yolov5"]
+	path = YOLOv5/yolov5
+	url = https://github.com/ultralytics/yolov5
