@@ -28,3 +28,6 @@
 [submodule "Whisper/whisper"]
 	path = Whisper/whisper
 	url = https://github.com/openai/whisper.git
+[submodule "YOLO11/ultralytics"]
+	path = YOLO11/ultralytics
+	url = https://github.com/ultralytics/ultralytics.git
