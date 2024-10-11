@@ -1,6 +1,0 @@
-[submodule "TTS"]
-	path = TTS
-	url = https://github.com/coqui-ai/TTS
-[submodule "Transformerstransformers"]
-	path = Transformers/transformers
-	url = https://github.com/huggingface/transformers.git
