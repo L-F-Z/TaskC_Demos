@@ -1,12 +1,21 @@
 ARG BASE=nvidia/cuda:11.8.0-base-ubuntu22.04
 FROM ${BASE}
 
+# Modify /etc/apt/sources.list to use PkgCache
+RUN total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
+RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+RUN mv /etc/apt/sources.list.new /etc/apt/sources.list
+
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y --no-install-recommends gcc g++ make python3 python3-dev python3-pip python3-venv python3-wheel espeak-ng libsndfile1-dev && rm -rf /var/lib/apt/lists/*
+RUN apt-get install -y --no-install-recommends gcc g++ make python3 python3-dev python3-pip python3-venv python3-wheel espeak-ng libsndfile1-dev curl && rm -rf /var/lib/apt/lists/*
+
+# Modify ~/.pip/pip.conf to use PkgCache
+RUN mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
+
 RUN pip3 install llvmlite --ignore-installed
 
 # Install Dependencies:
-RUN pip3 install torch torchaudio --extra-index-url https://download.pytorch.org/whl/cu118
+RUN pip3 install torch torchaudio --extra-index-url http://192.168.2.25:9081/repository/python/simple/
 RUN rm -rf /root/.cache/pip
 
 # Copy TTS repository contents:

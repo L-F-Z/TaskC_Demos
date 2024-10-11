@@ -1,6 +1,6 @@
 # Ultralytics YOLO 🚀, AGPL-3.0 license
 # Builds ultralytics/ultralytics:latest image on DockerHub https://hub.docker.com/r/ultralytics/ultralytics
-# Image is CUDA-optimized for YOLO11 single/multi-GPU training and inference
+# Image is CUDA-optimized for YOLOv8 single/multi-GPU training and inference
 
 # Start FROM PyTorch image https://hub.docker.com/r/pytorch/pytorch or nvcr.io/nvidia/pytorch:23.03-py3
 FROM pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
@@ -14,22 +14,15 @@ ENV PYTHONUNBUFFERED=1 \
     MKL_THREADING_LAYER=GNU
 
 # Downloads to user config dir
-ADD http://192.168.2.25:9081/repository/storage/Arial.ttf \
-    http://192.168.2.25:9081/repository/storage/Arial.Unicode.ttf \
+ADD https://github.com/ultralytics/assets/releases/download/v0.0.0/Arial.ttf \
+    https://github.com/ultralytics/assets/releases/download/v0.0.0/Arial.Unicode.ttf \
     /root/.config/Ultralytics/
-
-    # Modify /etc/apt/sources.list to use PkgCache
-RUN total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
-RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
-RUN mv /etc/apt/sources.list.new /etc/apt/sources.list
 
 # Install linux packages
 # g++ required to build 'tflite_support' and 'lap' packages, libusb-1.0-0 required for 'tflite_support' package
 # libsm6 required by libqxcb to create QT-based windows for visualization; set 'QT_DEBUG_PLUGINS=1' to test in docker
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    gcc git zip unzip wget curl htop libgl1 libglib2.0-0 libpython3-dev gnupg g++ libusb-1.0-0 libsm6 \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt update \
+    && apt install --no-install-recommends -y gcc git zip unzip wget curl htop libgl1 libglib2.0-0 libpython3-dev gnupg g++ libusb-1.0-0 libsm6
 
 # Security updates
 # https://security.snyk.io/vuln/SNYK-UBUNTU1804-OPENSSL-3314796
@@ -39,37 +32,29 @@ RUN apt upgrade --no-install-recommends -y openssl tar
 WORKDIR /ultralytics
 
 # Copy contents and configure git
-COPY ./ultralytics/ .
-RUN if [ -f .git/config ]; then sed -i '/^\[http "https:\/\/github\.com\/"\]/,+1d' .git/config; fi
+COPY ./ultralytics .
 # RUN sed -i '/^\[http "https:\/\/github\.com\/"\]/,+1d' .git/config
-ADD http://192.168.2.25:9081/repository/storage/yolo11n.pt .
-
-# Modify ~/.pip/pip.conf to use PkgCache
-RUN mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
+RUN if [ -f .git/config ]; then sed -i '/^\[http "https:\/\/github\.com\/"\]/,+1d' .git/config; fi
+ADD https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt .
 
 # Install pip packages
 RUN python3 -m pip install --upgrade pip wheel
 # Pin TensorRT-cu12==10.1.0 to avoid 10.2.0 bug https://github.com/ultralytics/ultralytics/pull/14239 (note -cu12 must be used)
-# RUN pip install -e ".[export]" "tensorrt-cu12==10.1.0" "albumentations>=1.4.6" comet pycocotools
-RUN pip install -e . "tensorrt-cu12==10.1.0" "albumentations>=1.4.6" comet pycocotools
+RUN pip install -e ".[export]" "tensorrt-cu12==10.1.0" "albumentations>=1.4.6" comet pycocotools
 
 # Run exports to AutoInstall packages
 # Edge TPU export fails the first time so is run twice here
-
-# RUN yolo export model=tmp/yolo11n.pt format=edgetpu imgsz=32 || yolo export model=tmp/yolo11n.pt format=edgetpu imgsz=32
-# RUN yolo export model=tmp/yolo11n.pt format=ncnn imgsz=32
-
+RUN yolo export model=tmp/yolov8n.pt format=edgetpu imgsz=32 || yolo export model=tmp/yolov8n.pt format=edgetpu imgsz=32
+RUN yolo export model=tmp/yolov8n.pt format=ncnn imgsz=32
 # Requires <= Python 3.10, bug with paddlepaddle==2.5.0 https://github.com/PaddlePaddle/X2Paddle/issues/991
-
-# RUN pip install "paddlepaddle>=2.6.0" x2paddle
-
+RUN pip install "paddlepaddle>=2.6.0" x2paddle
 # Fix error: `np.bool` was a deprecated alias for the builtin `bool` segmentation error in Tests
-# RUN pip install numpy==1.23.5
+RUN pip install numpy==1.23.5
+# Remove exported models
+RUN rm -rf tmp
 
-# Remove extra build files
-RUN rm -rf tmp /root/.config/Ultralytics/persistent_cache.json
+ENTRYPOINT ["yolo", "predict", "model=yolov8n.pt", "source=https://ultralytics.com/images/bus.jpg"]
 
-ENTRYPOINT ["yolo", "predict", "model=yolo11n.pt", "source=https://ultralytics.com/images/bus.jpg"]
 
 # Usage Examples -------------------------------------------------------------------------------------------------------
 
@@ -105,3 +90,4 @@ ENTRYPOINT ["yolo", "predict", "model=yolo11n.pt", "source=https://ultralytics.c
 
 # GCP VM from Image
 # docker.io/ultralytics/ultralytics:latest
+

@@ -6,15 +6,8 @@
 FROM pytorch/pytorch:2.0.0-cuda11.7-cudnn8-runtime
 
 # Downloads to user config dir
-ADD http://192.168.2.25:9081/repository/storage/Arial.ttf \
-    http://192.168.2.25:9081/repository/storage/Arial.Unicode.ttf \
-    /root/.config/Ultralytics/
+ADD https://ultralytics.com/assets/Arial.ttf https://ultralytics.com/assets/Arial.Unicode.ttf /root/.config/Ultralytics/
 
-# Modify /etc/apt/sources.list to use PkgCache
-RUN total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
-RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
-RUN mv /etc/apt/sources.list.new /etc/apt/sources.list
-    
 # Install linux packages
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt update
@@ -31,14 +24,10 @@ RUN rm -rf /usr/src/app && mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Copy contents
-COPY ./yolov5 /usr/src/app/yolov5
-ADD http://192.168.2.25:9081/repository/storage/v2-1_768-ema-pruned.ckpt .
+COPY . /usr/src/app
 
 # Install pip packages
 COPY requirements.txt .
-# Modify ~/.pip/pip.conf to use PkgCache
-RUN mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
-
 RUN python3 -m pip install --upgrade pip wheel
 RUN pip install --no-cache -r requirements.txt albumentations comet gsutil notebook \
     coremltools onnx onnx-simplifier onnxruntime 'openvino-dev>=2023.0'

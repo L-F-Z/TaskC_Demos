@@ -5,11 +5,14 @@ WORKDIR /app
 
 COPY ./whisper /app/whisper
 
-RUN total_lines=$(wc -l < /etc/apt/sources.list.d/debian.sources) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list.d/debian.sources > /etc/apt/sources.list.d/debian.sources.new; sed -i 's|http://deb.debian.org/debian|http://192.168.2.25:9081/repository/debian/|g' /etc/apt/sources.list.d/debian.sources.new; mv /etc/apt/sources.list.d/debian.sources.new /etc/apt/sources.list.d/debian.sources
+RUN total_lines=$(wc -l < /etc/apt/sources.list.d/debian.sources) && \
+    lines_to_keep=$((total_lines - 6)) && \
+    head -n $lines_to_keep /etc/apt/sources.list.d/debian.sources > /etc/apt/sources.list.d/debian.sources.new; sed -i 's|http://deb.debian.org/debian|http://192.168.2.25:9081/repository/debian/|g' /etc/apt/sources.list.d/debian.sources.new; mv /etc/apt/sources.list.d/debian.sources.new /etc/apt/sources.list.d/debian.sources
 
 RUN apt-get update && apt-get install -y ffmpeg curl
 
-RUN mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
+RUN mkdir ~/.pip/; test -f ~/.pip/pip.conf && \
+    mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
 
 RUN cd /app/whisper && \
     pip install --no-cache-dir .

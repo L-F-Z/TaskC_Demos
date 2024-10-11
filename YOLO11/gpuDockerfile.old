@@ -14,14 +14,9 @@ ENV PYTHONUNBUFFERED=1 \
     MKL_THREADING_LAYER=GNU
 
 # Downloads to user config dir
-ADD http://192.168.2.25:9081/repository/storage/Arial.ttf \
-    http://192.168.2.25:9081/repository/storage/Arial.Unicode.ttf \
+ADD https://github.com/ultralytics/assets/releases/download/v0.0.0/Arial.ttf \
+    https://github.com/ultralytics/assets/releases/download/v0.0.0/Arial.Unicode.ttf \
     /root/.config/Ultralytics/
-
-    # Modify /etc/apt/sources.list to use PkgCache
-RUN total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
-RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
-RUN mv /etc/apt/sources.list.new /etc/apt/sources.list
 
 # Install linux packages
 # g++ required to build 'tflite_support' and 'lap' packages, libusb-1.0-0 required for 'tflite_support' package
@@ -39,13 +34,10 @@ RUN apt upgrade --no-install-recommends -y openssl tar
 WORKDIR /ultralytics
 
 # Copy contents and configure git
-COPY ./ultralytics/ .
+COPY .ultralytics/ .
 RUN if [ -f .git/config ]; then sed -i '/^\[http "https:\/\/github\.com\/"\]/,+1d' .git/config; fi
 # RUN sed -i '/^\[http "https:\/\/github\.com\/"\]/,+1d' .git/config
-ADD http://192.168.2.25:9081/repository/storage/yolo11n.pt .
-
-# Modify ~/.pip/pip.conf to use PkgCache
-RUN mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
+ADD https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11n.pt .
 
 # Install pip packages
 RUN python3 -m pip install --upgrade pip wheel

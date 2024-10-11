@@ -1,5 +1,6 @@
 Bootstrap: docker  
-From: python:3.10-slim  
+# From: python:3.10-slim  
+From: 192.168.2.25:10081/python:3.10-slim  
 
 # Set working directory and copy files  
       
