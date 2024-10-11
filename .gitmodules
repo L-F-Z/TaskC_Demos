@@ -13,3 +13,6 @@
 [submodule "SAM2/sam2"]
 	path = SAM2/sam2
 	url = https://github.com/facebookresearch/sam2.git
+[submodule "Stable-Baselines3/stable-baselines3"]
+	path = Stable-Baselines3/stable-baselines3
+	url = https://github.com/DLR-RM/stable-baselines3.git
