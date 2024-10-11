@@ -19,3 +19,6 @@
 [submodule "stablediffusion/stablediffusion"]
 	path = stablediffusion/stablediffusion
 	url = https://github.com/Stability-AI/stablediffusion.git
+[submodule "Transformers/transformers"]
+	path = Transformers/transformers
+	url = https://github.com/huggingface/transformers.git
