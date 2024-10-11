@@ -22,3 +22,6 @@
 [submodule "Transformers/transformers"]
 	path = Transformers/transformers
 	url = https://github.com/huggingface/transformers.git
+[submodule "TTS/TTS"]
+	path = TTS/TTS
+	url = https://github.com/coqui-ai/TTS.git
