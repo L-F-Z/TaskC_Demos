@@ -16,3 +16,6 @@
 [submodule "Stable-Baselines3/stable-baselines3"]
 	path = Stable-Baselines3/stable-baselines3
 	url = https://github.com/DLR-RM/stable-baselines3.git
+[submodule "stablediffusion/stablediffusion"]
+	path = stablediffusion/stablediffusion
+	url = https://github.com/Stability-AI/stablediffusion.git
