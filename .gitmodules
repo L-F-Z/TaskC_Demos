@@ -7,3 +7,6 @@
 [submodule "LoRA/LoRA"]
 	path = LoRA/LoRA
 	url = https://github.com/microsoft/LoRA.git
+[submodule "mmpretrain/mmpretrain"]
+	path = mmpretrain/mmpretrain
+	url = https://github.com/open-mmlab/mmpretrain.git
