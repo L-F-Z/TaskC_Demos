@@ -5,17 +5,18 @@
 [ENVIRONMENT] any
 
 [DEPEND]
-- [BASE] python [any]
-- [APT] ffmpeg [any]
-- [PYTHON] numba [any]
-- [PYTHON] numpy [any]
-- [PYTHON] torch [any]
-- [PYTHON] tqdm [any]
-- [PYTHON] more-itertools [any]
-- [PYTHON] tiktoken [any]
-- [PYTHON] triton [>=2.0.0]
-- [LOCAL] https://github.com/ultralytics/yolov5 [/usr/src/app]
+- [DockerHub] python [3.11-slim]
+- [Apt] ffmpeg [any]
+- [PyPI] numba [any]
+- [PyPI] numpy [any]
+- [PyPI] torch [any]
+- [PyPI] tqdm [any]
+- [PyPI] more-itertools [any]
+- [PyPI] tiktoken [any]
+- [PyPI] triton [>=2.0.0]
+- [LOCAL] /usr/local/lib/python-site-packages [./whisper]
+- [LOCAL] /test [./test]
 
-[WORKDIR] /
+[WORKDIR] /test
 [CMD]
-- whisper --model_dir /usr/local --model medium audio >> /dev/null 2>&1; exit 0
+- /bin/bash
