@@ -25,3 +25,6 @@
 [submodule "TTS/TTS"]
 	path = TTS/TTS
 	url = https://github.com/coqui-ai/TTS.git
+[submodule "Whisper/whisper"]
+	path = Whisper/whisper
+	url = https://github.com/openai/whisper.git
