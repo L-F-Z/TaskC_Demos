@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: ubuntu:22.04
+From: 192.168.2.25:10081/ubuntu:22.04
 
 %environment  
     export DEBIAN_FRONTEND=noninteractive  
@@ -11,12 +11,14 @@ From: ubuntu:22.04
     mkdir -p ${APPTAINER_ROOTFS}/app/Deep-Live-Cam
     cp -r ./Deep-Live-Cam/* ${APPTAINER_ROOTFS}/app/Deep-Live-Cam/
 
-%post
-    cd /app/Deep-Live-Cam
-    ls -l
-
 %post 
-    echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections 
+    echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+
+    # change apt source
+    total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
+    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+    mv /etc/apt/sources.list.new /etc/apt/sources.list
+    
     apt-get update && apt-get install -y \
         python3.10-tk \
         python3-pip \
@@ -25,17 +27,27 @@ From: ubuntu:22.04
         libsm6 \
         libxext6 \
         libgl1-mesa-glx \
-        wget \
+        curl \
         && rm -rf /var/lib/apt/lists/*
     
 
 %post
     cd /app/Deep-Live-Cam
+
+    # change pip source
+    mkdir ~/.pip/; test -f ~/.pip/pip.conf && \
+    mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
+
     pip3 install --no-cache-dir -r requirements.txt --timeout=1000
     
     mkdir -p models
-    wget -O models/GFPGANv1.4.pth https://huggingface.co/hacksider/deep-live-cam/resolve/main/GFPGANv1.4.pth
-    wget -O models/inswapper_128_fp16.onnx https://huggingface.co/hacksider/deep-live-cam/resolve/main/inswapper_128_fp16.onnx
+    # download model files from Internet
+    # curl -o models/GFPGANv1.4.pth https://huggingface.co/hacksider/deep-live-cam/resolve/main/GFPGANv1.4.pth
+    # curl -o models/inswapper_128_fp16.onnx https://huggingface.co/hacksider/deep-live-cam/resolve/main/inswapper_128_fp16.onnx
+
+    # download model files from local repository
+    curl -o models/GFPGANv1.4.pth http://192.168.2.25:9081/repository/storage/GFPGANv1.4.pth && \
+    curl -o models/inswapper_128_fp16.onnx http://192.168.2.25:9081/repository/storage/inswapper_128_fp16.onnx
 
 %startscript
     exec /bin/bash
