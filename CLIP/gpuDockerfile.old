@@ -12,7 +12,8 @@ RUN apt-get update && apt-get install -y \
     libasound2 \
     libxi6 \
     libxtst6 \
-    git \
+    # If Getting Repo From Internet
+    # git \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -24,12 +25,14 @@ RUN pip install --no-cache-dir \
     regex \
     tqdm
 
+# If Getting Repo From Internet
+# RUN pip install --no-cache-dir git+https://github.com/openai/CLIP.git
+
+# Else From Local 
 WORKDIR /app/CLIP  
 COPY ./CLIP /app/CLIP  
 
 RUN pip install --no-cache-dir -r requirements.txt && \
     pip install --no-cache-dir .  
 
-# COPY . /app
-# CMD ["python", "example.py"]
 CMD ["/bin/bash"]
