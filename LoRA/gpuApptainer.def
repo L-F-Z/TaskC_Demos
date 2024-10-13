@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04
+From: 192.168.2.25:10081/nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04
 
 %labels
     maintainer "Hugging Face"
@@ -17,10 +17,15 @@ From: nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04
     export DEBIAN_FRONTEND=noninteractive  
     export TZ=Asia/Shanghai
     echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections 
+
+    # Modify /etc/apt/sources.list to use PkgCache
+    total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
+    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+    mv /etc/apt/sources.list.new /etc/apt/sources.list
+
     apt update && \
         apt install -y bash \
                        build-essential \
-                       git \
                        curl \
                        cmake \
                        vim \
@@ -28,6 +33,9 @@ From: nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04
                        python3 \
                        python3-pip && \
         rm -rf /var/lib/apt/lists
+
+    # Modify ~/.pip/pip.conf to use PkgCache
+    mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
 
     python3 -m pip install --no-cache-dir --upgrade pip
     python3 -m pip install --no-cache-dir \
@@ -52,7 +60,7 @@ From: nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04
     python3 -m pip install --no-cache-dir \
         torch==1.9.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
 
-    # 可选：安装 apex（在原Dockerfile中被注释）
+    # Option: Install apex (commented out in the original Dockerfile)
     # git clone https://github.com/NVIDIA/apex /opt/apex
     # cd /opt/apex && \
     #     python3 setup.py install && \

@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: ubuntu:18.04
+From: 192.168.2.25:10081/ubuntu:18.04
 
 %labels
     maintainer "Hugging Face"
@@ -10,28 +10,26 @@ From: ubuntu:18.04
     export PYTHONUNBUFFERED=1
 
 %setup
-    # 创建工作目录
+    # create workspace directory
     mkdir -p ${APPTAINER_ROOTFS}/workspace/loralib
     mkdir -p ${APPTAINER_ROOTFS}/workspace/transformers
 
-    # 复制主机上的 CLIP/loralib 到容器内
     cp -r ./LoRA/loralib/* ${APPTAINER_ROOTFS}/workspace/loralib/
-
-    # 复制主机上的 CLIP/setup.py 到容器内
     cp ./LoRA/setup.py ${APPTAINER_ROOTFS}/workspace/setup.py
-
-    # 复制主机上的 CLIP 目录下的所有 .md 文件到容器内
     cp ./LoRA/*.md ${APPTAINER_ROOTFS}/workspace/
-
-    # 复制主机上的 CLIP/examples/NLU 到容器内的 transformers 目录
     cp -r ./LoRA/examples/NLU/* ${APPTAINER_ROOTFS}/workspace/transformers/
 
 %post
-    # 更新软件源并安装必要的包
+
+    # Modify /etc/apt/sources.list to use PkgCache
+    total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
+    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+    mv /etc/apt/sources.list.new /etc/apt/sources.list
+
+    # apt install pkgs
     apt update && \
     apt install -y bash \
                    build-essential \
-                   git \
                    curl \
                    vim \
                    cmake \
@@ -40,7 +38,9 @@ From: ubuntu:18.04
                    python3-pip && \
     rm -rf /var/lib/apt/lists/*
 
-    # 升级 pip 并安装 Python 包
+    # Modify ~/.pip/pip.conf to use PkgCache
+    mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
+
     python3 -m pip install --no-cache-dir --upgrade pip && \
     python3 -m pip install --no-cache-dir \
         jupyter \
@@ -60,17 +60,14 @@ From: ubuntu:18.04
         unidic_lite==1.0.7 \
         tokenizers==0.10.2
 
-    # 安装指定版本的 PyTorch
+    # Install torch
     python3 -m pip install --no-cache-dir \
         torch==1.9.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
 
-    # 设置工作目录
     cd /workspace
 
-    # 安装当前目录下的包
     python3 -m pip install --no-cache-dir .
 
-    # 进入 transformers 目录并安装
     cd transformers/
     python3 -m pip install --no-cache-dir .
 
