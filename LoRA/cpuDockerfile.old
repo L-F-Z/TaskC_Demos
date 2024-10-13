@@ -5,7 +5,8 @@ LABEL repository="transformers"
 RUN apt update && \
     apt install -y bash \
                    build-essential \
-                   git \
+                   # If install from the Internet
+                   # git \
                    curl \
                    ca-certificates \
                    python3 \
@@ -18,7 +19,16 @@ RUN python3 -m pip install --no-cache-dir --upgrade pip && \
     torch
 
 WORKDIR /workspace
-COPY . transformers/
+# If install from the Internet 
+# Run git clone https://github.com/microsoft/LoRA.git && cd LoRA
+
+# Else from local storage
+COPY ./LoRA/loralib/ loralib/
+COPY ./LoRA/setup.py setup.py
+COPY ./LoRA/*.md .
+
+RUN python3 -m pip install --no-cache-dir .
+
 RUN cd transformers/ && \
     python3 -m pip install --no-cache-dir .
 
