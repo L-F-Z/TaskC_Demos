@@ -1,0 +1,65 @@
+
+Bootstrap: docker
+From: 192.168.2.25:10081/ubuntu:23.10
+
+%environment
+    export PYTHONUNBUFFERED=1
+    export PYTHONDONTWRITEBYTECODE=1
+    export PIP_NO_CACHE_DIR=1
+    export PIP_BREAK_SYSTEM_PACKAGES=1
+
+%setup
+    mkdir -p ${APPTAINER_ROOTFS}/.config/Ultralytics/
+    mkdir -p ${APPTAINER_ROOTFS}/app
+    cp -r ./ultralytics/* ${APPTAINER_ROOTFS}/app
+
+%post
+    export PYTHONUNBUFFERED=1
+    export PYTHONDONTWRITEBYTECODE=1
+    export PIP_NO_CACHE_DIR=1
+    export PIP_BREAK_SYSTEM_PACKAGES=1
+
+    total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
+    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+    mv /etc/apt/sources.list.new /etc/apt/sources.list
+
+    # Install linux packages
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        python3-pip git zip unzip wget curl htop libgl1 libglib2.0-0 libpython3-dev gnupg g++ libusb-1.0-0 && \
+    rm -rf /var/lib/apt/lists/*
+    
+    # Downloads to user config dir
+    curl -o ${APPTAINER_ROOTFS}/.config/Ultralytics/Arial.ttf http://192.168.2.25:9081/repository/storage/Arial.ttf
+    curl -o ${APPTAINER_ROOTFS}/.config/Ultralytics/Arial.Unicode.ttf http://192.168.2.25:9081/repository/storage/Arial.Unicode.ttf
+    
+    # Create working directory
+    cd ${APPTAINER_ROOTFS}/app
+
+    # Modify git config if exists
+    if [ -f .git/config ]; then
+        sed -i '/^\[http "https:\/\/github\.com\/"\]/,+1d' .git/config
+    fi
+
+    # Add yolo model file
+    curl -o ${APPTAINER_ROOTFS}/app/yolo11n.pt http://192.168.2.25:9081/repository/storage/yolo11n.pt
+
+    # Modify pip.conf to use PkgCache
+    mkdir -p ~/.pip/
+    if [ -f ~/.pip/pip.conf ]; then
+        mv ~/.pip/pip.conf ~/.pip/pip.conf.bak
+    fi
+    curl -s -o ~/.pip/pip.conf -m 3  http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
+
+    # Install pip packages
+    python3 -m pip install --upgrade pip wheel
+    pip install -e . --extra-index-url http://192.168.2.25:9081/repository/python/simple/
+
+    # Create symbolic link for python
+    ln -sf /usr/bin/python3 /usr/bin/python
+
+    # Remove extra build files
+    rm -rf tmp /root/.config/Ultralytics/persistent_cache.json
+
+%runscript
+    exec yolo predict model=yolo11n.pt source=https://ultralytics.com/images/bus.jpg

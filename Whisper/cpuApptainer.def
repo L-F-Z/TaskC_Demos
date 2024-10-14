@@ -1,29 +1,24 @@
 Bootstrap: docker  
-From: python:3.10-slim  
+From: 192.168.2.25:10081/python:3.10-slim  
 
 # Set working directory and copy files  
-      
-%post
-    mkdir -p /app/whisper
-%files
-    ./whisper/* /app/whisper/
-%post
-    cd /app/whisper
-    ls
+%setup
+    mkdir -p ${APPTAINER_ROOTFS}/app/whisper
+    cp -r ./whisper/* ${APPTAINER_ROOTFS}/app/whisper/
     
 %post  
     # Update and install necessary packages  
-    apt-get update && apt-get install -y ffmpeg 
+    total_lines=$(wc -l < /etc/apt/sources.list.d/debian.sources) && \
+    lines_to_keep=$((total_lines - 6)) && \
+    head -n $lines_to_keep /etc/apt/sources.list.d/debian.sources > /etc/apt/sources.list.d/debian.sources.new; sed -i 's|http://deb.debian.org/debian|http://192.168.2.25:9081/repository/debian/|g' /etc/apt/sources.list.d/debian.sources.new; mv /etc/apt/sources.list.d/debian.sources.new /etc/apt/sources.list.d/debian.sources
+    
+    apt-get update && apt-get install -y ffmpeg curl
 
     # Install whisper  
-    cd /app/whisper  
+    cd ${APPTAINER_ROOTFS}/app/whisper
+    
+    mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
     pip install --no-cache-dir .  
 
     # Run whisper command  
     whisper --model_dir /usr/local --model medium audio >> /dev/null 2>&1 || true  
-
-%environment  
-    export PATH=/usr/bin/ffmpeg:$PATH  
-
-%help  
-    This container is built to run whisper with ffmpeg support.

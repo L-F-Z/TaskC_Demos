@@ -1,34 +1,38 @@
 
 Bootstrap: docker
-From: ubuntu:20.04
+From: 192.168.2.25:10081/ubuntu:20.04
 
 %setup  
     mkdir -p ${APPTAINER_ROOTFS}/.config/Ultralytics/
-    mkdir -p ${APPTAINER_ROOTFS}/app
+    mkdir -p ${APPTAINER_ROOTFS}/app/yolov5
     cp -r requirements.txt ${APPTAINER_ROOTFS}/app/
-    cp -r . ${APPTAINER_ROOTFS}/app
-    cd ${APPTAINER_ROOTFS}/app
-    ls -l
-
+    cp -r ./yolov5/* ${APPTAINER_ROOTFS}/app/yolov5
 
 %post 
+    total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
+    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+    mv /etc/apt/sources.list.new /etc/apt/sources.list
+
     # 安装Linux软件包  
     apt-get update  
     DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y tzdata  
     apt-get install --no-install-recommends -y python3-pip git zip curl htop libgl1-mesa-glx libglib2.0-0 libpython3-dev gnupg wget
     
-    # 下载字体到用户配置目录   
-    cd /.config/Ultralytics/  
-    wget https://ultralytics.com/assets/Arial.ttf  
-    wget https://ultralytics.com/assets/Arial.Unicode.ttf  
+    # Downloads to user config dir
+    curl -o ${APPTAINER_ROOTFS}/.config/Ultralytics/Arial.ttf http://192.168.2.25:9081/repository/storage/Arial.ttf
+    curl -o ${APPTAINER_ROOTFS}/.config/Ultralytics/Arial.Unicode.ttf http://192.168.2.25:9081/repository/storage/Arial.Unicode.ttf
+    
+    # Modify ~/.pip/pip.conf to use PkgCache
+    mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
 
-    # 升级pip并安装Python包  
+    cd ${APPTAINER_ROOTFS}/app
+
     python3 -m pip install --upgrade pip wheel  
     pip3 install --no-cache-dir -r /app/requirements.txt ultralytics albumentations gsutil notebook \
         coremltools onnx onnx-simplifier onnxruntime tensorflow-cpu tensorflowjs \
-        --extra-index-url https://download.pytorch.org/whl/cpu  
+        --extra-index-url http://192.168.2.25:9081/repository/python/simple
 
-    cd /app
+    cd ${APPTAINER_ROOTFS}/app/yolov5
 
 %runscript  
     exec python3 yolov5/detect.py --project ./test/runs/detect --weights ./test/yolov5s.pt --source ./test/zidane.jpg 

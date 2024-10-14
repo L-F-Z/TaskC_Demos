@@ -6,3 +6,8 @@ docker run -it --rm -v ./test:/ultralytics/runs yolo11:cpu
 
 cd ultralytics && docker build -f ../gpuDockerfile -t yolo11:gpu .
 docker run -it --rm --gpus all -v ./test:/ultralytics/runs yolo11:gpu
+
+
+apptainer build --no-https /tmp/yolo11_cpu.sif ./cpuApptainer.def 
+
+apptainer build --no-https /tmp/yolo11_gpu.sif ./gpuApptainer.def

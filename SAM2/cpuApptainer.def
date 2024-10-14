@@ -1,46 +1,48 @@
 Bootstrap: docker  
-From: ubuntu:20.04  
+From: 192.168.2.25:10081/python:3.10-slim 
 
 # Set working directory and copy files
 %setup  
-    mkdir -p ${APPTAINER_ROOTFS}/app/segment-anything-2 
-    cp -r ./segment-anything-2/* ${APPTAINER_ROOTFS}/app/segment-anything-2/
-
-%post
-    cd /app/segment-anything-2
-    ls -l
+    mkdir -p ${APPTAINER_ROOTFS}/app/sam2
+    cp -r ./sam2/* ${APPTAINER_ROOTFS}/app/sam2/
 
 %environment  
     export DEBIAN_FRONTEND=noninteractive  
     export PATH="${PATH}:/home/user/.local/bin"  
 
 %post  
-    echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections  
-    apt-get update && apt-get install -y apt-transport-https ca-certificates  
-    apt-get install -y git vim tmux nano htop sudo curl wget gnupg2  
-    apt-get install -y bash-completion  
-    apt-get install -y guvcview  
-    rm -rf /var/lib/apt/lists/*  
-    
-    apt-get update && apt-get install -y ffmpeg libsm6 libxext6  
-    
-    apt-get update  
-    apt-get install -y software-properties-common  
-    add-apt-repository ppa:deadsnakes/ppa  
-    apt-get update  
-    apt-get install -y python3.11 python3.11-venv python3.11-dev  
-    apt-get install -y python3.11-tk  
-    
-    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1  
-    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 2  
-    
-    curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11  
+    echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
-%post  
-    cd /app/segment-anything-2
-    python3 -m pip install -e . -v  
-    python3 -m pip install -e ".[demo]"  
-    cd checkpoints && ./download_ckpts.sh && cd ..  
+    total_lines=$(wc -l < /etc/apt/sources.list.d/debian.sources) && \
+    lines_to_keep=$((total_lines - 6)) && \
+    head -n $lines_to_keep /etc/apt/sources.list.d/debian.sources > /etc/apt/sources.list.d/debian.sources.new; sed -i 's|http://deb.debian.org/debian|http://192.168.2.25:9081/repository/debian/|g' /etc/apt/sources.list.d/debian.sources.new; mv /etc/apt/sources.list.d/debian.sources.new /etc/apt/sources.list.d/debian.sources
+
+    apt-get update && apt-get install -y apt-transport-https ca-certificates  
+    # apt-get install -y git vim tmux nano htop sudo curl wget gnupg2  
+    apt-get update && apt-get install -y --no-install-recommends \
+        ffmpeg \
+        libavutil-dev \
+        libavcodec-dev \
+        libavformat-dev \
+        libswscale-dev \
+        pkg-config \
+        build-essential \
+        libffi-dev \
+        curl
+        # git \
+    
+    mkdir ~/.pip/; test -f ~/.pip/pip.conf && \
+    mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
+
+    cd ${APPTAINER_ROOTFS}/app/sam2 && \
+    pip install --upgrade pip setuptools && \
+    pip install -e ".[interactive-demo]" && \
+    pip install opencv-python 
+
+    curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_tiny.pt http://192.168.2.25:9081/repository/storage/sam2.1_hiera_tiny.pt
+    curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_small.pt http://192.168.2.25:9081/repository/storage/sam2.1_hiera_small.pt
+    curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_base_plus.pt http://192.168.2.25:9081/repository/storage/sam2.1_hiera_base_plus.pt
+    curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_large.pt http://192.168.2.25:9081/repository/storage/sam2.1_hiera_large.pt
 
 %startscript  
     exec /bin/bash  

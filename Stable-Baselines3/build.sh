@@ -1,0 +1,1 @@
+apptainer build --no-https /tmp/sb3_cpu.sif ./cpuApptainer.def 

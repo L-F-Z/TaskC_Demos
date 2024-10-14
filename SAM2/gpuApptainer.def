@@ -1,14 +1,10 @@
 Bootstrap: docker  
-From: nvidia/cuda:12.6.0-devel-ubuntu22.04  
+From: 192.168.2.25:10081/nvidia/cuda:12.6.0-devel-ubuntu22.04  
 
 # Set working directory and copy files
 %setup  
-    mkdir -p ${APPTAINER_ROOTFS}/app/segment-anything-2 
-    cp -r ./segment-anything-2/* ${APPTAINER_ROOTFS}/app/segment-anything-2/
-
-%post
-    cd /app/segment-anything-2
-    ls -l
+    mkdir -p ${APPTAINER_ROOTFS}/app/sam2 
+    cp -r ./sam2/* ${APPTAINER_ROOTFS}/app/sam2/
     
 %environment  
     export DEBIAN_FRONTEND=noninteractive  
@@ -20,31 +16,46 @@ From: nvidia/cuda:12.6.0-devel-ubuntu22.04
     export TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0 7.5 8.0 8.6+PTX 8.9"  
 
 %post  
-    echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections  
-    apt-get update && apt-get install -y apt-transport-https ca-certificates  
-    apt-get install -y git vim tmux nano htop sudo curl wget gnupg2 libc6
-    apt-get install -y bash-completion  
-    apt-get install -y guvcview  
-    rm -rf /var/lib/apt/lists/*  
-    
-    apt-get update && apt-get install -y ffmpeg libsm6 libxext6  
-    
-    apt-get update  
-    apt-get install -y software-properties-common  
-    add-apt-repository ppa:deadsnakes/ppa  
-    apt-get update  
-    apt-get install -y python3.11 python3.11-venv python3.11-dev  
-    apt-get install -y python3.11-tk  
-    
-    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 2  
-    
-    curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11  
+    export DEBIAN_FRONTEND=noninteractive  
+    export PATH="${PATH}:/home/user/.local/bin"  
+    export NVIDIA_VISIBLE_DEVICES=${NVIDIA_VISIBLE_DEVICES:-all}  
+    export NVIDIA_DRIVER_CAPABILITIES=${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics  
+    export PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}  
+    export CUDA_HOME="/usr/local/cuda"  
+    export TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0 7.5 8.0 8.6+PTX 8.9" 
+    echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
-%post  
-    cd /app/segment-anything-2
-    python3 -m pip install -e . -v  
-    python3 -m pip install -e ".[demo]"  
-    cd checkpoints && ./download_ckpts.sh && cd ..  
+    total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
+    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+    mv /etc/apt/sources.list.new /etc/apt/sources.list
+
+    # Install system requirements
+    apt-get update && apt-get install -y --no-install-recommends \
+        ffmpeg \
+        libavutil-dev \
+        libavcodec-dev \
+        libavformat-dev \
+        libswscale-dev \
+        pkg-config \
+        build-essential \
+        libffi-dev \
+        curl 
+        # git
+    
+    # Modify ~/.pip/pip.conf to use PkgCache
+    mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
+
+    cd ${APPTAINER_ROOTFS}/app/sam2 && \
+    pip install --upgrade pip setuptools && \
+    pip install -e ".[interactive-demo]" && \
+    pip install opencv-python 
+
+    rm /opt/conda/bin/ffmpeg && ln -s /bin/ffmpeg /opt/conda/bin/ffmpeg
+    
+    curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_tiny.pt http://192.168.2.25:9081/repository/storage/sam2.1_hiera_tiny.pt
+    curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_small.pt http://192.168.2.25:9081/repository/storage/sam2.1_hiera_small.pt
+    curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_base_plus.pt http://192.168.2.25:9081/repository/storage/sam2.1_hiera_base_plus.pt
+    curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_large.pt http://192.168.2.25:9081/repository/storage/sam2.1_hiera_large.pt
 
 %startscript  
     exec /bin/bash  

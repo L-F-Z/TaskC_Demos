@@ -40,7 +40,7 @@ RUN mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf
 
 # Install pip packages
 RUN python3 -m pip install --upgrade pip wheel
-RUN pip install -e ".[export]" --extra-index-url https://download.pytorch.org/whl/cpu
+RUN pip install -e ".[export]" --extra-index-url http://192.168.2.25:9081/repository/python/simple/
 
 # Run exports to AutoInstall packages
 RUN yolo export model=tmp/yolov8n.pt format=edgetpu imgsz=32

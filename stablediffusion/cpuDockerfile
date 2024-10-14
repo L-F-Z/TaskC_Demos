@@ -30,10 +30,10 @@ EOF
 
 # RUN conda config --set ssl_verify false && \
 RUN conda config --add channels defaults && \
-    conda config --set show_channel_urls true && \
-    conda config --add default_channels https://mirrors.ustc.edu.cn/anaconda/pkgs/main && \
-    conda config --add default_channels https://mirrors.ustc.edu.cn/anaconda/pkgs/r && \
-    conda config --add default_channels https://mirrors.ustc.edu.cn/anaconda/pkgs/msys2
+    conda config --set show_channel_urls true
+    # conda config --add default_channels https://mirrors.ustc.edu.cn/anaconda/pkgs/main && \
+    # conda config --add default_channels https://mirrors.ustc.edu.cn/anaconda/pkgs/r && \
+    # conda config --add default_channels https://mirrors.ustc.edu.cn/anaconda/pkgs/msys2
     # conda config --add custom_channels.conda-forge https://mirrors.ustc.edu.cn/anaconda/cloud && \
     # conda config --add custom_channels.pytorch https://mirrors.ustc.edu.cn/anaconda/cloud
 

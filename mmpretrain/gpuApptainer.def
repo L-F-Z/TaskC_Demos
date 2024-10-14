@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel
+From: 192.168.2.25:10081/pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel
 
 %setup
     # 在构建时从主机复制必要的文件（如果有）

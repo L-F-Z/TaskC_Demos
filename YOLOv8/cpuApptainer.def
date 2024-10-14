@@ -1,46 +1,45 @@
 Bootstrap: docker  
-From: ubuntu:23.10
+From: 192.168.2.25:10081/ubuntu:23.10
 
 %setup
     # 将主机上的'ultralytics'目录复制到容器中
     mkdir -p ${APPTAINER_ROOTFS}/ultralytics
-    cp -r ${PWD}/ultralytics/* ${APPTAINER_ROOTFS}/ultralytics/
+    cp -r ./ultralytics/* ${APPTAINER_ROOTFS}/ultralytics/
     mkdir -p ${APPTAINER_ROOTFS}/.config/Ultralytics/
 
-
 %post
-    # 设置非交互式前端
     export DEBIAN_FRONTEND=noninteractive
 
-    # 设置环境变量
     export PYTHONUNBUFFERED=1
     export PYTHONDONTWRITEBYTECODE=1
     export PIP_NO_CACHE_DIR=1
     export PIP_BREAK_SYSTEM_PACKAGES=1
 
-    # 更新并安装必要的Linux包
+    total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
+    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+    mv /etc/apt/sources.list.new /etc/apt/sources.list
+
     apt-get update && apt-get install --no-install-recommends -y \
         python3-pip git zip unzip wget curl htop libgl1 libglib2.0-0 libpython3-dev gnupg g++ libusb-1.0-0
 
-    # 下载字体到用户配置目录
-    cd /.config/Ultralytics/
-    wget https://github.com/ultralytics/assets/releases/download/v0.0.0/Arial.ttf
-    wget https://github.com/ultralytics/assets/releases/download/v0.0.0/Arial.Unicode.ttf
+     # Downloads to user config dir
+    curl -o ${APPTAINER_ROOTFS}/.config/Ultralytics/Arial.ttf http://192.168.2.25:9081/repository/storage/Arial.ttf
+    curl -o ${APPTAINER_ROOTFS}/.config/Ultralytics/Arial.Unicode.ttf http://192.168.2.25:9081/repository/storage/Arial.Unicode.ttf
+    
+    cd ${APPTAINER_ROOTFS}/ultralytics
 
-    # 进入工作目录
-    cd /ultralytics
-
-    # 修改.git/config文件（如果存在）
     if [ -f .git/config ]; then
         sed -i '/^\[http "https:\/\/github\.com\/"\]/,+1d' .git/config
     fi
 
-    # 下载yolov8n.pt模型文件
-    wget https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt
+    # yolov8n.pt
+    curl -o ${APPTAINER_ROOTFS}/ultralytics/yolo8n.pt http://192.168.2.25:9081/repository/storage/yolo8n.pt
+ 
+    # Modify ~/.pip/pip.conf to use PkgCache
+    mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
 
-    # 升级pip并安装Python包
     python3 -m pip install --upgrade pip wheel
-    pip install -e ".[export]" --extra-index-url https://download.pytorch.org/whl/cpu
+    pip install -e ".[export]" --extra-index-url http://192.168.2.25:9081/repository/python/simple/
 
     # 运行yolo导出命令以自动安装所需的包
     yolo export model=tmp/yolov8n.pt format=edgetpu imgsz=32

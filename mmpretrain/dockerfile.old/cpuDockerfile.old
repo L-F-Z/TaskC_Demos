@@ -1,3 +1,4 @@
+NO CPU-BASED DOCKERFILE WAS PROVIDED ORIGINALLY
 ARG PYTORCH="1.12.1"
 ARG CUDA="11.3"
 ARG CUDNN="8"
@@ -13,23 +14,13 @@ FROM pytorch/pytorch:${PYTORCH}-cuda${CUDA}-cudnn${CUDNN}-devel
 # ENV TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
 # ENV CMAKE_PREFIX_PATH="(dirname(which conda))/../"
 
-# Modify /etc/apt/sources.list to use PkgCache
-RUN total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
-RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
-RUN mv /etc/apt/sources.list.new /etc/apt/sources.list
-
 RUN apt-get update && apt-get install -y ffmpeg libsm6 curl libxext6 git ninja-build libglib2.0-0 libsm6 libxrender-dev libxext6 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Modify ~/.pip/pip.conf to use PkgCache
-RUN mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
 
 # Install MIM
 RUN pip install openmim
-
-# Modify ~/.conda/.condarc to use PkgCache
-RUN mkdir ~/.conda/; test -f ~/.conda/.condarc && mv ~/.conda/.condarc ~/.conda/.condarc.bak; curl -s -o ~/.conda/.condarc -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/.condarc
 
 # Install MMPretrain
 RUN conda clean --all

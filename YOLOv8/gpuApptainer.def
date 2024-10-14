@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
+From: 192.168.2.25:10081/pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
 
 %setup
     # 将主机上的'ultralytics'目录复制到容器中
@@ -8,7 +8,6 @@ From: pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
     mkdir -p ${APPTAINER_ROOTFS}/.config/Ultralytics/
 
 %post
-    # 设置环境变量
     export PYTHONUNBUFFERED=1
     export PYTHONDONTWRITEBYTECODE=1
     export PIP_NO_CACHE_DIR=1
@@ -16,34 +15,33 @@ From: pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
     export MKL_THREADING_LAYER=GNU
     export DEBIAN_FRONTEND=noninteractive
 
-    # 安装必要的Linux包
+    total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
+    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+    mv /etc/apt/sources.list.new /etc/apt/sources.list
+
     apt-get update && apt-get install --no-install-recommends -y \
         gcc git zip unzip wget curl htop libgl1 libglib2.0-0 libpython3-dev gnupg g++ libusb-1.0-0 libsm6
 
-    # 安全更新
     apt-get upgrade --no-install-recommends -y openssl tar
 
-    # 下载字体到用户配置目录
-    mkdir -p /root/.config/Ultralytics/
-    cd /root/.config/Ultralytics/
-    wget https://github.com/ultralytics/assets/releases/download/v0.0.0/Arial.ttf
-    wget https://github.com/ultralytics/assets/releases/download/v0.0.0/Arial.Unicode.ttf
+    # Downloads to user config dir
+    curl -o ${APPTAINER_ROOTFS}/.config/Ultralytics/Arial.ttf http://192.168.2.25:9081/repository/storage/Arial.ttf
+    curl -o ${APPTAINER_ROOTFS}/.config/Ultralytics/Arial.Unicode.ttf http://192.168.2.25:9081/repository/storage/Arial.Unicode.ttf
 
-    # 配置git
-    cd /ultralytics
+    cd ${APPTAINER_ROOTFS}/ultralytics
     if [ -f .git/config ]; then
         sed -i '/^\[http "https:\/\/github\.com\/"\]/,+1d' .git/config
     fi
 
-    # 下载yolov8n.pt模型
-    cd /ultralytics
-    wget https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt
+   # yolov8n.pt
+    curl -o ${APPTAINER_ROOTFS}/ultralytics/yolo8n.pt http://192.168.2.25:9081/repository/storage/yolo8n.pt
+ 
 
-    # 升级pip并安装Python包
+    # Modify ~/.pip/pip.conf to use PkgCache
+    mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
+
     python3 -m pip install --upgrade pip wheel --break-system-packages
-    # 修正numpy版本以避免分段错误
     pip install numpy==1.24 --break-system-packages
-
     pip install -e ".[export]" "tensorrt-cu12==10.1.0" "albumentations>=1.4.6" comet pycocotools --break-system-packages
 
     # 运行yolo导出命令以自动安装所需的包
@@ -51,7 +49,8 @@ From: pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
     yolo export model=tmp/yolov8n.pt format=ncnn imgsz=32
 
     # 安装paddlepaddle和x2paddle
-    pip install "paddlepaddle>=2.6.0" x2paddle --break-system-packages
+    pip install "paddlepaddle>=2.6.0" x2paddle
+    pip install numpy==1.23.5
 
     # 删除导出的临时文件
     rm -rf tmp

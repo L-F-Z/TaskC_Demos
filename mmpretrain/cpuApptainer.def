@@ -1,56 +1,54 @@
 Bootstrap: docker  
-From: pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel
+From: 192.168.2.25:10081/pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel
 
 %environment  
     export CMAKE_PREFIX_PATH="$(dirname $(which conda))/../"
 
 %setup  
-    # 将主机上的 mmpretrain 代码复制到容器中  
-    # 假设您已在主机上克隆了 mmpretrain 仓库到 /path/to/mmpretrain  
     mkdir -p ${APPTAINER_ROOTFS}/mmpretrain  
     cp -r ./mmpretrain/* ${APPTAINER_ROOTFS}/mmpretrain/
 
 %post  
-     set -e  
+    set -e  
 
-    # 更新软件包列表  
+    # Modify /etc/apt/sources.list to use PkgCache
+    total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
+    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+    mv /etc/apt/sources.list.new /etc/apt/sources.list
+    
     apt-get update  
 
-    # 安装必要的 apt 包  
     apt-get install -y \
         ffmpeg \
         libsm6 \
         libxext6 \
-        git \
+        curl \
         ninja-build \
         libglib2.0-0 \
         libxrender-dev  
 
-    # 清理缓存  
     apt-get clean  
 
-    # 删除不需要的文件  
     rm -rf /var/lib/apt/lists/*  
 
-    # 安装 MIM  
+    # Modify ~/.pip/pip.conf to use PkgCache
+    mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
+
     pip install openmim  
 
-    # 清理 conda 缓存  
+    # Modify ~/.conda/.condarc to use PkgCache
+    mkdir ~/.conda/; test -f ~/.conda/.condarc && mv ~/.conda/.condarc ~/.conda/.condarc.bak; curl -s -o ~/.conda/.condarc -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/.condarc
+
     conda clean --all
 
-    # 如果在 %setup 中已复制 mmpretrain 代码，可以跳过 git clone  
-    # 否则，克隆 mmpretrain 仓库  
-    if [ ! -d "/mmpretrain" ]; then  
-        git clone https://github.com/open-mmlab/mmpretrain.git /mmpretrain  
-    fi
+    # if [ ! -d "/mmpretrain" ]; then  
+    #     git clone https://github.com/open-mmlab/mmpretrain.git /mmpretrain  
+    # fi
 
-    # 安装 MMPretrain  
     cd /mmpretrain  
     mim install --no-cache-dir -e .
 
 %runscript  
-    # 您可以在此处指定默认的运行脚本  
-    # 例如，运行 MMPretrain 的脚本  
     echo "Usage: apptainer run container.sif <args>"  
     exec "$@"
 

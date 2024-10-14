@@ -8,3 +8,6 @@ docker run -it --rm --gpus all -v ./test:/workspace/stablediffusion/test stabled
 
 // weight file, need predownload to current directory before build 
 //wget https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt
+
+apptainer build --no-https /tmp/sd_cpu.sif ./cpuApptainer.def
+apptainer build --no-https /tmp/sd_gpu.sif ./gpuApptainer.def

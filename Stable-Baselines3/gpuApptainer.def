@@ -1,10 +1,12 @@
 Bootstrap: docker
-From: mambaorg/micromamba:1.5-jammy
+From: 192.168.2.25:10081/mambaorg/micromamba:1.5-jammy
 
 %setup
     # Create necessary directories
     mkdir -p ${APPTAINER_ROOTFS}/stable-baselines3/stable_baselines3
     mkdir -p ${APPTAINER_ROOTFS}/stable-baselines3/tests
+    mkdir -p ${APPTAINER_ROOTFS}/.conda/ && touch ${APPTAINER_ROOTFS}/.conda/.condarc
+    mkdir -p ${APPTAINER_ROOTFS}/.pip/ && touch ${APPTAINER_ROOTFS}/.pip/pip.conf
 
     # Copy files to the container's filesystem
     cp -r ./stable-baselines3/stable_baselines3/* ${APPTAINER_ROOTFS}/stable-baselines3/stable_baselines3/
@@ -17,9 +19,22 @@ From: mambaorg/micromamba:1.5-jammy
     export PYTHON_VERSION=3.10
     export MAMBA_DOCKERFILE_ACTIVATE=1
     export MAMBA_USER=micromamba
-    export CODE_DIR=${APPTAINER_ROOTFS}
 
 %post
+    total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
+    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+    mv /etc/apt/sources.list.new /etc/apt/sources.list
+    
+    # Install system requirements
+    apt-get update && apt-get install -y --no-install-recommends curl
+    
+    # Modify ~/.conda/.condarc to use PkgCache
+    test -f ${APPTAINER_ROOTFS}/.conda/.condarc && \
+    mv ${APPTAINER_ROOTFS}/.conda/.condarc ${APPTAINER_ROOTFS}/.conda/.condarc.bak; curl -s -o ${APPTAINER_ROOTFS}/.conda/.condarc -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/.condarc
+
+    test -f ${APPTAINER_ROOTFS}/.pip/pip.conf && \
+    mv ${APPTAINER_ROOTFS}/.pip/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf.bak; curl -s -o ${APPTAINER_ROOTFS}/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
+
     # Update and install micromamba dependencies
     micromamba install -n base -y python=${PYTHON_VERSION} \
         pytorch ${PYTORCH_DEPS} -c conda-forge -c pytorch -c nvidia && \
@@ -29,7 +44,6 @@ From: mambaorg/micromamba:1.5-jammy
     micromamba run -n base bash -c "  
         cd ${APPTAINER_ROOTFS}/stable-baselines3 && \
         pip install -e .[extra,tests,docs] && \
-        # Use headless version for container environments  
         pip uninstall -y opencv-python && \
         pip install opencv-python-headless && \
         pip cache purge  
