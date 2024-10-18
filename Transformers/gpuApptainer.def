@@ -27,7 +27,8 @@ From: 192.168.2.25:10081/python:3.9-slim
 
     # Install the Transformers library in editable mode and other dependencies  
     pip install --no-cache-dir -e /app/transformers \
-        torch torchvision timm  
+        torch torchvision timm \
+        --timeout 1000
 
 %runscript  
     exec /bin/bash

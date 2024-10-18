@@ -53,7 +53,7 @@ From: 192.168.2.25:10081/ubuntu:23.10
 
     # Install pip packages
     python3 -m pip install --upgrade pip wheel
-    pip install -e . --extra-index-url http://192.168.2.25:9081/repository/python/simple/
+    pip install -e . --extra-index-url http://192.168.2.25:9081/repository/python/simple/ --timeout 1000
 
     # Create symbolic link for python
     ln -sf /usr/bin/python3 /usr/bin/python

@@ -37,7 +37,7 @@ From: 192.168.2.25:10081/python:3.10-slim
     cd ${APPTAINER_ROOTFS}/app/sam2 && \
     pip install --upgrade pip setuptools && \
     pip install -e ".[interactive-demo]" && \
-    pip install opencv-python 
+    pip install opencv-python
 
     curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_tiny.pt http://192.168.2.25:9081/repository/storage/sam2.1_hiera_tiny.pt
     curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_small.pt http://192.168.2.25:9081/repository/storage/sam2.1_hiera_small.pt

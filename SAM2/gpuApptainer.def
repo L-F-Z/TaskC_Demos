@@ -47,8 +47,8 @@ From: 192.168.2.25:10081/nvidia/cuda:12.6.0-devel-ubuntu22.04
 
     cd ${APPTAINER_ROOTFS}/app/sam2 && \
     pip install --upgrade pip setuptools && \
-    pip install -e ".[interactive-demo]" && \
-    pip install opencv-python 
+    pip install -e ".[interactive-demo]" --timeout 1000 && \
+    pip install opencv-python --timeout 1000
 
     rm /opt/conda/bin/ffmpeg && ln -s /bin/ffmpeg /opt/conda/bin/ffmpeg
     

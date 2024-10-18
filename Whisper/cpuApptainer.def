@@ -18,7 +18,7 @@ From: 192.168.2.25:10081/python:3.10-slim
     cd ${APPTAINER_ROOTFS}/app/whisper
     
     mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
-    pip install --no-cache-dir .  
+    pip install --timeout 1000 --no-cache-dir .
 
     # Run whisper command  
     whisper --model_dir /usr/local --model medium audio >> /dev/null 2>&1 || true  
