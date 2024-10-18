@@ -7,9 +7,6 @@
 [submodule "LoRA/LoRA"]
 	path = LoRA/LoRA
 	url = https://github.com/microsoft/LoRA.git
-[submodule "mmpretrain/mmpretrain"]
-	path = mmpretrain/mmpretrain
-	url = https://github.com/open-mmlab/mmpretrain.git
 [submodule "SAM2/sam2"]
 	path = SAM2/sam2
 	url = https://github.com/facebookresearch/sam2.git
@@ -30,10 +27,4 @@
 	url = https://github.com/openai/whisper.git
 [submodule "YOLO11/ultralytics"]
 	path = YOLO11/ultralytics
-	url = https://github.com/ultralytics/ultralytics.git
-[submodule "YOLOv5/yolov5"]
-	path = YOLOv5/yolov5
-	url = https://github.com/ultralytics/yolov5
-[submodule "YOLOv8/ultralytics"]
-	path = YOLOv8/ultralytics
 	url = https://github.com/ultralytics/ultralytics.git
