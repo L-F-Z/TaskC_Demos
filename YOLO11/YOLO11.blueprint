@@ -18,7 +18,8 @@
 - [Apt] libpython3-dev [any]
 - [Apt] gnupg [any]
 - [Apt] g++ [any]
-- [Apt] libusb-1.0-0 [any]    
+- [Apt] libusb-1.0-0 [any]
+- [Apt] ca-certificates [any]
 - [PyPI] numpy [>=1.23.0]
 - [PyPI] matplotlib [>=3.3.0]
 - [PyPI] opencv-python [>=4.6.0]
@@ -42,4 +43,7 @@
 
 [WORKDIR] /ultralytics
 [CMD]
-- /bin/bash
+- yolo
+- predict
+- model=yolo11n.pt
+- source=https://ultralytics.com/images/bus.jpg
