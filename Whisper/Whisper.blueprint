@@ -5,7 +5,7 @@
 [ENVIRONMENT] any
 
 [DEPEND]
-- [DockerHub] python [3.11-slim]
+- [DockerHub] python [3.10-slim]
 - [Apt] ffmpeg [any]
 - [PyPI] numba [any]
 - [PyPI] numpy [any]
@@ -14,9 +14,12 @@
 - [PyPI] more-itertools [any]
 - [PyPI] tiktoken [any]
 - [PyPI] triton [>=2.0.0]
-- [LOCAL] /usr/local/lib/python-site-packages [./whisper]
-- [LOCAL] /test [./test]
+- [LOCAL] /app/test [./test]
+- [LOCAL] /app/whisper [./whisper]
+- [PYTHON] whisper:whisper.transcribe:cli [./whisper/whisper]
 
-[WORKDIR] /test
+[WORKDIR] /app/test
 [CMD]
 - /bin/bash
+- -c
+- rm res.txt && python test.py && cat res.txt
