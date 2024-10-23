@@ -21,6 +21,8 @@ RUN rm -rf /root/.cache/pip
 # Copy TTS repository contents:
 WORKDIR /root/TTS
 COPY ./TTS/ /root/TTS/
+RUN rm /root/TTS/requirements.txt
+COPY ./requirements.txt /root/TTS/requirements.txt
 
 # RUN make install
 # RUN pip install -e .[all,dev,notebooks]
