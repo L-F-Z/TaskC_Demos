@@ -34,7 +34,7 @@ Demo projects to demonstrate the usage of TaskC
 + gpuDockerfile.old：docker.io源-GPU版本的docker构建文件
 
 # Blueprint Process
-- [ ] CLIP
+- [x] CLIP
 - [ ] Deep_Live_Cam 
 - [ ] LoRA
 - [x] SAM2
