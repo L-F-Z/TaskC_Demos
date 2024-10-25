@@ -38,7 +38,7 @@ Demo projects to demonstrate the usage of TaskC
 - [ ] Deep_Live_Cam 
 - [ ] LoRA
 - [ ] SAM2
-- [ ] Stable-Baselines3
+- [x] Stable-Baselines3
 - [x] stablediffusion
 - [ ] Transformers
 - [ ] TTS
