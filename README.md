@@ -39,7 +39,7 @@ Demo projects to demonstrate the usage of TaskC
 - [ ] LoRA
 - [ ] SAM2
 - [ ] Stable-Baselines3
-- [ ] stablediffusion
+- [x] stablediffusion
 - [ ] Transformers
 - [ ] TTS
 - [x] Whisper
