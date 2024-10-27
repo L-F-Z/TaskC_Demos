@@ -33,15 +33,4 @@ Demo projects to demonstrate the usage of TaskC
 + cpuDockerfile.old：docker.io源-CPU版本的docker构建文件
 + gpuDockerfile.old：docker.io源-GPU版本的docker构建文件
 
-# Blueprint Process
-- [x] CLIP
-- [x] Deep_Live_Cam 
-- [ ] LoRA
-- [x] SAM2
-- [x] Stable-Baselines3
-- [x] stablediffusion
-- [x] Transformers
-- [x] TTS
-- [x] Whisper
-- [x] YOLO11
 

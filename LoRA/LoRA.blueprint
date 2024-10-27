@@ -25,6 +25,7 @@
 - [PyPI] tokenizers [any]
 - [PyPI] transformers [any]
 - [LOCAL] /app [./LoRA]
+- [PYTHON] [./LoRA/loralib]
 
 [WORKDIR] /
 [CMD]
