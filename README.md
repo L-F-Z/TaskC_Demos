@@ -35,7 +35,7 @@ Demo projects to demonstrate the usage of TaskC
 
 # Blueprint Process
 - [x] CLIP
-- [ ] Deep_Live_Cam 
+- [x] Deep_Live_Cam 
 - [ ] LoRA
 - [x] SAM2
 - [x] Stable-Baselines3
