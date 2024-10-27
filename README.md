@@ -40,7 +40,7 @@ Demo projects to demonstrate the usage of TaskC
 - [x] SAM2
 - [x] Stable-Baselines3
 - [x] stablediffusion
-- [ ] Transformers
+- [x] Transformers
 - [x] TTS
 - [x] Whisper
 - [x] YOLO11
