@@ -41,7 +41,7 @@ Demo projects to demonstrate the usage of TaskC
 - [x] Stable-Baselines3
 - [x] stablediffusion
 - [ ] Transformers
-- [ ] TTS
+- [x] TTS
 - [x] Whisper
 - [x] YOLO11
 
