@@ -1,9 +1,6 @@
 [submodule "CLIP/CLIP"]
 	path = CLIP/CLIP
 	url = https://github.com/openai/CLIP.git
-[submodule "Deep_Live_Cam/Deep-Live-Cam"]
-	path = Deep_Live_Cam/Deep-Live-Cam
-	url = https://github.com/hacksider/Deep-Live-Cam.git
 [submodule "LoRA/LoRA"]
 	path = LoRA/LoRA
 	url = https://github.com/microsoft/LoRA.git
