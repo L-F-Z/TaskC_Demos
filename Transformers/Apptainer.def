@@ -1,5 +1,5 @@
 Bootstrap: docker  
-From: 192.168.2.25:10081/python:3.9-slim  
+From: 192.168.2.25:10081/nvidia/cuda:12.1.0-cudnn8-devel-ubuntu22.04
 
 %setup  
     # Create the working directory  
@@ -7,6 +7,7 @@ From: 192.168.2.25:10081/python:3.9-slim
     
     # Copy the cloned transformers repository into the container  
     cp -r ./transformers ${APPTAINER_ROOTFS}/app/transformers  
+    cp -r ./ddetectron2 ${APPTAINER_ROOTFS}/app/ddetectron2
 
 %post
     total_lines=$(wc -l < /etc/apt/sources.list.d/debian.sources) && \
@@ -17,7 +18,7 @@ From: 192.168.2.25:10081/python:3.9-slim
     cd /app  
 
     # Install git and other dependencies  
-    apt-get update && apt-get install -y curl \
+    apt-get update && apt-get install -y curl pip\
         && rm -rf /var/lib/apt/lists/*  
 
     mkdir ~/.pip/ && \
@@ -27,8 +28,14 @@ From: 192.168.2.25:10081/python:3.9-slim
 
     # Install the Transformers library in editable mode and other dependencies  
     pip install --no-cache-dir -e /app/transformers \
-        torch torchvision timm \
-        --timeout 1000
+        torch==2.4.0 \
+        torchvision \
+        torchaudio \
+        pytesseract \
+        "itsdangerous<2.1.0"
+
+    cd /app/detectron2 && pip install -e .
+    cd /app/transformers && python3 setup.py develop
 
 %runscript  
     exec /bin/bash

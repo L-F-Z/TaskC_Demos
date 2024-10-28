@@ -25,3 +25,6 @@
 [submodule "YOLO11/ultralytics"]
 	path = YOLO11/ultralytics
 	url = https://github.com/ultralytics/ultralytics.git
+[submodule "Transformers/detectron2"]
+	path = Transformers/detectron2
+	url = https://github.com/facebookresearch/detectron2.git
