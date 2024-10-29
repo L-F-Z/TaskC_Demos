@@ -1,1522 +1,0 @@
-错误信息：
-Get:1 http://192.168.2.25:9081/repository/ubuntu bionic InRelease [242 kB]
-Get:2 http://192.168.2.25:9081/repository/ubuntu bionic-updates InRelease [102 kB]
-Get:3 http://192.168.2.25:9081/repository/ubuntu bionic-backports InRelease [102 kB]
-Get:4 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 Packages [11.3 MB]
-Get:5 http://192.168.2.25:9081/repository/ubuntu bionic/restricted amd64 Packages [13.5 kB]
-Get:6 http://192.168.2.25:9081/repository/ubuntu bionic/multiverse amd64 Packages [186 kB]
-Get:7 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64  InRelease [1581 B]
-Get:8 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 Packages [1344 kB]
-Get:9 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64  Packages [1373 kB]
-Get:10 http://192.168.2.25:9081/repository/ubuntu bionic-updates/universe amd64 Packages [2411 kB]
-Get:11 http://192.168.2.25:9081/repository/ubuntu bionic-updates/multiverse amd64 Packages [30.8 kB]
-Get:12 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 Packages [3786 kB]
-Get:13 http://192.168.2.25:9081/repository/ubuntu bionic-updates/restricted amd64 Packages [1728 kB]
-Get:14 http://192.168.2.25:9081/repository/ubuntu bionic-backports/universe amd64 Packages [20.6 kB]
-Get:15 http://192.168.2.25:9081/repository/ubuntu bionic-backports/main amd64 Packages [64.0 kB]
-Fetched 22.7 MB in 2s (9996 kB/s)
-Reading package lists...
-Building dependency tree...
-Reading state information...
-76 packages can be upgraded. Run 'apt list --upgradable' to see them.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-The following additional packages will be installed:
-  dbus fontconfig fontconfig-config fonts-dejavu-core i965-va-driver
-  krb5-locales libaacs0 libapparmor1 libasound2 libasound2-data libass9
-  libasyncns0 libavc1394-0 libavcodec57 libavdevice57 libavfilter6
-  libavformat57 libavresample3 libavutil55 libbdplus0 libbluray2 libbs2b0
-  libbsd0 libcaca0 libcairo2 libcdio-cdda2 libcdio-paranoia2 libcdio17
-  libchromaprint1 libcroco3 libcrystalhd3 libcurl4 libdatrie1 libdbus-1-3
-  libdc1394-22 libdrm-amdgpu1 libdrm-common libdrm-intel1 libdrm-nouveau2
-  libdrm-radeon1 libdrm2 libedit2 libegl-mesa0 libegl1 libelf1 libexpat1
-  libfftw3-double3 libflac8 libflite1 libfontconfig1 libfreetype6 libfribidi0
-  libgbm1 libgdk-pixbuf2.0-0 libgdk-pixbuf2.0-bin libgdk-pixbuf2.0-common
-  libgl1 libgl1-mesa-dri libglapi-mesa libglib2.0-0 libglib2.0-data libglvnd0
-  libglx-mesa0 libglx0 libgme0 libgraphite2-3 libgsm1 libgssapi-krb5-2
-  libharfbuzz0b libice6 libicu60 libiec61883-0 libjack-jackd2-0 libjbig0
-  libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0 libllvm10 libmp3lame0
-  libmpg123-0 libmysofa0 libnghttp2-14 libnorm1 libnuma1 libogg0
-  libopenal-data libopenal1 libopenjp2-7 libopenmpt0 libopus0 libpango-1.0-0
-  libpangocairo-1.0-0 libpangoft2-1.0-0 libpciaccess0 libpgm-5.2-0
-  libpixman-1-0 libpostproc54 libpsl5 libpulse0 libraw1394-11 librsvg2-2
-  librsvg2-common librtmp1 librubberband2 libsamplerate0 libsdl2-2.0-0
-  libsensors4 libshine3 libslang2 libsnappy1v5 libsndfile1 libsndio6.1
-  libsodium23 libsoxr0 libspeex1 libssh-gcrypt-4 libswresample2 libswscale4
-  libthai-data libthai0 libtheora0 libtiff5 libtwolame0 libusb-1.0-0
-  libva-drm2 libva-x11-2 libva2 libvdpau1 libvorbis0a libvorbisenc2
-  libvorbisfile3 libvpx5 libwavpack1 libwayland-client0 libwayland-cursor0
-  libwayland-egl1 libwayland-egl1-mesa libwayland-server0 libwebp6 libwebpmux3
-  libwrap0 libx11-6 libx11-data libx11-xcb1 libx264-152 libx265-146 libxau6
-  libxcb-dri2-0 libxcb-dri3-0 libxcb-glx0 libxcb-present0 libxcb-render0
-  libxcb-shape0 libxcb-shm0 libxcb-sync1 libxcb-xfixes0 libxcb1 libxcursor1
-  libxdamage1 libxdmcp6 libxfixes3 libxi6 libxinerama1 libxkbcommon0 libxml2
-  libxrandr2 libxrender1 libxshmfence1 libxss1 libxv1 libxvidcore4 libxxf86vm1
-  libzmq5 libzvbi-common libzvbi0 mesa-va-drivers mesa-vdpau-drivers
-  publicsuffix shared-mime-info ucf va-driver-all vdpau-driver-all x11-common
-  xdg-user-dirs xkb-data
-Suggested packages:
-  default-dbus-session-bus | dbus-session-bus ffmpeg-doc
-  i965-va-driver-shaders libasound2-plugins alsa-utils libbluray-bdj
-  firmware-crystalhd libfftw3-bin libfftw3-dev krb5-doc krb5-user jackd2
-  libportaudio2 opus-tools pciutils pulseaudio libraw1394-doc librsvg2-bin
-  lm-sensors sndiod speex libvdpau-va-gl1 nvidia-vdpau-driver
-  nvidia-legacy-340xx-vdpau-driver
-The following NEW packages will be installed:
-  curl dbus ffmpeg fontconfig fontconfig-config fonts-dejavu-core
-  i965-va-driver krb5-locales libaacs0 libapparmor1 libasound2 libasound2-data
-  libass9 libasyncns0 libavc1394-0 libavcodec57 libavdevice57 libavfilter6
-  libavformat57 libavresample3 libavutil55 libbdplus0 libbluray2 libbs2b0
-  libbsd0 libcaca0 libcairo2 libcdio-cdda2 libcdio-paranoia2 libcdio17
-  libchromaprint1 libcroco3 libcrystalhd3 libcurl4 libdatrie1 libdbus-1-3
-  libdc1394-22 libdrm-amdgpu1 libdrm-common libdrm-intel1 libdrm-nouveau2
-  libdrm-radeon1 libdrm2 libedit2 libegl-mesa0 libegl1 libelf1 libexpat1
-  libfftw3-double3 libflac8 libflite1 libfontconfig1 libfreetype6 libfribidi0
-  libgbm1 libgdk-pixbuf2.0-0 libgdk-pixbuf2.0-bin libgdk-pixbuf2.0-common
-  libgl1 libgl1-mesa-dri libglapi-mesa libglib2.0-0 libglib2.0-data libglvnd0
-  libglx-mesa0 libglx0 libgme0 libgraphite2-3 libgsm1 libgssapi-krb5-2
-  libharfbuzz0b libice6 libicu60 libiec61883-0 libjack-jackd2-0 libjbig0
-  libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0 libllvm10 libmp3lame0
-  libmpg123-0 libmysofa0 libnghttp2-14 libnorm1 libnuma1 libogg0
-  libopenal-data libopenal1 libopenjp2-7 libopenmpt0 libopus0 libpango-1.0-0
-  libpangocairo-1.0-0 libpangoft2-1.0-0 libpciaccess0 libpgm-5.2-0
-  libpixman-1-0 libpostproc54 libpsl5 libpulse0 libraw1394-11 librsvg2-2
-  librsvg2-common librtmp1 librubberband2 libsamplerate0 libsdl2-2.0-0
-  libsensors4 libshine3 libslang2 libsm6 libsnappy1v5 libsndfile1 libsndio6.1
-  libsodium23 libsoxr0 libspeex1 libssh-gcrypt-4 libswresample2 libswscale4
-  libthai-data libthai0 libtheora0 libtiff5 libtwolame0 libusb-1.0-0
-  libva-drm2 libva-x11-2 libva2 libvdpau1 libvorbis0a libvorbisenc2
-  libvorbisfile3 libvpx5 libwavpack1 libwayland-client0 libwayland-cursor0
-  libwayland-egl1 libwayland-egl1-mesa libwayland-server0 libwebp6 libwebpmux3
-  libwrap0 libx11-6 libx11-data libx11-xcb1 libx264-152 libx265-146 libxau6
-  libxcb-dri2-0 libxcb-dri3-0 libxcb-glx0 libxcb-present0 libxcb-render0
-  libxcb-shape0 libxcb-shm0 libxcb-sync1 libxcb-xfixes0 libxcb1 libxcursor1
-  libxdamage1 libxdmcp6 libxext6 libxfixes3 libxi6 libxinerama1 libxkbcommon0
-  libxml2 libxrandr2 libxrender1 libxshmfence1 libxss1 libxv1 libxvidcore4
-  libxxf86vm1 libzmq5 libzvbi-common libzvbi0 mesa-va-drivers
-  mesa-vdpau-drivers publicsuffix shared-mime-info ucf va-driver-all
-  vdpau-driver-all x11-common xdg-user-dirs xkb-data
-0 upgraded, 190 newly installed, 0 to remove and 76 not upgraded.
-Need to get 81.5 MB of archives.
-After this operation, 562 MB of additional disk space will be used.
-Get:1 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libxau6 amd64 1:1.0.8-1ubuntu1 [7556 B]
-Get:2 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libbsd0 amd64 0.8.7-1ubuntu0.1 [41.6 kB]
-Get:3 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libxdmcp6 amd64 1:1.1.2-3 [10.7 kB]
-Get:4 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libxcb1 amd64 1.13-2~ubuntu18.04 [45.5 kB]
-Get:5 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libx11-data all 2:1.6.4-3ubuntu0.4 [114 kB]
-Get:6 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libx11-6 amd64 2:1.6.4-3ubuntu0.4 [572 kB]
-Get:7 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libxext6 amd64 2:1.3.3-1 [29.4 kB]
-Get:8 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libexpat1 amd64 2.2.5-3ubuntu0.9 [82.8 kB]
-Get:9 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libfreetype6 amd64 2.8.1-2ubuntu2.2 [335 kB]
-Get:10 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 ucf all 3.0038 [50.5 kB]
-Get:11 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 fonts-dejavu-core all 2.37-1 [1041 kB]
-Get:12 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 fontconfig-config all 2.12.6-0ubuntu2 [55.8 kB]
-Get:13 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libfontconfig1 amd64 2.12.6-0ubuntu2 [137 kB]
-Get:14 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 fontconfig amd64 2.12.6-0ubuntu2 [169 kB]
-Get:15 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libogg0 amd64 1.3.2-1 [17.2 kB]
-Get:16 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 x11-common all 1:7.7+19ubuntu7.1 [22.5 kB]
-Get:17 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libice6 amd64 2:1.0.9-2ubuntu0.18.04.1 [40.7 kB]
-Get:18 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libsm6 amd64 2:1.2.2-1 [15.8 kB]
-Get:19 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libxinerama1 amd64 2:1.1.3-1 [7908 B]
-Get:20 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libxss1 amd64 1:1.2.2-1 [8582 B]
-Get:21 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libxxf86vm1 amd64 1:1.1.4-1 [10.6 kB]
-Get:22 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libapparmor1 amd64 2.12-4ubuntu5.3 [30.7 kB]
-Get:23 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libdbus-1-3 amd64 1.12.2-1ubuntu1.4 [175 kB]
-Get:24 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 dbus amd64 1.12.2-1ubuntu1.4 [150 kB]
-Get:25 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libelf1 amd64 0.170-0.4ubuntu0.1 [44.8 kB]
-Get:26 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libfribidi0 amd64 0.19.7-2ubuntu0.1 [25.2 kB]
-Get:27 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libglib2.0-0 amd64 2.56.4-0ubuntu0.18.04.9 [1169 kB]
-Get:28 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libglib2.0-data all 2.56.4-0ubuntu0.18.04.9 [4728 B]
-Get:29 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libicu60 amd64 60.2-3ubuntu3.2 [8050 kB]
-Get:30 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libslang2 amd64 2.3.1a-3ubuntu1 [424 kB]
-Get:31 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libxml2 amd64 2.9.4+dfsg1-6.1ubuntu1.9 [663 kB]
-Get:32 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 shared-mime-info amd64 1.9-2 [426 kB]
-Get:33 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 xdg-user-dirs amd64 0.17-1ubuntu1 [48.0 kB]
-Get:34 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 xkb-data all 2.23.1-1ubuntu1.18.04.1 [325 kB]
-Get:35 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 krb5-locales all 1.16-2ubuntu0.4 [13.4 kB]
-Get:36 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libdrm-common all 2.4.101-2~18.04.1 [5560 B]
-Get:37 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libdrm2 amd64 2.4.101-2~18.04.1 [32.3 kB]
-Get:38 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libedit2 amd64 3.1-20170329-1 [76.9 kB]
-Get:39 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libkrb5support0 amd64 1.16-2ubuntu0.4 [30.9 kB]
-Get:40 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libk5crypto3 amd64 1.16-2ubuntu0.4 [85.3 kB]
-Get:41 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libkeyutils1 amd64 1.5.9-9.2ubuntu2.1 [8764 B]
-Get:42 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libkrb5-3 amd64 1.16-2ubuntu0.4 [278 kB]
-Get:43 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libgssapi-krb5-2 amd64 1.16-2ubuntu0.4 [122 kB]
-Get:44 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libnuma1 amd64 2.0.11-2.1ubuntu0.1 [22.0 kB]
-Get:45 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libpsl5 amd64 0.19.1-5build1 [41.8 kB]
-Get:46 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libusb-1.0-0 amd64 2:1.0.21-2 [43.3 kB]
-Get:47 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 publicsuffix all 20180223.1310-1 [97.6 kB]
-Get:48 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libnghttp2-14 amd64 1.30.0-1ubuntu1 [77.8 kB]
-Get:49 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 librtmp1 amd64 2.4+20151223.gitfa8646d.1-1 [54.2 kB]
-Get:50 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libcurl4 amd64 7.58.0-2ubuntu3.24 [221 kB]
-Get:51 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 curl amd64 7.58.0-2ubuntu3.24 [159 kB]
-Get:52 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libva2 amd64 2.1.0-3 [47.6 kB]
-Get:53 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libva-drm2 amd64 2.1.0-3 [6880 B]
-Get:54 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libxfixes3 amd64 1:5.0.3-1 [10.8 kB]
-Get:55 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libva-x11-2 amd64 2.1.0-3 [11.5 kB]
-Get:56 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libvdpau1 amd64 1.1.1-3ubuntu1 [25.5 kB]
-Get:57 http://192.168.2.25:9081/repository/ubuntu bionic-updates/universe amd64 libavutil55 amd64 7:3.4.11-0ubuntu0.1 [191 kB]
-Get:58 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libpixman-1-0 amd64 0.34.0-2ubuntu0.1 [229 kB]
-Get:59 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libxcb-render0 amd64 1.13-2~ubuntu18.04 [14.7 kB]
-Get:60 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libxcb-shm0 amd64 1.13-2~ubuntu18.04 [5600 B]
-Get:61 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libxrender1 amd64 1:0.9.10-1 [18.7 kB]
-Get:62 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libcairo2 amd64 1.15.10-2ubuntu0.1 [580 kB]
-Get:63 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libcrystalhd3 amd64 1:0.0~git20110715.fdd2f19-12 [45.8 kB]
-Get:64 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libgsm1 amd64 1.0.13-4build1 [22.4 kB]
-Get:65 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libmp3lame0 amd64 3.100-2 [136 kB]
-Get:66 http://192.168.2.25:9081/repository/ubuntu bionic-updates/universe amd64 libopenjp2-7 amd64 2.3.0-2+deb10u2build0.18.04.1 [145 kB]
-Get:67 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libopus0 amd64 1.1.2-1ubuntu1 [159 kB]
-Get:68 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libcroco3 amd64 0.6.12-2 [81.3 kB]
-Get:69 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libjbig0 amd64 2.1-3.1ubuntu0.18.04.1 [27.0 kB]
-Get:70 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libtiff5 amd64 4.0.9-5ubuntu0.10 [154 kB]
-Get:71 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libgdk-pixbuf2.0-common all 2.36.11-2 [4536 B]
-Get:72 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libgdk-pixbuf2.0-0 amd64 2.36.11-2 [165 kB]
-Get:73 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libthai-data all 0.1.27-2 [133 kB]
-Get:74 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libdatrie1 amd64 0.2.10-7 [17.8 kB]
-Get:75 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libthai0 amd64 0.1.27-2 [18.0 kB]
-Get:76 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libpango-1.0-0 amd64 1.40.14-1ubuntu0.1 [153 kB]
-Get:77 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libgraphite2-3 amd64 1.3.11-2 [78.7 kB]
-Get:78 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libharfbuzz0b amd64 1.7.2-1ubuntu1 [232 kB]
-Get:79 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libpangoft2-1.0-0 amd64 1.40.14-1ubuntu0.1 [33.2 kB]
-Get:80 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libpangocairo-1.0-0 amd64 1.40.14-1ubuntu0.1 [20.8 kB]
-Get:81 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 librsvg2-2 amd64 2.40.20-2ubuntu0.2 [98.6 kB]
-Get:82 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libshine3 amd64 3.1.1-1 [22.9 kB]
-Get:83 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libsnappy1v5 amd64 1.1.7-1 [16.0 kB]
-Get:84 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libspeex1 amd64 1.2~rc1.2-1ubuntu2.1 [52.1 kB]
-Get:85 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libsoxr0 amd64 0.1.2-3 [65.9 kB]
-Get:86 http://192.168.2.25:9081/repository/ubuntu bionic-updates/universe amd64 libswresample2 amd64 7:3.4.11-0ubuntu0.1 [55.2 kB]
-Get:87 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libtheora0 amd64 1.1.1+dfsg.1-14 [170 kB]
-Get:88 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libtwolame0 amd64 0.3.13-3 [46.7 kB]
-Get:89 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libvorbis0a amd64 1.3.5-4.2 [86.4 kB]
-Get:90 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libvorbisenc2 amd64 1.3.5-4.2 [70.7 kB]
-Get:91 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libvpx5 amd64 1.7.0-3ubuntu0.18.04.1 [796 kB]
-Get:92 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libwavpack1 amd64 5.1.0-2ubuntu1.5 [76.8 kB]
-Get:93 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libwebp6 amd64 0.6.1-2ubuntu0.18.04.2 [186 kB]
-Get:94 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libwebpmux3 amd64 0.6.1-2ubuntu0.18.04.2 [19.6 kB]
-Get:95 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libx264-152 amd64 2:0.152.2854+gite9a5903-2 [609 kB]
-Get:96 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libx265-146 amd64 2.6-3 [1026 kB]
-Get:97 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libxvidcore4 amd64 2:1.3.5-1 [200 kB]
-Get:98 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libzvbi-common all 0.2.35-13 [32.1 kB]
-Get:99 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libzvbi0 amd64 0.2.35-13 [235 kB]
-Get:100 http://192.168.2.25:9081/repository/ubuntu bionic-updates/universe amd64 libavcodec57 amd64 7:3.4.11-0ubuntu0.1 [4600 kB]
-Get:101 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libasound2-data all 1.1.3-5ubuntu0.6 [38.5 kB]
-Get:102 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libasound2 amd64 1.1.3-5ubuntu0.6 [360 kB]
-Get:103 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libraw1394-11 amd64 2.1.2-1 [30.7 kB]
-Get:104 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libavc1394-0 amd64 0.5.4-4build1 [16.1 kB]
-Get:105 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libass9 amd64 1:0.14.0-1 [88.2 kB]
-Get:106 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libbluray2 amd64 1:1.0.2-3 [141 kB]
-Get:107 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libchromaprint1 amd64 1.4.3-1 [36.8 kB]
-Get:108 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libgme0 amd64 0.6.2-1 [121 kB]
-Get:109 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libmpg123-0 amd64 1.25.10-1 [125 kB]
-Get:110 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libvorbisfile3 amd64 1.3.5-4.2 [16.0 kB]
-Get:111 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libopenmpt0 amd64 0.3.6-1 [561 kB]
-Get:112 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libssh-gcrypt-4 amd64 0.8.0~20170825.94fa1e38-1ubuntu0.7 [172 kB]
-Get:113 http://192.168.2.25:9081/repository/ubuntu bionic-updates/universe amd64 libavformat57 amd64 7:3.4.11-0ubuntu0.1 [953 kB]
-Get:114 http://192.168.2.25:9081/repository/ubuntu bionic-updates/universe amd64 libavresample3 amd64 7:3.4.11-0ubuntu0.1 [52.6 kB]
-Get:115 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libbs2b0 amd64 3.1.0+dfsg-2.2 [10.5 kB]
-Get:116 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libflite1 amd64 2.1-release-1 [12.8 MB]
-Get:117 http://192.168.2.25:9081/repository/ubuntu bionic-updates/universe amd64 libmysofa0 amd64 0.6~dfsg0-3+deb10u1build1 [38.5 kB]
-Get:118 http://192.168.2.25:9081/repository/ubuntu bionic-updates/universe amd64 libpostproc54 amd64 7:3.4.11-0ubuntu0.1 [50.3 kB]
-Get:119 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libfftw3-double3 amd64 3.3.7-1 [735 kB]
-Get:120 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libsamplerate0 amd64 0.1.9-1 [938 kB]
-Get:121 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 librubberband2 amd64 1.8.1-7ubuntu2 [86.7 kB]
-Get:122 http://192.168.2.25:9081/repository/ubuntu bionic-updates/universe amd64 libswscale4 amd64 7:3.4.11-0ubuntu0.1 [150 kB]
-Get:123 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libnorm1 amd64 1.5r6+dfsg1-6 [224 kB]
-Get:124 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libpgm-5.2-0 amd64 5.2.122~dfsg-2 [157 kB]
-Get:125 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libsodium23 amd64 1.0.16-2 [143 kB]
-Get:126 http://192.168.2.25:9081/repository/ubuntu bionic-updates/universe amd64 libzmq5 amd64 4.2.5-1ubuntu0.2 [221 kB]
-Get:127 http://192.168.2.25:9081/repository/ubuntu bionic-updates/universe amd64 libavfilter6 amd64 7:3.4.11-0ubuntu0.1 [875 kB]
-Get:128 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libcaca0 amd64 0.99.beta19-2ubuntu0.18.04.3 [203 kB]
-Get:129 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libcdio17 amd64 1.0.0-2ubuntu2 [58.8 kB]
-Get:130 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libcdio-cdda2 amd64 10.2+0.94+2-2build1 [17.7 kB]
-Get:131 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libcdio-paranoia2 amd64 10.2+0.94+2-2build1 [17.2 kB]
-Get:132 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libdc1394-22 amd64 2.2.5-1 [77.5 kB]
-Get:133 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libglvnd0 amd64 1.0.0-2ubuntu2.3 [47.0 kB]
-Get:134 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libglapi-mesa amd64 20.0.8-0ubuntu1~18.04.1 [26.6 kB]
-Get:135 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libx11-xcb1 amd64 2:1.6.4-3ubuntu0.4 [9720 B]
-Get:136 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libxcb-dri2-0 amd64 1.13-2~ubuntu18.04 [6920 B]
-Get:137 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libxcb-dri3-0 amd64 1.13-2~ubuntu18.04 [6568 B]
-Get:138 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libxcb-glx0 amd64 1.13-2~ubuntu18.04 [22.1 kB]
-Get:139 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libxcb-present0 amd64 1.13-2~ubuntu18.04 [5552 B]
-Get:140 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libxcb-sync1 amd64 1.13-2~ubuntu18.04 [8808 B]
-Get:141 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libxdamage1 amd64 1:1.1.4-3 [6934 B]
-Get:142 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libxshmfence1 amd64 1.3-1 [5028 B]
-Get:143 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libdrm-amdgpu1 amd64 2.4.101-2~18.04.1 [18.2 kB]
-Get:144 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libpciaccess0 amd64 0.14-1 [17.9 kB]
-Get:145 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libdrm-intel1 amd64 2.4.101-2~18.04.1 [60.0 kB]
-Get:146 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libdrm-nouveau2 amd64 2.4.101-2~18.04.1 [16.5 kB]
-Get:147 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libdrm-radeon1 amd64 2.4.101-2~18.04.1 [21.7 kB]
-Get:148 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libllvm10 amd64 1:10.0.0-4ubuntu1~18.04.2 [15.4 MB]
-Get:149 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libsensors4 amd64 1:3.4.0-4ubuntu0.1 [28.3 kB]
-Get:150 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libgl1-mesa-dri amd64 20.0.8-0ubuntu1~18.04.1 [9333 kB]
-Get:151 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libglx-mesa0 amd64 20.0.8-0ubuntu1~18.04.1 [139 kB]
-Get:152 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libglx0 amd64 1.0.0-2ubuntu2.3 [28.1 kB]
-Get:153 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libgl1 amd64 1.0.0-2ubuntu2.3 [86.2 kB]
-Get:154 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libiec61883-0 amd64 1.2.0-2 [23.5 kB]
-Get:155 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libjack-jackd2-0 amd64 1.9.12~dfsg-2 [263 kB]
-Get:156 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libopenal-data all 1:1.18.2-2 [102 kB]
-Get:157 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libsndio6.1 amd64 1.1.0-3 [23.4 kB]
-Get:158 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libopenal1 amd64 1:1.18.2-2 [266 kB]
-Get:159 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libasyncns0 amd64 0.8-6 [12.1 kB]
-Get:160 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libflac8 amd64 1.3.2-1ubuntu0.1 [213 kB]
-Get:161 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libsndfile1 amd64 1.0.28-4ubuntu0.18.04.2 [170 kB]
-Get:162 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libwrap0 amd64 7.6.q-27 [46.3 kB]
-Get:163 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libpulse0 amd64 1:11.1-1ubuntu7.11 [266 kB]
-Get:164 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libwayland-client0 amd64 1.16.0-1ubuntu1.1~18.04.4 [23.6 kB]
-Get:165 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libwayland-cursor0 amd64 1.16.0-1ubuntu1.1~18.04.4 [10.2 kB]
-Get:166 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libwayland-server0 amd64 1.16.0-1ubuntu1.1~18.04.4 [29.6 kB]
-Get:167 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libgbm1 amd64 20.0.8-0ubuntu1~18.04.1 [27.6 kB]
-Get:168 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libxcb-xfixes0 amd64 1.13-2~ubuntu18.04 [9352 B]
-Get:169 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libegl-mesa0 amd64 20.0.8-0ubuntu1~18.04.1 [96.3 kB]
-Get:170 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libegl1 amd64 1.0.0-2ubuntu2.3 [32.0 kB]
-Get:171 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libwayland-egl1 amd64 1.16.0-1ubuntu1.1~18.04.4 [5424 B]
-Get:172 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libwayland-egl1-mesa amd64 20.0.8-0ubuntu1~18.04.1 [6444 B]
-Get:173 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libxcursor1 amd64 1:1.1.15-1 [19.8 kB]
-Get:174 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libxi6 amd64 2:1.7.9-1 [29.2 kB]
-Get:175 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libxkbcommon0 amd64 0.8.2-1~ubuntu18.04.1 [97.8 kB]
-Get:176 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libxrandr2 amd64 2:1.5.1-1 [18.1 kB]
-Get:177 http://192.168.2.25:9081/repository/ubuntu bionic-updates/universe amd64 libsdl2-2.0-0 amd64 2.0.8+dfsg1-1ubuntu1.18.04.4 [382 kB]
-Get:178 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 libxcb-shape0 amd64 1.13-2~ubuntu18.04 [5972 B]
-Get:179 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libxv1 amd64 2:1.0.11-1 [10.7 kB]
-Get:180 http://192.168.2.25:9081/repository/ubuntu bionic-updates/universe amd64 libavdevice57 amd64 7:3.4.11-0ubuntu0.1 [75.1 kB]
-Get:181 http://192.168.2.25:9081/repository/ubuntu bionic-updates/universe amd64 ffmpeg amd64 7:3.4.11-0ubuntu0.1 [1587 kB]
-Get:182 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libaacs0 amd64 0.9.0-1 [51.4 kB]
-Get:183 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 libbdplus0 amd64 0.1.2-2 [46.6 kB]
-Get:184 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 libgdk-pixbuf2.0-bin amd64 2.36.11-2 [7864 B]
-Get:185 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 librsvg2-common amd64 2.40.20-2ubuntu0.2 [5064 B]
-Get:186 http://192.168.2.25:9081/repository/ubuntu bionic-updates/universe amd64 mesa-va-drivers amd64 20.0.8-0ubuntu1~18.04.1 [2376 kB]
-Get:187 http://192.168.2.25:9081/repository/ubuntu bionic-updates/main amd64 mesa-vdpau-drivers amd64 20.0.8-0ubuntu1~18.04.1 [2496 kB]
-Get:188 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 i965-va-driver amd64 2.1.0-0ubuntu1 [925 kB]
-Get:189 http://192.168.2.25:9081/repository/ubuntu bionic/universe amd64 va-driver-all amd64 2.1.0-3 [4376 B]
-Get:190 http://192.168.2.25:9081/repository/ubuntu bionic/main amd64 vdpau-driver-all amd64 1.1.1-3ubuntu1 [4674 B]
-Fetched 81.5 MB in 6s (13.7 MB/s)
-Selecting previously unselected package libxau6:amd64.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 12597 files and directories currently installed.)
-Preparing to unpack .../000-libxau6_1%3a1.0.8-1ubuntu1_amd64.deb ...
-Unpacking libxau6:amd64 (1:1.0.8-1ubuntu1) ...
-Selecting previously unselected package libbsd0:amd64.
-Preparing to unpack .../001-libbsd0_0.8.7-1ubuntu0.1_amd64.deb ...
-Unpacking libbsd0:amd64 (0.8.7-1ubuntu0.1) ...
-Selecting previously unselected package libxdmcp6:amd64.
-Preparing to unpack .../002-libxdmcp6_1%3a1.1.2-3_amd64.deb ...
-Unpacking libxdmcp6:amd64 (1:1.1.2-3) ...
-Selecting previously unselected package libxcb1:amd64.
-Preparing to unpack .../003-libxcb1_1.13-2~ubuntu18.04_amd64.deb ...
-Unpacking libxcb1:amd64 (1.13-2~ubuntu18.04) ...
-Selecting previously unselected package libx11-data.
-Preparing to unpack .../004-libx11-data_2%3a1.6.4-3ubuntu0.4_all.deb ...
-Unpacking libx11-data (2:1.6.4-3ubuntu0.4) ...
-Selecting previously unselected package libx11-6:amd64.
-Preparing to unpack .../005-libx11-6_2%3a1.6.4-3ubuntu0.4_amd64.deb ...
-Unpacking libx11-6:amd64 (2:1.6.4-3ubuntu0.4) ...
-Selecting previously unselected package libxext6:amd64.
-Preparing to unpack .../006-libxext6_2%3a1.3.3-1_amd64.deb ...
-Unpacking libxext6:amd64 (2:1.3.3-1) ...
-Selecting previously unselected package libexpat1:amd64.
-Preparing to unpack .../007-libexpat1_2.2.5-3ubuntu0.9_amd64.deb ...
-Unpacking libexpat1:amd64 (2.2.5-3ubuntu0.9) ...
-Selecting previously unselected package libfreetype6:amd64.
-Preparing to unpack .../008-libfreetype6_2.8.1-2ubuntu2.2_amd64.deb ...
-Unpacking libfreetype6:amd64 (2.8.1-2ubuntu2.2) ...
-Selecting previously unselected package ucf.
-Preparing to unpack .../009-ucf_3.0038_all.deb ...
-Moving old data out of the way
-Unpacking ucf (3.0038) ...
-Selecting previously unselected package fonts-dejavu-core.
-Preparing to unpack .../010-fonts-dejavu-core_2.37-1_all.deb ...
-Unpacking fonts-dejavu-core (2.37-1) ...
-Selecting previously unselected package fontconfig-config.
-Preparing to unpack .../011-fontconfig-config_2.12.6-0ubuntu2_all.deb ...
-Unpacking fontconfig-config (2.12.6-0ubuntu2) ...
-Selecting previously unselected package libfontconfig1:amd64.
-Preparing to unpack .../012-libfontconfig1_2.12.6-0ubuntu2_amd64.deb ...
-Unpacking libfontconfig1:amd64 (2.12.6-0ubuntu2) ...
-Selecting previously unselected package fontconfig.
-Preparing to unpack .../013-fontconfig_2.12.6-0ubuntu2_amd64.deb ...
-Unpacking fontconfig (2.12.6-0ubuntu2) ...
-Selecting previously unselected package libogg0:amd64.
-Preparing to unpack .../014-libogg0_1.3.2-1_amd64.deb ...
-Unpacking libogg0:amd64 (1.3.2-1) ...
-Selecting previously unselected package x11-common.
-Preparing to unpack .../015-x11-common_1%3a7.7+19ubuntu7.1_all.deb ...
-dpkg-query: no packages found matching nux-tools
-Unpacking x11-common (1:7.7+19ubuntu7.1) ...
-Selecting previously unselected package libice6:amd64.
-Preparing to unpack .../016-libice6_2%3a1.0.9-2ubuntu0.18.04.1_amd64.deb ...
-Unpacking libice6:amd64 (2:1.0.9-2ubuntu0.18.04.1) ...
-Selecting previously unselected package libsm6:amd64.
-Preparing to unpack .../017-libsm6_2%3a1.2.2-1_amd64.deb ...
-Unpacking libsm6:amd64 (2:1.2.2-1) ...
-Selecting previously unselected package libxinerama1:amd64.
-Preparing to unpack .../018-libxinerama1_2%3a1.1.3-1_amd64.deb ...
-Unpacking libxinerama1:amd64 (2:1.1.3-1) ...
-Selecting previously unselected package libxss1:amd64.
-Preparing to unpack .../019-libxss1_1%3a1.2.2-1_amd64.deb ...
-Unpacking libxss1:amd64 (1:1.2.2-1) ...
-Selecting previously unselected package libxxf86vm1:amd64.
-Preparing to unpack .../020-libxxf86vm1_1%3a1.1.4-1_amd64.deb ...
-Unpacking libxxf86vm1:amd64 (1:1.1.4-1) ...
-Selecting previously unselected package libapparmor1:amd64.
-Preparing to unpack .../021-libapparmor1_2.12-4ubuntu5.3_amd64.deb ...
-Unpacking libapparmor1:amd64 (2.12-4ubuntu5.3) ...
-Selecting previously unselected package libdbus-1-3:amd64.
-Preparing to unpack .../022-libdbus-1-3_1.12.2-1ubuntu1.4_amd64.deb ...
-Unpacking libdbus-1-3:amd64 (1.12.2-1ubuntu1.4) ...
-Selecting previously unselected package dbus.
-Preparing to unpack .../023-dbus_1.12.2-1ubuntu1.4_amd64.deb ...
-Unpacking dbus (1.12.2-1ubuntu1.4) ...
-Selecting previously unselected package libelf1:amd64.
-Preparing to unpack .../024-libelf1_0.170-0.4ubuntu0.1_amd64.deb ...
-Unpacking libelf1:amd64 (0.170-0.4ubuntu0.1) ...
-Selecting previously unselected package libfribidi0:amd64.
-Preparing to unpack .../025-libfribidi0_0.19.7-2ubuntu0.1_amd64.deb ...
-Unpacking libfribidi0:amd64 (0.19.7-2ubuntu0.1) ...
-Selecting previously unselected package libglib2.0-0:amd64.
-Preparing to unpack .../026-libglib2.0-0_2.56.4-0ubuntu0.18.04.9_amd64.deb ...
-Unpacking libglib2.0-0:amd64 (2.56.4-0ubuntu0.18.04.9) ...
-Selecting previously unselected package libglib2.0-data.
-Preparing to unpack .../027-libglib2.0-data_2.56.4-0ubuntu0.18.04.9_all.deb ...
-Unpacking libglib2.0-data (2.56.4-0ubuntu0.18.04.9) ...
-Selecting previously unselected package libicu60:amd64.
-Preparing to unpack .../028-libicu60_60.2-3ubuntu3.2_amd64.deb ...
-Unpacking libicu60:amd64 (60.2-3ubuntu3.2) ...
-Selecting previously unselected package libslang2:amd64.
-Preparing to unpack .../029-libslang2_2.3.1a-3ubuntu1_amd64.deb ...
-Unpacking libslang2:amd64 (2.3.1a-3ubuntu1) ...
-Selecting previously unselected package libxml2:amd64.
-Preparing to unpack .../030-libxml2_2.9.4+dfsg1-6.1ubuntu1.9_amd64.deb ...
-Unpacking libxml2:amd64 (2.9.4+dfsg1-6.1ubuntu1.9) ...
-Selecting previously unselected package shared-mime-info.
-Preparing to unpack .../031-shared-mime-info_1.9-2_amd64.deb ...
-Unpacking shared-mime-info (1.9-2) ...
-Selecting previously unselected package xdg-user-dirs.
-Preparing to unpack .../032-xdg-user-dirs_0.17-1ubuntu1_amd64.deb ...
-Unpacking xdg-user-dirs (0.17-1ubuntu1) ...
-Selecting previously unselected package xkb-data.
-Preparing to unpack .../033-xkb-data_2.23.1-1ubuntu1.18.04.1_all.deb ...
-Unpacking xkb-data (2.23.1-1ubuntu1.18.04.1) ...
-Selecting previously unselected package krb5-locales.
-Preparing to unpack .../034-krb5-locales_1.16-2ubuntu0.4_all.deb ...
-Unpacking krb5-locales (1.16-2ubuntu0.4) ...
-Selecting previously unselected package libdrm-common.
-Preparing to unpack .../035-libdrm-common_2.4.101-2~18.04.1_all.deb ...
-Unpacking libdrm-common (2.4.101-2~18.04.1) ...
-Selecting previously unselected package libdrm2:amd64.
-Preparing to unpack .../036-libdrm2_2.4.101-2~18.04.1_amd64.deb ...
-Unpacking libdrm2:amd64 (2.4.101-2~18.04.1) ...
-Selecting previously unselected package libedit2:amd64.
-Preparing to unpack .../037-libedit2_3.1-20170329-1_amd64.deb ...
-Unpacking libedit2:amd64 (3.1-20170329-1) ...
-Selecting previously unselected package libkrb5support0:amd64.
-Preparing to unpack .../038-libkrb5support0_1.16-2ubuntu0.4_amd64.deb ...
-Unpacking libkrb5support0:amd64 (1.16-2ubuntu0.4) ...
-Selecting previously unselected package libk5crypto3:amd64.
-Preparing to unpack .../039-libk5crypto3_1.16-2ubuntu0.4_amd64.deb ...
-Unpacking libk5crypto3:amd64 (1.16-2ubuntu0.4) ...
-Selecting previously unselected package libkeyutils1:amd64.
-Preparing to unpack .../040-libkeyutils1_1.5.9-9.2ubuntu2.1_amd64.deb ...
-Unpacking libkeyutils1:amd64 (1.5.9-9.2ubuntu2.1) ...
-Selecting previously unselected package libkrb5-3:amd64.
-Preparing to unpack .../041-libkrb5-3_1.16-2ubuntu0.4_amd64.deb ...
-Unpacking libkrb5-3:amd64 (1.16-2ubuntu0.4) ...
-Selecting previously unselected package libgssapi-krb5-2:amd64.
-Preparing to unpack .../042-libgssapi-krb5-2_1.16-2ubuntu0.4_amd64.deb ...
-Unpacking libgssapi-krb5-2:amd64 (1.16-2ubuntu0.4) ...
-Selecting previously unselected package libnuma1:amd64.
-Preparing to unpack .../043-libnuma1_2.0.11-2.1ubuntu0.1_amd64.deb ...
-Unpacking libnuma1:amd64 (2.0.11-2.1ubuntu0.1) ...
-Selecting previously unselected package libpsl5:amd64.
-Preparing to unpack .../044-libpsl5_0.19.1-5build1_amd64.deb ...
-Unpacking libpsl5:amd64 (0.19.1-5build1) ...
-Selecting previously unselected package libusb-1.0-0:amd64.
-Preparing to unpack .../045-libusb-1.0-0_2%3a1.0.21-2_amd64.deb ...
-Unpacking libusb-1.0-0:amd64 (2:1.0.21-2) ...
-Selecting previously unselected package publicsuffix.
-Preparing to unpack .../046-publicsuffix_20180223.1310-1_all.deb ...
-Unpacking publicsuffix (20180223.1310-1) ...
-Selecting previously unselected package libnghttp2-14:amd64.
-Preparing to unpack .../047-libnghttp2-14_1.30.0-1ubuntu1_amd64.deb ...
-Unpacking libnghttp2-14:amd64 (1.30.0-1ubuntu1) ...
-Selecting previously unselected package librtmp1:amd64.
-Preparing to unpack .../048-librtmp1_2.4+20151223.gitfa8646d.1-1_amd64.deb ...
-Unpacking librtmp1:amd64 (2.4+20151223.gitfa8646d.1-1) ...
-Selecting previously unselected package libcurl4:amd64.
-Preparing to unpack .../049-libcurl4_7.58.0-2ubuntu3.24_amd64.deb ...
-Unpacking libcurl4:amd64 (7.58.0-2ubuntu3.24) ...
-Selecting previously unselected package curl.
-Preparing to unpack .../050-curl_7.58.0-2ubuntu3.24_amd64.deb ...
-Unpacking curl (7.58.0-2ubuntu3.24) ...
-Selecting previously unselected package libva2:amd64.
-Preparing to unpack .../051-libva2_2.1.0-3_amd64.deb ...
-Unpacking libva2:amd64 (2.1.0-3) ...
-Selecting previously unselected package libva-drm2:amd64.
-Preparing to unpack .../052-libva-drm2_2.1.0-3_amd64.deb ...
-Unpacking libva-drm2:amd64 (2.1.0-3) ...
-Selecting previously unselected package libxfixes3:amd64.
-Preparing to unpack .../053-libxfixes3_1%3a5.0.3-1_amd64.deb ...
-Unpacking libxfixes3:amd64 (1:5.0.3-1) ...
-Selecting previously unselected package libva-x11-2:amd64.
-Preparing to unpack .../054-libva-x11-2_2.1.0-3_amd64.deb ...
-Unpacking libva-x11-2:amd64 (2.1.0-3) ...
-Selecting previously unselected package libvdpau1:amd64.
-Preparing to unpack .../055-libvdpau1_1.1.1-3ubuntu1_amd64.deb ...
-Unpacking libvdpau1:amd64 (1.1.1-3ubuntu1) ...
-Selecting previously unselected package libavutil55:amd64.
-Preparing to unpack .../056-libavutil55_7%3a3.4.11-0ubuntu0.1_amd64.deb ...
-Unpacking libavutil55:amd64 (7:3.4.11-0ubuntu0.1) ...
-Selecting previously unselected package libpixman-1-0:amd64.
-Preparing to unpack .../057-libpixman-1-0_0.34.0-2ubuntu0.1_amd64.deb ...
-Unpacking libpixman-1-0:amd64 (0.34.0-2ubuntu0.1) ...
-Selecting previously unselected package libxcb-render0:amd64.
-Preparing to unpack .../058-libxcb-render0_1.13-2~ubuntu18.04_amd64.deb ...
-Unpacking libxcb-render0:amd64 (1.13-2~ubuntu18.04) ...
-Selecting previously unselected package libxcb-shm0:amd64.
-Preparing to unpack .../059-libxcb-shm0_1.13-2~ubuntu18.04_amd64.deb ...
-Unpacking libxcb-shm0:amd64 (1.13-2~ubuntu18.04) ...
-Selecting previously unselected package libxrender1:amd64.
-Preparing to unpack .../060-libxrender1_1%3a0.9.10-1_amd64.deb ...
-Unpacking libxrender1:amd64 (1:0.9.10-1) ...
-Selecting previously unselected package libcairo2:amd64.
-Preparing to unpack .../061-libcairo2_1.15.10-2ubuntu0.1_amd64.deb ...
-Unpacking libcairo2:amd64 (1.15.10-2ubuntu0.1) ...
-Selecting previously unselected package libcrystalhd3:amd64.
-Preparing to unpack .../062-libcrystalhd3_1%3a0.0~git20110715.fdd2f19-12_amd64.deb ...
-Unpacking libcrystalhd3:amd64 (1:0.0~git20110715.fdd2f19-12) ...
-Selecting previously unselected package libgsm1:amd64.
-Preparing to unpack .../063-libgsm1_1.0.13-4build1_amd64.deb ...
-Unpacking libgsm1:amd64 (1.0.13-4build1) ...
-Selecting previously unselected package libmp3lame0:amd64.
-Preparing to unpack .../064-libmp3lame0_3.100-2_amd64.deb ...
-Unpacking libmp3lame0:amd64 (3.100-2) ...
-Selecting previously unselected package libopenjp2-7:amd64.
-Preparing to unpack .../065-libopenjp2-7_2.3.0-2+deb10u2build0.18.04.1_amd64.deb ...
-Unpacking libopenjp2-7:amd64 (2.3.0-2+deb10u2build0.18.04.1) ...
-Selecting previously unselected package libopus0:amd64.
-Preparing to unpack .../066-libopus0_1.1.2-1ubuntu1_amd64.deb ...
-Unpacking libopus0:amd64 (1.1.2-1ubuntu1) ...
-Selecting previously unselected package libcroco3:amd64.
-Preparing to unpack .../067-libcroco3_0.6.12-2_amd64.deb ...
-Unpacking libcroco3:amd64 (0.6.12-2) ...
-Selecting previously unselected package libjbig0:amd64.
-Preparing to unpack .../068-libjbig0_2.1-3.1ubuntu0.18.04.1_amd64.deb ...
-Unpacking libjbig0:amd64 (2.1-3.1ubuntu0.18.04.1) ...
-Selecting previously unselected package libtiff5:amd64.
-Preparing to unpack .../069-libtiff5_4.0.9-5ubuntu0.10_amd64.deb ...
-Unpacking libtiff5:amd64 (4.0.9-5ubuntu0.10) ...
-Selecting previously unselected package libgdk-pixbuf2.0-common.
-Preparing to unpack .../070-libgdk-pixbuf2.0-common_2.36.11-2_all.deb ...
-Unpacking libgdk-pixbuf2.0-common (2.36.11-2) ...
-Selecting previously unselected package libgdk-pixbuf2.0-0:amd64.
-Preparing to unpack .../071-libgdk-pixbuf2.0-0_2.36.11-2_amd64.deb ...
-Unpacking libgdk-pixbuf2.0-0:amd64 (2.36.11-2) ...
-Selecting previously unselected package libthai-data.
-Preparing to unpack .../072-libthai-data_0.1.27-2_all.deb ...
-Unpacking libthai-data (0.1.27-2) ...
-Selecting previously unselected package libdatrie1:amd64.
-Preparing to unpack .../073-libdatrie1_0.2.10-7_amd64.deb ...
-Unpacking libdatrie1:amd64 (0.2.10-7) ...
-Selecting previously unselected package libthai0:amd64.
-Preparing to unpack .../074-libthai0_0.1.27-2_amd64.deb ...
-Unpacking libthai0:amd64 (0.1.27-2) ...
-Selecting previously unselected package libpango-1.0-0:amd64.
-Preparing to unpack .../075-libpango-1.0-0_1.40.14-1ubuntu0.1_amd64.deb ...
-Unpacking libpango-1.0-0:amd64 (1.40.14-1ubuntu0.1) ...
-Selecting previously unselected package libgraphite2-3:amd64.
-Preparing to unpack .../076-libgraphite2-3_1.3.11-2_amd64.deb ...
-Unpacking libgraphite2-3:amd64 (1.3.11-2) ...
-Selecting previously unselected package libharfbuzz0b:amd64.
-Preparing to unpack .../077-libharfbuzz0b_1.7.2-1ubuntu1_amd64.deb ...
-Unpacking libharfbuzz0b:amd64 (1.7.2-1ubuntu1) ...
-Selecting previously unselected package libpangoft2-1.0-0:amd64.
-Preparing to unpack .../078-libpangoft2-1.0-0_1.40.14-1ubuntu0.1_amd64.deb ...
-Unpacking libpangoft2-1.0-0:amd64 (1.40.14-1ubuntu0.1) ...
-Selecting previously unselected package libpangocairo-1.0-0:amd64.
-Preparing to unpack .../079-libpangocairo-1.0-0_1.40.14-1ubuntu0.1_amd64.deb ...
-Unpacking libpangocairo-1.0-0:amd64 (1.40.14-1ubuntu0.1) ...
-Selecting previously unselected package librsvg2-2:amd64.
-Preparing to unpack .../080-librsvg2-2_2.40.20-2ubuntu0.2_amd64.deb ...
-Unpacking librsvg2-2:amd64 (2.40.20-2ubuntu0.2) ...
-Selecting previously unselected package libshine3:amd64.
-Preparing to unpack .../081-libshine3_3.1.1-1_amd64.deb ...
-Unpacking libshine3:amd64 (3.1.1-1) ...
-Selecting previously unselected package libsnappy1v5:amd64.
-Preparing to unpack .../082-libsnappy1v5_1.1.7-1_amd64.deb ...
-Unpacking libsnappy1v5:amd64 (1.1.7-1) ...
-Selecting previously unselected package libspeex1:amd64.
-Preparing to unpack .../083-libspeex1_1.2~rc1.2-1ubuntu2.1_amd64.deb ...
-Unpacking libspeex1:amd64 (1.2~rc1.2-1ubuntu2.1) ...
-Selecting previously unselected package libsoxr0:amd64.
-Preparing to unpack .../084-libsoxr0_0.1.2-3_amd64.deb ...
-Unpacking libsoxr0:amd64 (0.1.2-3) ...
-Selecting previously unselected package libswresample2:amd64.
-Preparing to unpack .../085-libswresample2_7%3a3.4.11-0ubuntu0.1_amd64.deb ...
-Unpacking libswresample2:amd64 (7:3.4.11-0ubuntu0.1) ...
-Selecting previously unselected package libtheora0:amd64.
-Preparing to unpack .../086-libtheora0_1.1.1+dfsg.1-14_amd64.deb ...
-Unpacking libtheora0:amd64 (1.1.1+dfsg.1-14) ...
-Selecting previously unselected package libtwolame0:amd64.
-Preparing to unpack .../087-libtwolame0_0.3.13-3_amd64.deb ...
-Unpacking libtwolame0:amd64 (0.3.13-3) ...
-Selecting previously unselected package libvorbis0a:amd64.
-Preparing to unpack .../088-libvorbis0a_1.3.5-4.2_amd64.deb ...
-Unpacking libvorbis0a:amd64 (1.3.5-4.2) ...
-Selecting previously unselected package libvorbisenc2:amd64.
-Preparing to unpack .../089-libvorbisenc2_1.3.5-4.2_amd64.deb ...
-Unpacking libvorbisenc2:amd64 (1.3.5-4.2) ...
-Selecting previously unselected package libvpx5:amd64.
-Preparing to unpack .../090-libvpx5_1.7.0-3ubuntu0.18.04.1_amd64.deb ...
-Unpacking libvpx5:amd64 (1.7.0-3ubuntu0.18.04.1) ...
-Selecting previously unselected package libwavpack1:amd64.
-Preparing to unpack .../091-libwavpack1_5.1.0-2ubuntu1.5_amd64.deb ...
-Unpacking libwavpack1:amd64 (5.1.0-2ubuntu1.5) ...
-Selecting previously unselected package libwebp6:amd64.
-Preparing to unpack .../092-libwebp6_0.6.1-2ubuntu0.18.04.2_amd64.deb ...
-Unpacking libwebp6:amd64 (0.6.1-2ubuntu0.18.04.2) ...
-Selecting previously unselected package libwebpmux3:amd64.
-Preparing to unpack .../093-libwebpmux3_0.6.1-2ubuntu0.18.04.2_amd64.deb ...
-Unpacking libwebpmux3:amd64 (0.6.1-2ubuntu0.18.04.2) ...
-Selecting previously unselected package libx264-152:amd64.
-Preparing to unpack .../094-libx264-152_2%3a0.152.2854+gite9a5903-2_amd64.deb ...
-Unpacking libx264-152:amd64 (2:0.152.2854+gite9a5903-2) ...
-Selecting previously unselected package libx265-146:amd64.
-Preparing to unpack .../095-libx265-146_2.6-3_amd64.deb ...
-Unpacking libx265-146:amd64 (2.6-3) ...
-Selecting previously unselected package libxvidcore4:amd64.
-Preparing to unpack .../096-libxvidcore4_2%3a1.3.5-1_amd64.deb ...
-Unpacking libxvidcore4:amd64 (2:1.3.5-1) ...
-Selecting previously unselected package libzvbi-common.
-Preparing to unpack .../097-libzvbi-common_0.2.35-13_all.deb ...
-Unpacking libzvbi-common (0.2.35-13) ...
-Selecting previously unselected package libzvbi0:amd64.
-Preparing to unpack .../098-libzvbi0_0.2.35-13_amd64.deb ...
-Unpacking libzvbi0:amd64 (0.2.35-13) ...
-Selecting previously unselected package libavcodec57:amd64.
-Preparing to unpack .../099-libavcodec57_7%3a3.4.11-0ubuntu0.1_amd64.deb ...
-Unpacking libavcodec57:amd64 (7:3.4.11-0ubuntu0.1) ...
-Selecting previously unselected package libasound2-data.
-Preparing to unpack .../100-libasound2-data_1.1.3-5ubuntu0.6_all.deb ...
-Unpacking libasound2-data (1.1.3-5ubuntu0.6) ...
-Selecting previously unselected package libasound2:amd64.
-Preparing to unpack .../101-libasound2_1.1.3-5ubuntu0.6_amd64.deb ...
-Unpacking libasound2:amd64 (1.1.3-5ubuntu0.6) ...
-Selecting previously unselected package libraw1394-11:amd64.
-Preparing to unpack .../102-libraw1394-11_2.1.2-1_amd64.deb ...
-Unpacking libraw1394-11:amd64 (2.1.2-1) ...
-Selecting previously unselected package libavc1394-0:amd64.
-Preparing to unpack .../103-libavc1394-0_0.5.4-4build1_amd64.deb ...
-Unpacking libavc1394-0:amd64 (0.5.4-4build1) ...
-Selecting previously unselected package libass9:amd64.
-Preparing to unpack .../104-libass9_1%3a0.14.0-1_amd64.deb ...
-Unpacking libass9:amd64 (1:0.14.0-1) ...
-Selecting previously unselected package libbluray2:amd64.
-Preparing to unpack .../105-libbluray2_1%3a1.0.2-3_amd64.deb ...
-Unpacking libbluray2:amd64 (1:1.0.2-3) ...
-Selecting previously unselected package libchromaprint1:amd64.
-Preparing to unpack .../106-libchromaprint1_1.4.3-1_amd64.deb ...
-Unpacking libchromaprint1:amd64 (1.4.3-1) ...
-Selecting previously unselected package libgme0:amd64.
-Preparing to unpack .../107-libgme0_0.6.2-1_amd64.deb ...
-Unpacking libgme0:amd64 (0.6.2-1) ...
-Selecting previously unselected package libmpg123-0:amd64.
-Preparing to unpack .../108-libmpg123-0_1.25.10-1_amd64.deb ...
-Unpacking libmpg123-0:amd64 (1.25.10-1) ...
-Selecting previously unselected package libvorbisfile3:amd64.
-Preparing to unpack .../109-libvorbisfile3_1.3.5-4.2_amd64.deb ...
-Unpacking libvorbisfile3:amd64 (1.3.5-4.2) ...
-Selecting previously unselected package libopenmpt0:amd64.
-Preparing to unpack .../110-libopenmpt0_0.3.6-1_amd64.deb ...
-Unpacking libopenmpt0:amd64 (0.3.6-1) ...
-Selecting previously unselected package libssh-gcrypt-4:amd64.
-Preparing to unpack .../111-libssh-gcrypt-4_0.8.0~20170825.94fa1e38-1ubuntu0.7_amd64.deb ...
-Unpacking libssh-gcrypt-4:amd64 (0.8.0~20170825.94fa1e38-1ubuntu0.7) ...
-Selecting previously unselected package libavformat57:amd64.
-Preparing to unpack .../112-libavformat57_7%3a3.4.11-0ubuntu0.1_amd64.deb ...
-Unpacking libavformat57:amd64 (7:3.4.11-0ubuntu0.1) ...
-Selecting previously unselected package libavresample3:amd64.
-Preparing to unpack .../113-libavresample3_7%3a3.4.11-0ubuntu0.1_amd64.deb ...
-Unpacking libavresample3:amd64 (7:3.4.11-0ubuntu0.1) ...
-Selecting previously unselected package libbs2b0:amd64.
-Preparing to unpack .../114-libbs2b0_3.1.0+dfsg-2.2_amd64.deb ...
-Unpacking libbs2b0:amd64 (3.1.0+dfsg-2.2) ...
-Selecting previously unselected package libflite1:amd64.
-Preparing to unpack .../115-libflite1_2.1-release-1_amd64.deb ...
-Unpacking libflite1:amd64 (2.1-release-1) ...
-Selecting previously unselected package libmysofa0:amd64.
-Preparing to unpack .../116-libmysofa0_0.6~dfsg0-3+deb10u1build1_amd64.deb ...
-Unpacking libmysofa0:amd64 (0.6~dfsg0-3+deb10u1build1) ...
-Selecting previously unselected package libpostproc54:amd64.
-Preparing to unpack .../117-libpostproc54_7%3a3.4.11-0ubuntu0.1_amd64.deb ...
-Unpacking libpostproc54:amd64 (7:3.4.11-0ubuntu0.1) ...
-Selecting previously unselected package libfftw3-double3:amd64.
-Preparing to unpack .../118-libfftw3-double3_3.3.7-1_amd64.deb ...
-Unpacking libfftw3-double3:amd64 (3.3.7-1) ...
-Selecting previously unselected package libsamplerate0:amd64.
-Preparing to unpack .../119-libsamplerate0_0.1.9-1_amd64.deb ...
-Unpacking libsamplerate0:amd64 (0.1.9-1) ...
-Selecting previously unselected package librubberband2:amd64.
-Preparing to unpack .../120-librubberband2_1.8.1-7ubuntu2_amd64.deb ...
-Unpacking librubberband2:amd64 (1.8.1-7ubuntu2) ...
-Selecting previously unselected package libswscale4:amd64.
-Preparing to unpack .../121-libswscale4_7%3a3.4.11-0ubuntu0.1_amd64.deb ...
-Unpacking libswscale4:amd64 (7:3.4.11-0ubuntu0.1) ...
-Selecting previously unselected package libnorm1:amd64.
-Preparing to unpack .../122-libnorm1_1.5r6+dfsg1-6_amd64.deb ...
-Unpacking libnorm1:amd64 (1.5r6+dfsg1-6) ...
-Selecting previously unselected package libpgm-5.2-0:amd64.
-Preparing to unpack .../123-libpgm-5.2-0_5.2.122~dfsg-2_amd64.deb ...
-Unpacking libpgm-5.2-0:amd64 (5.2.122~dfsg-2) ...
-Selecting previously unselected package libsodium23:amd64.
-Preparing to unpack .../124-libsodium23_1.0.16-2_amd64.deb ...
-Unpacking libsodium23:amd64 (1.0.16-2) ...
-Selecting previously unselected package libzmq5:amd64.
-Preparing to unpack .../125-libzmq5_4.2.5-1ubuntu0.2_amd64.deb ...
-Unpacking libzmq5:amd64 (4.2.5-1ubuntu0.2) ...
-Selecting previously unselected package libavfilter6:amd64.
-Preparing to unpack .../126-libavfilter6_7%3a3.4.11-0ubuntu0.1_amd64.deb ...
-Unpacking libavfilter6:amd64 (7:3.4.11-0ubuntu0.1) ...
-Selecting previously unselected package libcaca0:amd64.
-Preparing to unpack .../127-libcaca0_0.99.beta19-2ubuntu0.18.04.3_amd64.deb ...
-Unpacking libcaca0:amd64 (0.99.beta19-2ubuntu0.18.04.3) ...
-Selecting previously unselected package libcdio17:amd64.
-Preparing to unpack .../128-libcdio17_1.0.0-2ubuntu2_amd64.deb ...
-Unpacking libcdio17:amd64 (1.0.0-2ubuntu2) ...
-Selecting previously unselected package libcdio-cdda2:amd64.
-Preparing to unpack .../129-libcdio-cdda2_10.2+0.94+2-2build1_amd64.deb ...
-Unpacking libcdio-cdda2:amd64 (10.2+0.94+2-2build1) ...
-Selecting previously unselected package libcdio-paranoia2:amd64.
-Preparing to unpack .../130-libcdio-paranoia2_10.2+0.94+2-2build1_amd64.deb ...
-Unpacking libcdio-paranoia2:amd64 (10.2+0.94+2-2build1) ...
-Selecting previously unselected package libdc1394-22:amd64.
-Preparing to unpack .../131-libdc1394-22_2.2.5-1_amd64.deb ...
-Unpacking libdc1394-22:amd64 (2.2.5-1) ...
-Selecting previously unselected package libglvnd0:amd64.
-Preparing to unpack .../132-libglvnd0_1.0.0-2ubuntu2.3_amd64.deb ...
-Unpacking libglvnd0:amd64 (1.0.0-2ubuntu2.3) ...
-Selecting previously unselected package libglapi-mesa:amd64.
-Preparing to unpack .../133-libglapi-mesa_20.0.8-0ubuntu1~18.04.1_amd64.deb ...
-Unpacking libglapi-mesa:amd64 (20.0.8-0ubuntu1~18.04.1) ...
-Selecting previously unselected package libx11-xcb1:amd64.
-Preparing to unpack .../134-libx11-xcb1_2%3a1.6.4-3ubuntu0.4_amd64.deb ...
-Unpacking libx11-xcb1:amd64 (2:1.6.4-3ubuntu0.4) ...
-Selecting previously unselected package libxcb-dri2-0:amd64.
-Preparing to unpack .../135-libxcb-dri2-0_1.13-2~ubuntu18.04_amd64.deb ...
-Unpacking libxcb-dri2-0:amd64 (1.13-2~ubuntu18.04) ...
-Selecting previously unselected package libxcb-dri3-0:amd64.
-Preparing to unpack .../136-libxcb-dri3-0_1.13-2~ubuntu18.04_amd64.deb ...
-Unpacking libxcb-dri3-0:amd64 (1.13-2~ubuntu18.04) ...
-Selecting previously unselected package libxcb-glx0:amd64.
-Preparing to unpack .../137-libxcb-glx0_1.13-2~ubuntu18.04_amd64.deb ...
-Unpacking libxcb-glx0:amd64 (1.13-2~ubuntu18.04) ...
-Selecting previously unselected package libxcb-present0:amd64.
-Preparing to unpack .../138-libxcb-present0_1.13-2~ubuntu18.04_amd64.deb ...
-Unpacking libxcb-present0:amd64 (1.13-2~ubuntu18.04) ...
-Selecting previously unselected package libxcb-sync1:amd64.
-Preparing to unpack .../139-libxcb-sync1_1.13-2~ubuntu18.04_amd64.deb ...
-Unpacking libxcb-sync1:amd64 (1.13-2~ubuntu18.04) ...
-Selecting previously unselected package libxdamage1:amd64.
-Preparing to unpack .../140-libxdamage1_1%3a1.1.4-3_amd64.deb ...
-Unpacking libxdamage1:amd64 (1:1.1.4-3) ...
-Selecting previously unselected package libxshmfence1:amd64.
-Preparing to unpack .../141-libxshmfence1_1.3-1_amd64.deb ...
-Unpacking libxshmfence1:amd64 (1.3-1) ...
-Selecting previously unselected package libdrm-amdgpu1:amd64.
-Preparing to unpack .../142-libdrm-amdgpu1_2.4.101-2~18.04.1_amd64.deb ...
-Unpacking libdrm-amdgpu1:amd64 (2.4.101-2~18.04.1) ...
-Selecting previously unselected package libpciaccess0:amd64.
-Preparing to unpack .../143-libpciaccess0_0.14-1_amd64.deb ...
-Unpacking libpciaccess0:amd64 (0.14-1) ...
-Selecting previously unselected package libdrm-intel1:amd64.
-Preparing to unpack .../144-libdrm-intel1_2.4.101-2~18.04.1_amd64.deb ...
-Unpacking libdrm-intel1:amd64 (2.4.101-2~18.04.1) ...
-Selecting previously unselected package libdrm-nouveau2:amd64.
-Preparing to unpack .../145-libdrm-nouveau2_2.4.101-2~18.04.1_amd64.deb ...
-Unpacking libdrm-nouveau2:amd64 (2.4.101-2~18.04.1) ...
-Selecting previously unselected package libdrm-radeon1:amd64.
-Preparing to unpack .../146-libdrm-radeon1_2.4.101-2~18.04.1_amd64.deb ...
-Unpacking libdrm-radeon1:amd64 (2.4.101-2~18.04.1) ...
-Selecting previously unselected package libllvm10:amd64.
-Preparing to unpack .../147-libllvm10_1%3a10.0.0-4ubuntu1~18.04.2_amd64.deb ...
-Unpacking libllvm10:amd64 (1:10.0.0-4ubuntu1~18.04.2) ...
-Selecting previously unselected package libsensors4:amd64.
-Preparing to unpack .../148-libsensors4_1%3a3.4.0-4ubuntu0.1_amd64.deb ...
-Unpacking libsensors4:amd64 (1:3.4.0-4ubuntu0.1) ...
-Selecting previously unselected package libgl1-mesa-dri:amd64.
-Preparing to unpack .../149-libgl1-mesa-dri_20.0.8-0ubuntu1~18.04.1_amd64.deb ...
-Unpacking libgl1-mesa-dri:amd64 (20.0.8-0ubuntu1~18.04.1) ...
-Selecting previously unselected package libglx-mesa0:amd64.
-Preparing to unpack .../150-libglx-mesa0_20.0.8-0ubuntu1~18.04.1_amd64.deb ...
-Unpacking libglx-mesa0:amd64 (20.0.8-0ubuntu1~18.04.1) ...
-Selecting previously unselected package libglx0:amd64.
-Preparing to unpack .../151-libglx0_1.0.0-2ubuntu2.3_amd64.deb ...
-Unpacking libglx0:amd64 (1.0.0-2ubuntu2.3) ...
-Selecting previously unselected package libgl1:amd64.
-Preparing to unpack .../152-libgl1_1.0.0-2ubuntu2.3_amd64.deb ...
-Unpacking libgl1:amd64 (1.0.0-2ubuntu2.3) ...
-Selecting previously unselected package libiec61883-0:amd64.
-Preparing to unpack .../153-libiec61883-0_1.2.0-2_amd64.deb ...
-Unpacking libiec61883-0:amd64 (1.2.0-2) ...
-Selecting previously unselected package libjack-jackd2-0:amd64.
-Preparing to unpack .../154-libjack-jackd2-0_1.9.12~dfsg-2_amd64.deb ...
-Unpacking libjack-jackd2-0:amd64 (1.9.12~dfsg-2) ...
-Selecting previously unselected package libopenal-data.
-Preparing to unpack .../155-libopenal-data_1%3a1.18.2-2_all.deb ...
-Unpacking libopenal-data (1:1.18.2-2) ...
-Selecting previously unselected package libsndio6.1:amd64.
-Preparing to unpack .../156-libsndio6.1_1.1.0-3_amd64.deb ...
-Unpacking libsndio6.1:amd64 (1.1.0-3) ...
-Selecting previously unselected package libopenal1:amd64.
-Preparing to unpack .../157-libopenal1_1%3a1.18.2-2_amd64.deb ...
-Unpacking libopenal1:amd64 (1:1.18.2-2) ...
-Selecting previously unselected package libasyncns0:amd64.
-Preparing to unpack .../158-libasyncns0_0.8-6_amd64.deb ...
-Unpacking libasyncns0:amd64 (0.8-6) ...
-Selecting previously unselected package libflac8:amd64.
-Preparing to unpack .../159-libflac8_1.3.2-1ubuntu0.1_amd64.deb ...
-Unpacking libflac8:amd64 (1.3.2-1ubuntu0.1) ...
-Selecting previously unselected package libsndfile1:amd64.
-Preparing to unpack .../160-libsndfile1_1.0.28-4ubuntu0.18.04.2_amd64.deb ...
-Unpacking libsndfile1:amd64 (1.0.28-4ubuntu0.18.04.2) ...
-Selecting previously unselected package libwrap0:amd64.
-Preparing to unpack .../161-libwrap0_7.6.q-27_amd64.deb ...
-Unpacking libwrap0:amd64 (7.6.q-27) ...
-Selecting previously unselected package libpulse0:amd64.
-Preparing to unpack .../162-libpulse0_1%3a11.1-1ubuntu7.11_amd64.deb ...
-Unpacking libpulse0:amd64 (1:11.1-1ubuntu7.11) ...
-Selecting previously unselected package libwayland-client0:amd64.
-Preparing to unpack .../163-libwayland-client0_1.16.0-1ubuntu1.1~18.04.4_amd64.deb ...
-Unpacking libwayland-client0:amd64 (1.16.0-1ubuntu1.1~18.04.4) ...
-Selecting previously unselected package libwayland-cursor0:amd64.
-Preparing to unpack .../164-libwayland-cursor0_1.16.0-1ubuntu1.1~18.04.4_amd64.deb ...
-Unpacking libwayland-cursor0:amd64 (1.16.0-1ubuntu1.1~18.04.4) ...
-Selecting previously unselected package libwayland-server0:amd64.
-Preparing to unpack .../165-libwayland-server0_1.16.0-1ubuntu1.1~18.04.4_amd64.deb ...
-Unpacking libwayland-server0:amd64 (1.16.0-1ubuntu1.1~18.04.4) ...
-Selecting previously unselected package libgbm1:amd64.
-Preparing to unpack .../166-libgbm1_20.0.8-0ubuntu1~18.04.1_amd64.deb ...
-Unpacking libgbm1:amd64 (20.0.8-0ubuntu1~18.04.1) ...
-Selecting previously unselected package libxcb-xfixes0:amd64.
-Preparing to unpack .../167-libxcb-xfixes0_1.13-2~ubuntu18.04_amd64.deb ...
-Unpacking libxcb-xfixes0:amd64 (1.13-2~ubuntu18.04) ...
-Selecting previously unselected package libegl-mesa0:amd64.
-Preparing to unpack .../168-libegl-mesa0_20.0.8-0ubuntu1~18.04.1_amd64.deb ...
-Unpacking libegl-mesa0:amd64 (20.0.8-0ubuntu1~18.04.1) ...
-Selecting previously unselected package libegl1:amd64.
-Preparing to unpack .../169-libegl1_1.0.0-2ubuntu2.3_amd64.deb ...
-Unpacking libegl1:amd64 (1.0.0-2ubuntu2.3) ...
-Selecting previously unselected package libwayland-egl1:amd64.
-Preparing to unpack .../170-libwayland-egl1_1.16.0-1ubuntu1.1~18.04.4_amd64.deb ...
-Unpacking libwayland-egl1:amd64 (1.16.0-1ubuntu1.1~18.04.4) ...
-Selecting previously unselected package libwayland-egl1-mesa:amd64.
-Preparing to unpack .../171-libwayland-egl1-mesa_20.0.8-0ubuntu1~18.04.1_amd64.deb ...
-Unpacking libwayland-egl1-mesa:amd64 (20.0.8-0ubuntu1~18.04.1) ...
-Selecting previously unselected package libxcursor1:amd64.
-Preparing to unpack .../172-libxcursor1_1%3a1.1.15-1_amd64.deb ...
-Unpacking libxcursor1:amd64 (1:1.1.15-1) ...
-Selecting previously unselected package libxi6:amd64.
-Preparing to unpack .../173-libxi6_2%3a1.7.9-1_amd64.deb ...
-Unpacking libxi6:amd64 (2:1.7.9-1) ...
-Selecting previously unselected package libxkbcommon0:amd64.
-Preparing to unpack .../174-libxkbcommon0_0.8.2-1~ubuntu18.04.1_amd64.deb ...
-Unpacking libxkbcommon0:amd64 (0.8.2-1~ubuntu18.04.1) ...
-Selecting previously unselected package libxrandr2:amd64.
-Preparing to unpack .../175-libxrandr2_2%3a1.5.1-1_amd64.deb ...
-Unpacking libxrandr2:amd64 (2:1.5.1-1) ...
-Selecting previously unselected package libsdl2-2.0-0:amd64.
-Preparing to unpack .../176-libsdl2-2.0-0_2.0.8+dfsg1-1ubuntu1.18.04.4_amd64.deb ...
-Unpacking libsdl2-2.0-0:amd64 (2.0.8+dfsg1-1ubuntu1.18.04.4) ...
-Selecting previously unselected package libxcb-shape0:amd64.
-Preparing to unpack .../177-libxcb-shape0_1.13-2~ubuntu18.04_amd64.deb ...
-Unpacking libxcb-shape0:amd64 (1.13-2~ubuntu18.04) ...
-Selecting previously unselected package libxv1:amd64.
-Preparing to unpack .../178-libxv1_2%3a1.0.11-1_amd64.deb ...
-Unpacking libxv1:amd64 (2:1.0.11-1) ...
-Selecting previously unselected package libavdevice57:amd64.
-Preparing to unpack .../179-libavdevice57_7%3a3.4.11-0ubuntu0.1_amd64.deb ...
-Unpacking libavdevice57:amd64 (7:3.4.11-0ubuntu0.1) ...
-Selecting previously unselected package ffmpeg.
-Preparing to unpack .../180-ffmpeg_7%3a3.4.11-0ubuntu0.1_amd64.deb ...
-Unpacking ffmpeg (7:3.4.11-0ubuntu0.1) ...
-Selecting previously unselected package libaacs0:amd64.
-Preparing to unpack .../181-libaacs0_0.9.0-1_amd64.deb ...
-Unpacking libaacs0:amd64 (0.9.0-1) ...
-Selecting previously unselected package libbdplus0:amd64.
-Preparing to unpack .../182-libbdplus0_0.1.2-2_amd64.deb ...
-Unpacking libbdplus0:amd64 (0.1.2-2) ...
-Selecting previously unselected package libgdk-pixbuf2.0-bin.
-Preparing to unpack .../183-libgdk-pixbuf2.0-bin_2.36.11-2_amd64.deb ...
-Unpacking libgdk-pixbuf2.0-bin (2.36.11-2) ...
-Selecting previously unselected package librsvg2-common:amd64.
-Preparing to unpack .../184-librsvg2-common_2.40.20-2ubuntu0.2_amd64.deb ...
-Unpacking librsvg2-common:amd64 (2.40.20-2ubuntu0.2) ...
-Selecting previously unselected package mesa-va-drivers:amd64.
-Preparing to unpack .../185-mesa-va-drivers_20.0.8-0ubuntu1~18.04.1_amd64.deb ...
-Unpacking mesa-va-drivers:amd64 (20.0.8-0ubuntu1~18.04.1) ...
-Selecting previously unselected package mesa-vdpau-drivers:amd64.
-Preparing to unpack .../186-mesa-vdpau-drivers_20.0.8-0ubuntu1~18.04.1_amd64.deb ...
-Unpacking mesa-vdpau-drivers:amd64 (20.0.8-0ubuntu1~18.04.1) ...
-Selecting previously unselected package i965-va-driver:amd64.
-Preparing to unpack .../187-i965-va-driver_2.1.0-0ubuntu1_amd64.deb ...
-Unpacking i965-va-driver:amd64 (2.1.0-0ubuntu1) ...
-Selecting previously unselected package va-driver-all:amd64.
-Preparing to unpack .../188-va-driver-all_2.1.0-3_amd64.deb ...
-Unpacking va-driver-all:amd64 (2.1.0-3) ...
-Selecting previously unselected package vdpau-driver-all:amd64.
-Preparing to unpack .../189-vdpau-driver-all_1.1.1-3ubuntu1_amd64.deb ...
-Unpacking vdpau-driver-all:amd64 (1.1.1-3ubuntu1) ...
-Setting up libedit2:amd64 (3.1-20170329-1) ...
-Setting up libpgm-5.2-0:amd64 (5.2.122~dfsg-2) ...
-Setting up libglvnd0:amd64 (1.0.0-2ubuntu2.3) ...
-Setting up libexpat1:amd64 (2.2.5-3ubuntu0.9) ...
-Setting up libicu60:amd64 (60.2-3ubuntu3.2) ...
-Setting up libtwolame0:amd64 (0.3.13-3) ...
-Setting up libraw1394-11:amd64 (2.1.2-1) ...
-Setting up libx264-152:amd64 (2:0.152.2854+gite9a5903-2) ...
-Setting up libopenjp2-7:amd64 (2.3.0-2+deb10u2build0.18.04.1) ...
-Setting up libllvm10:amd64 (1:10.0.0-4ubuntu1~18.04.2) ...
-Setting up libasyncns0:amd64 (0.8-6) ...
-Setting up libnghttp2-14:amd64 (1.30.0-1ubuntu1) ...
-Setting up libwavpack1:amd64 (5.1.0-2ubuntu1.5) ...
-Setting up libjbig0:amd64 (2.1-3.1ubuntu0.18.04.1) ...
-Setting up fonts-dejavu-core (2.37-1) ...
-Setting up libpsl5:amd64 (0.19.1-5build1) ...
-Setting up libaacs0:amd64 (0.9.0-1) ...
-Setting up libnuma1:amd64 (2.0.11-2.1ubuntu0.1) ...
-Setting up libelf1:amd64 (0.170-0.4ubuntu0.1) ...
-Setting up libsoxr0:amd64 (0.1.2-3) ...
-Setting up libglib2.0-0:amd64 (2.56.4-0ubuntu0.18.04.9) ...
-No schema files found: doing nothing.
-Setting up libasound2-data (1.1.3-5ubuntu0.6) ...
-Setting up libxshmfence1:amd64 (1.3-1) ...
-Setting up libwayland-client0:amd64 (1.16.0-1ubuntu1.1~18.04.4) ...
-Setting up xkb-data (2.23.1-1ubuntu1.18.04.1) ...
-Setting up libgdk-pixbuf2.0-common (2.36.11-2) ...
-Setting up libdatrie1:amd64 (0.2.10-7) ...
-Setting up libtiff5:amd64 (4.0.9-5ubuntu0.10) ...
-Setting up libshine3:amd64 (3.1.1-1) ...
-Setting up libva2:amd64 (2.1.0-3) ...
-Setting up libiec61883-0:amd64 (1.2.0-2) ...
-Setting up libglapi-mesa:amd64 (20.0.8-0ubuntu1~18.04.1) ...
-Setting up librtmp1:amd64 (2.4+20151223.gitfa8646d.1-1) ...
-Setting up libspeex1:amd64 (1.2~rc1.2-1ubuntu2.1) ...
-Setting up libfftw3-double3:amd64 (3.3.7-1) ...
-Setting up libxvidcore4:amd64 (2:1.3.5-1) ...
-Setting up libbsd0:amd64 (0.8.7-1ubuntu0.1) ...
-Setting up libkrb5support0:amd64 (1.16-2ubuntu0.4) ...
-Setting up ucf (3.0038) ...
-debconf: unable to initialize frontend: Dialog
-debconf: (No usable dialog-like program is installed, so the dialog based frontend cannot be used. at /usr/share/perl5/Debconf/FrontEnd/Dialog.pm line 76.)
-debconf: falling back to frontend: Readline
-Setting up libxml2:amd64 (2.9.4+dfsg1-6.1ubuntu1.9) ...
-Setting up libopus0:amd64 (1.1.2-1ubuntu1) ...
-Setting up libfreetype6:amd64 (2.8.1-2ubuntu2.2) ...
-Setting up libx265-146:amd64 (2.6-3) ...
-Setting up libasound2:amd64 (1.1.3-5ubuntu0.6) ...
-Setting up libopenal-data (1:1.18.2-2) ...
-Setting up libdrm-common (2.4.101-2~18.04.1) ...
-Setting up libgraphite2-3:amd64 (1.3.11-2) ...
-Setting up libbs2b0:amd64 (3.1.0+dfsg-2.2) ...
-Setting up libcroco3:amd64 (0.6.12-2) ...
-Setting up libnorm1:amd64 (1.5r6+dfsg1-6) ...
-Setting up libogg0:amd64 (1.3.2-1) ...
-Setting up libsodium23:amd64 (1.0.16-2) ...
-Setting up libx11-xcb1:amd64 (2:1.6.4-3ubuntu0.4) ...
-Setting up libpixman-1-0:amd64 (0.34.0-2ubuntu0.1) ...
-Setting up libmp3lame0:amd64 (3.100-2) ...
-Setting up libglib2.0-data (2.56.4-0ubuntu0.18.04.9) ...
-Setting up libusb-1.0-0:amd64 (2:1.0.21-2) ...
-Setting up libcrystalhd3:amd64 (1:0.0~git20110715.fdd2f19-12) ...
-Setting up krb5-locales (1.16-2ubuntu0.4) ...
-Setting up publicsuffix (20180223.1310-1) ...
-Setting up libapparmor1:amd64 (2.12-4ubuntu5.3) ...
-Setting up libsnappy1v5:amd64 (1.1.7-1) ...
-Setting up libavc1394-0:amd64 (0.5.4-4build1) ...
-Setting up libzvbi-common (0.2.35-13) ...
-Setting up libfribidi0:amd64 (0.19.7-2ubuntu0.1) ...
-Setting up libpciaccess0:amd64 (0.14-1) ...
-Setting up libsensors4:amd64 (1:3.4.0-4ubuntu0.1) ...
-Setting up shared-mime-info (1.9-2) ...
-Setting up libxkbcommon0:amd64 (0.8.2-1~ubuntu18.04.1) ...
-Setting up libvpx5:amd64 (1.7.0-3ubuntu0.18.04.1) ...
-Setting up libgme0:amd64 (0.6.2-1) ...
-Setting up libthai-data (0.1.27-2) ...
-Setting up libxdmcp6:amd64 (1:1.1.2-3) ...
-Setting up libbdplus0:amd64 (0.1.2-2) ...
-Setting up libzvbi0:amd64 (0.2.35-13) ...
-Setting up libkeyutils1:amd64 (1.5.9-9.2ubuntu2.1) ...
-Setting up libsamplerate0:amd64 (0.1.9-1) ...
-Setting up libsndio6.1:amd64 (1.1.0-3) ...
-Setting up libvorbis0a:amd64 (1.3.5-4.2) ...
-Setting up x11-common (1:7.7+19ubuntu7.1) ...
-debconf: unable to initialize frontend: Dialog
-debconf: (No usable dialog-like program is installed, so the dialog based frontend cannot be used. at /usr/share/perl5/Debconf/FrontEnd/Dialog.pm line 76.)
-debconf: falling back to frontend: Readline
-update-rc.d: warning: start and stop actions are no longer supported; falling back to defaults
-invoke-rc.d: could not determine current runlevel
-invoke-rc.d: policy-rc.d denied execution of start.
-Setting up libmpg123-0:amd64 (1.25.10-1) ...
-Setting up libslang2:amd64 (2.3.1a-3ubuntu1) ...
-Setting up xdg-user-dirs (0.17-1ubuntu1) ...
-Setting up libwayland-cursor0:amd64 (1.16.0-1ubuntu1.1~18.04.4) ...
-Setting up libgsm1:amd64 (1.0.13-4build1) ...
-Setting up libmysofa0:amd64 (0.6~dfsg0-3+deb10u1build1) ...
-Setting up libwayland-egl1:amd64 (1.16.0-1ubuntu1.1~18.04.4) ...
-Setting up libx11-data (2:1.6.4-3ubuntu0.4) ...
-Setting up libxau6:amd64 (1:1.0.8-1ubuntu1) ...
-Setting up libcdio17:amd64 (1.0.0-2ubuntu2) ...
-Setting up libdbus-1-3:amd64 (1.12.2-1ubuntu1.4) ...
-Setting up libwrap0:amd64 (7.6.q-27) ...
-Setting up libwayland-server0:amd64 (1.16.0-1ubuntu1.1~18.04.4) ...
-Setting up libwebp6:amd64 (0.6.1-2ubuntu0.18.04.2) ...
-Setting up libvorbisfile3:amd64 (1.3.5-4.2) ...
-Setting up libk5crypto3:amd64 (1.16-2ubuntu0.4) ...
-Setting up fontconfig-config (2.12.6-0ubuntu2) ...
-Setting up libzmq5:amd64 (4.2.5-1ubuntu0.2) ...
-Setting up libopenmpt0:amd64 (0.3.6-1) ...
-Setting up libflite1:amd64 (2.1-release-1) ...
-Setting up libflac8:amd64 (1.3.2-1ubuntu0.1) ...
-Setting up libharfbuzz0b:amd64 (1.7.2-1ubuntu1) ...
-Setting up libdc1394-22:amd64 (2.2.5-1) ...
-Setting up libcdio-cdda2:amd64 (10.2+0.94+2-2build1) ...
-Setting up libthai0:amd64 (0.1.27-2) ...
-Setting up libdrm2:amd64 (2.4.101-2~18.04.1) ...
-Setting up libdrm-intel1:amd64 (2.4.101-2~18.04.1) ...
-Setting up librubberband2:amd64 (1.8.1-7ubuntu2) ...
-Setting up libwebpmux3:amd64 (0.6.1-2ubuntu0.18.04.2) ...
-Setting up libcdio-paranoia2:amd64 (10.2+0.94+2-2build1) ...
-Setting up libva-drm2:amd64 (2.1.0-3) ...
-Setting up libjack-jackd2-0:amd64 (1.9.12~dfsg-2) ...
-Setting up libice6:amd64 (2:1.0.9-2ubuntu0.18.04.1) ...
-Setting up libopenal1:amd64 (1:1.18.2-2) ...
-Setting up libkrb5-3:amd64 (1.16-2ubuntu0.4) ...
-Setting up libdrm-radeon1:amd64 (2.4.101-2~18.04.1) ...
-Setting up dbus (1.12.2-1ubuntu1.4) ...
-Setting up libvorbisenc2:amd64 (1.3.5-4.2) ...
-Setting up libdrm-nouveau2:amd64 (2.4.101-2~18.04.1) ...
-Setting up libcaca0:amd64 (0.99.beta19-2ubuntu0.18.04.3) ...
-Setting up libxcb1:amd64 (1.13-2~ubuntu18.04) ...
-Setting up libxcb-present0:amd64 (1.13-2~ubuntu18.04) ...
-Setting up libfontconfig1:amd64 (2.12.6-0ubuntu2) ...
-Setting up libxcb-dri2-0:amd64 (1.13-2~ubuntu18.04) ...
-Setting up libsm6:amd64 (2:1.2.2-1) ...
-Setting up libxcb-dri3-0:amd64 (1.13-2~ubuntu18.04) ...
-Setting up libxcb-glx0:amd64 (1.13-2~ubuntu18.04) ...
-Setting up libxcb-xfixes0:amd64 (1.13-2~ubuntu18.04) ...
-Setting up libxcb-render0:amd64 (1.13-2~ubuntu18.04) ...
-Setting up libdrm-amdgpu1:amd64 (2.4.101-2~18.04.1) ...
-Setting up libgbm1:amd64 (20.0.8-0ubuntu1~18.04.1) ...
-Setting up libass9:amd64 (1:0.14.0-1) ...
-Setting up libx11-6:amd64 (2:1.6.4-3ubuntu0.4) ...
-Setting up libgl1-mesa-dri:amd64 (20.0.8-0ubuntu1~18.04.1) ...
-Setting up libbluray2:amd64 (1:1.0.2-3) ...
-Setting up libxcb-sync1:amd64 (1.13-2~ubuntu18.04) ...
-Setting up libgssapi-krb5-2:amd64 (1.16-2ubuntu0.4) ...
-Setting up libsndfile1:amd64 (1.0.28-4ubuntu0.18.04.2) ...
-Setting up i965-va-driver:amd64 (2.1.0-0ubuntu1) ...
-Setting up mesa-va-drivers:amd64 (20.0.8-0ubuntu1~18.04.1) ...
-Setting up libxcb-shm0:amd64 (1.13-2~ubuntu18.04) ...
-Setting up libxcb-shape0:amd64 (1.13-2~ubuntu18.04) ...
-Setting up libxrender1:amd64 (1:0.9.10-1) ...
-Setting up libegl-mesa0:amd64 (20.0.8-0ubuntu1~18.04.1) ...
-Setting up fontconfig (2.12.6-0ubuntu2) ...
-Regenerating fonts cache... done.
-Setting up libxdamage1:amd64 (1:1.1.4-3) ...
-Setting up libxext6:amd64 (2:1.3.3-1) ...
-Setting up libxfixes3:amd64 (1:5.0.3-1) ...
-Setting up libssh-gcrypt-4:amd64 (0.8.0~20170825.94fa1e38-1ubuntu0.7) ...
-Setting up libxss1:amd64 (1:1.2.2-1) ...
-Setting up libgdk-pixbuf2.0-0:amd64 (2.36.11-2) ...
-Setting up libcurl4:amd64 (7.58.0-2ubuntu3.24) ...
-Setting up libgdk-pixbuf2.0-bin (2.36.11-2) ...
-Setting up libvdpau1:amd64 (1.1.1-3ubuntu1) ...
-Setting up libpulse0:amd64 (1:11.1-1ubuntu7.11) ...
-Setting up libegl1:amd64 (1.0.0-2ubuntu2.3) ...
-Setting up libxcursor1:amd64 (1:1.1.15-1) ...
-Setting up va-driver-all:amd64 (2.1.0-3) ...
-Setting up libpango-1.0-0:amd64 (1.40.14-1ubuntu0.1) ...
-Setting up libwayland-egl1-mesa:amd64 (20.0.8-0ubuntu1~18.04.1) ...
-Setting up libxv1:amd64 (2:1.0.11-1) ...
-Setting up libxxf86vm1:amd64 (1:1.1.4-1) ...
-Setting up libva-x11-2:amd64 (2.1.0-3) ...
-Setting up libxrandr2:amd64 (2:1.5.1-1) ...
-Setting up libglx-mesa0:amd64 (20.0.8-0ubuntu1~18.04.1) ...
-Setting up libxi6:amd64 (2:1.7.9-1) ...
-Setting up libcairo2:amd64 (1.15.10-2ubuntu0.1) ...
-Setting up libxinerama1:amd64 (2:1.1.3-1) ...
-Setting up libavutil55:amd64 (7:3.4.11-0ubuntu0.1) ...
-Setting up curl (7.58.0-2ubuntu3.24) ...
-Setting up mesa-vdpau-drivers:amd64 (20.0.8-0ubuntu1~18.04.1) ...
-Setting up libswresample2:amd64 (7:3.4.11-0ubuntu0.1) ...
-Setting up libpangoft2-1.0-0:amd64 (1.40.14-1ubuntu0.1) ...
-Setting up libsdl2-2.0-0:amd64 (2.0.8+dfsg1-1ubuntu1.18.04.4) ...
-Setting up libswscale4:amd64 (7:3.4.11-0ubuntu0.1) ...
-Setting up libpostproc54:amd64 (7:3.4.11-0ubuntu0.1) ...
-Setting up libtheora0:amd64 (1.1.1+dfsg.1-14) ...
-Setting up libglx0:amd64 (1.0.0-2ubuntu2.3) ...
-Setting up vdpau-driver-all:amd64 (1.1.1-3ubuntu1) ...
-Setting up libavresample3:amd64 (7:3.4.11-0ubuntu0.1) ...
-Setting up libpangocairo-1.0-0:amd64 (1.40.14-1ubuntu0.1) ...
-Setting up libgl1:amd64 (1.0.0-2ubuntu2.3) ...
-Setting up librsvg2-2:amd64 (2.40.20-2ubuntu0.2) ...
-Setting up libavcodec57:amd64 (7:3.4.11-0ubuntu0.1) ...
-Setting up librsvg2-common:amd64 (2.40.20-2ubuntu0.2) ...
-Setting up libchromaprint1:amd64 (1.4.3-1) ...
-Setting up libavformat57:amd64 (7:3.4.11-0ubuntu0.1) ...
-Setting up libavfilter6:amd64 (7:3.4.11-0ubuntu0.1) ...
-Setting up libavdevice57:amd64 (7:3.4.11-0ubuntu0.1) ...
-Setting up ffmpeg (7:3.4.11-0ubuntu0.1) ...
-Processing triggers for libc-bin (2.27-3ubuntu1.5) ...
-Processing triggers for libgdk-pixbuf2.0-0:amd64 (2.36.11-2) ...
-
-     active environment : None
-       user config file : /root/.condarc
- populated config files : /root/.condarc
-          conda version : 4.13.0
-    conda-build version : 3.21.9
-         python version : 3.7.13.final.0
-       virtual packages : __linux=6.1.0=0
-                          __glibc=2.27=0
-                          __unix=0=0
-                          __archspec=1=x86_64
-       base environment : /opt/conda  (writable)
-      conda av data dir : /opt/conda/etc/conda
-  conda av metadata url : None
-           channel URLs : https://repo.anaconda.com/pkgs/main/linux-64
-                          https://repo.anaconda.com/pkgs/main/noarch
-                          https://repo.anaconda.com/pkgs/r/linux-64
-                          https://repo.anaconda.com/pkgs/r/noarch
-          package cache : /opt/conda/pkgs
-                          /root/.conda/pkgs
-       envs directories : /opt/conda/envs
-                          /root/.conda/envs
-               platform : linux-64
-             user-agent : conda/4.13.0 requests/2.27.1 CPython/3.7.13 Linux/6.1.0-26-amd64 ubuntu/18.04.6 glibc/2.27
-                UID:GID : 0:0
-             netrc file : None
-           offline mode : False
-
-Collecting package metadata (repodata.json): ...working... done
-Solving environment: ...working... done
-
-Downloading and Extracting Packages
-pytorch-mutex-1.0    | 3 KB      |            |   0% pytorch-mutex-1.0    | 3 KB      | ########## | 100% pytorch-mutex-1.0    | 3 KB      | ########## | 100% 
-blas-1.0             | 6 KB      |            |   0% blas-1.0             | 6 KB      | ########## | 100% blas-1.0             | 6 KB      | ########## | 100% 
-certifi-2024.8.30    | 162 KB    |            |   0% certifi-2024.8.30    | 162 KB    | 9          |  10% certifi-2024.8.30    | 162 KB    | #####9     |  59% certifi-2024.8.30    | 162 KB    | ########## | 100% 
-libgcc-ng-11.2.0     | 5.3 MB    |            |   0% libgcc-ng-11.2.0     | 5.3 MB    |            |   1% libgcc-ng-11.2.0     | 5.3 MB    | 8          |   9% libgcc-ng-11.2.0     | 5.3 MB    | ###5       |  35% libgcc-ng-11.2.0     | 5.3 MB    | ########## | 100% libgcc-ng-11.2.0     | 5.3 MB    | ########## | 100% 
-pillow-10.4.0        | 799 KB    |            |   0% pillow-10.4.0        | 799 KB    | 2          |   2% pillow-10.4.0        | 799 KB    | ########## | 100% 
-lerc-3.0             | 196 KB    |            |   0% lerc-3.0             | 196 KB    | ########## | 100% 
-ca-certificates-2024 | 130 KB    |            |   0% ca-certificates-2024 | 130 KB    | ########## | 100% 
-pip-24.2             | 2.2 MB    |            |   0% pip-24.2             | 2.2 MB    | ########## | 100% pip-24.2             | 2.2 MB    | ########## | 100% 
-libpng-1.6.39        | 304 KB    |            |   0% libpng-1.6.39        | 304 KB    | ########## | 100% 
-idna-3.7             | 113 KB    |            |   0% idna-3.7             | 113 KB    | ########## | 100% 
-openjpeg-2.5.2       | 371 KB    |            |   0% openjpeg-2.5.2       | 371 KB    | ########## | 100% 
-ncurses-6.4          | 914 KB    |            |   0% ncurses-6.4          | 914 KB    | ####3      |  44% ncurses-6.4          | 914 KB    | ########## | 100% 
-requests-2.32.3      | 99 KB     |            |   0% requests-2.32.3      | 99 KB     | ########## | 100% 
-libwebp-base-1.3.2   | 425 KB    |            |   0% libwebp-base-1.3.2   | 425 KB    | ########## | 100% 
-_openmp_mutex-5.1    | 21 KB     |            |   0% _openmp_mutex-5.1    | 21 KB     | ########## | 100% 
-pytorch-1.12.1       | 1.19 GB   |            |   0% pytorch-1.12.1       | 1.19 GB   |            |   0% pytorch-1.12.1       | 1.19 GB   |            |   0% pytorch-1.12.1       | 1.19 GB   |            |   0% pytorch-1.12.1       | 1.19 GB   |            |   0% pytorch-1.12.1       | 1.19 GB   |            |   0% pytorch-1.12.1       | 1.19 GB   |            |   0% pytorch-1.12.1       | 1.19 GB   |            |   1% pytorch-1.12.1       | 1.19 GB   | 1          |   1% pytorch-1.12.1       | 1.19 GB   | 1          |   2% pytorch-1.12.1       | 1.19 GB   | 1          |   2% pytorch-1.12.1       | 1.19 GB   | 2          |   2% pytorch-1.12.1       | 1.19 GB   | 2          |   3% pytorch-1.12.1       | 1.19 GB   | 3          |   3% pytorch-1.12.1       | 1.19 GB   | 3          |   3% pytorch-1.12.1       | 1.19 GB   | 3          |   4% pytorch-1.12.1       | 1.19 GB   | 3          |   4% pytorch-1.12.1       | 1.19 GB   | 4          |   4% pytorch-1.12.1       | 1.19 GB   | 4          |   5% pytorch-1.12.1       | 1.19 GB   | 5          |   5% pytorch-1.12.1       | 1.19 GB   | 5          |   5% pytorch-1.12.1       | 1.19 GB   | 5          |   6% pytorch-1.12.1       | 1.19 GB   | 6          |   6% pytorch-1.12.1       | 1.19 GB   | 6          |   7% pytorch-1.12.1       | 1.19 GB   | 6          |   7% pytorch-1.12.1       | 1.19 GB   | 7          |   7% pytorch-1.12.1       | 1.19 GB   | 7          |   8% pytorch-1.12.1       | 1.19 GB   | 8          |   8% pytorch-1.12.1       | 1.19 GB   | 8          |   8% pytorch-1.12.1       | 1.19 GB   | 8          |   9% pytorch-1.12.1       | 1.19 GB   | 9          |   9% pytorch-1.12.1       | 1.19 GB   | 9          |  10% pytorch-1.12.1       | 1.19 GB   | 9          |  10% pytorch-1.12.1       | 1.19 GB   | #          |  10% pytorch-1.12.1       | 1.19 GB   | #          |  11% pytorch-1.12.1       | 1.19 GB   | #          |  11% pytorch-1.12.1       | 1.19 GB   | #1         |  11% pytorch-1.12.1       | 1.19 GB   | #1         |  12% pytorch-1.12.1       | 1.19 GB   | #2         |  12% pytorch-1.12.1       | 1.19 GB   | #2         |  12% pytorch-1.12.1       | 1.19 GB   | #2         |  13% pytorch-1.12.1       | 1.19 GB   | #2         |  13% pytorch-1.12.1       | 1.19 GB   | #3         |  13% pytorch-1.12.1       | 1.19 GB   | #3         |  14% pytorch-1.12.1       | 1.19 GB   | #4         |  14% pytorch-1.12.1       | 1.19 GB   | #4         |  14% pytorch-1.12.1       | 1.19 GB   | #4         |  15% pytorch-1.12.1       | 1.19 GB   | #5         |  15% pytorch-1.12.1       | 1.19 GB   | #5         |  15% pytorch-1.12.1       | 1.19 GB   | #5         |  16% pytorch-1.12.1       | 1.19 GB   | #6         |  16% pytorch-1.12.1       | 1.19 GB   | #6         |  17% pytorch-1.12.1       | 1.19 GB   | #6         |  17% pytorch-1.12.1       | 1.19 GB   | #7         |  17% pytorch-1.12.1       | 1.19 GB   | #7         |  18% pytorch-1.12.1       | 1.19 GB   | #8         |  18% pytorch-1.12.1       | 1.19 GB   | #8         |  18% pytorch-1.12.1       | 1.19 GB   | #8         |  19% pytorch-1.12.1       | 1.19 GB   | #9         |  19% pytorch-1.12.1       | 1.19 GB   | #9         |  19% pytorch-1.12.1       | 1.19 GB   | #9         |  20% pytorch-1.12.1       | 1.19 GB   | ##         |  20% pytorch-1.12.1       | 1.19 GB   | ##         |  21% pytorch-1.12.1       | 1.19 GB   | ##         |  21% pytorch-1.12.1       | 1.19 GB   | ##1        |  21% pytorch-1.12.1       | 1.19 GB   | ##1        |  22% pytorch-1.12.1       | 1.19 GB   | ##1        |  22% pytorch-1.12.1       | 1.19 GB   | ##2        |  22% pytorch-1.12.1       | 1.19 GB   | ##2        |  23% pytorch-1.12.1       | 1.19 GB   | ##2        |  23% pytorch-1.12.1       | 1.19 GB   | ##3        |  23% pytorch-1.12.1       | 1.19 GB   | ##3        |  24% pytorch-1.12.1       | 1.19 GB   | ##3        |  24% pytorch-1.12.1       | 1.19 GB   | ##4        |  24% pytorch-1.12.1       | 1.19 GB   | ##4        |  25% pytorch-1.12.1       | 1.19 GB   | ##4        |  25% pytorch-1.12.1       | 1.19 GB   | ##5        |  25% pytorch-1.12.1       | 1.19 GB   | ##5        |  26% pytorch-1.12.1       | 1.19 GB   | ##5        |  26% pytorch-1.12.1       | 1.19 GB   | ##6        |  26% pytorch-1.12.1       | 1.19 GB   | ##6        |  27% pytorch-1.12.1       | 1.19 GB   | ##7        |  27% pytorch-1.12.1       | 1.19 GB   | ##7        |  27% pytorch-1.12.1       | 1.19 GB   | ##7        |  28% pytorch-1.12.1       | 1.19 GB   | ##8        |  28% pytorch-1.12.1       | 1.19 GB   | ##8        |  29% pytorch-1.12.1       | 1.19 GB   | ##8        |  29% pytorch-1.12.1       | 1.19 GB   | ##9        |  29% pytorch-1.12.1       | 1.19 GB   | ##9        |  30% pytorch-1.12.1       | 1.19 GB   | ##9        |  30% pytorch-1.12.1       | 1.19 GB   | ###        |  30% pytorch-1.12.1       | 1.19 GB   | ###        |  31% pytorch-1.12.1       | 1.19 GB   | ###1       |  31% pytorch-1.12.1       | 1.19 GB   | ###1       |  31% pytorch-1.12.1       | 1.19 GB   | ###1       |  32% pytorch-1.12.1       | 1.19 GB   | ###2       |  32% pytorch-1.12.1       | 1.19 GB   | ###2       |  32% pytorch-1.12.1       | 1.19 GB   | ###2       |  33% pytorch-1.12.1       | 1.19 GB   | ###2       |  33% pytorch-1.12.1       | 1.19 GB   | ###3       |  33% pytorch-1.12.1       | 1.19 GB   | ###3       |  33% pytorch-1.12.1       | 1.19 GB   | ###3       |  34% pytorch-1.12.1       | 1.19 GB   | ###3       |  34% pytorch-1.12.1       | 1.19 GB   | ###4       |  34% pytorch-1.12.1       | 1.19 GB   | ###4       |  35% pytorch-1.12.1       | 1.19 GB   | ###5       |  35% pytorch-1.12.1       | 1.19 GB   | ###5       |  35% pytorch-1.12.1       | 1.19 GB   | ###5       |  36% pytorch-1.12.1       | 1.19 GB   | ###6       |  36% pytorch-1.12.1       | 1.19 GB   | ###6       |  37% pytorch-1.12.1       | 1.19 GB   | ###6       |  37% pytorch-1.12.1       | 1.19 GB   | ###7       |  37% pytorch-1.12.1       | 1.19 GB   | ###7       |  38% pytorch-1.12.1       | 1.19 GB   | ###8       |  38% pytorch-1.12.1       | 1.19 GB   | ###8       |  38% pytorch-1.12.1       | 1.19 GB   | ###8       |  39% pytorch-1.12.1       | 1.19 GB   | ###9       |  39% pytorch-1.12.1       | 1.19 GB   | ###9       |  40% pytorch-1.12.1       | 1.19 GB   | ###9       |  40% pytorch-1.12.1       | 1.19 GB   | ####       |  40% pytorch-1.12.1       | 1.19 GB   | ####       |  41% pytorch-1.12.1       | 1.19 GB   | ####1      |  41% pytorch-1.12.1       | 1.19 GB   | ####1      |  41% pytorch-1.12.1       | 1.19 GB   | ####1      |  42% pytorch-1.12.1       | 1.19 GB   | ####2      |  42% pytorch-1.12.1       | 1.19 GB   | ####2      |  43% pytorch-1.12.1       | 1.19 GB   | ####2      |  43% pytorch-1.12.1       | 1.19 GB   | ####3      |  43% pytorch-1.12.1       | 1.19 GB   | ####3      |  44% pytorch-1.12.1       | 1.19 GB   | ####3      |  44% pytorch-1.12.1       | 1.19 GB   | ####4      |  44% pytorch-1.12.1       | 1.19 GB   | ####4      |  45% pytorch-1.12.1       | 1.19 GB   | ####4      |  45% pytorch-1.12.1       | 1.19 GB   | ####5      |  45% pytorch-1.12.1       | 1.19 GB   | ####5      |  46% pytorch-1.12.1       | 1.19 GB   | ####5      |  46% pytorch-1.12.1       | 1.19 GB   | ####6      |  46% pytorch-1.12.1       | 1.19 GB   | ####6      |  47% pytorch-1.12.1       | 1.19 GB   | ####6      |  47% pytorch-1.12.1       | 1.19 GB   | ####7      |  47% pytorch-1.12.1       | 1.19 GB   | ####7      |  48% pytorch-1.12.1       | 1.19 GB   | ####8      |  48% pytorch-1.12.1       | 1.19 GB   | ####8      |  48% pytorch-1.12.1       | 1.19 GB   | ####8      |  49% pytorch-1.12.1       | 1.19 GB   | ####9      |  49% pytorch-1.12.1       | 1.19 GB   | ####9      |  50% pytorch-1.12.1       | 1.19 GB   | ####9      |  50% pytorch-1.12.1       | 1.19 GB   | #####      |  50% pytorch-1.12.1       | 1.19 GB   | #####      |  51% pytorch-1.12.1       | 1.19 GB   | #####      |  51% pytorch-1.12.1       | 1.19 GB   | #####1     |  51% pytorch-1.12.1       | 1.19 GB   | #####1     |  52% pytorch-1.12.1       | 1.19 GB   | #####2     |  52% pytorch-1.12.1       | 1.19 GB   | #####2     |  52% pytorch-1.12.1       | 1.19 GB   | #####2     |  53% pytorch-1.12.1       | 1.19 GB   | #####3     |  53% pytorch-1.12.1       | 1.19 GB   | #####3     |  53% pytorch-1.12.1       | 1.19 GB   | #####3     |  54% pytorch-1.12.1       | 1.19 GB   | #####4     |  54% pytorch-1.12.1       | 1.19 GB   | #####4     |  54% pytorch-1.12.1       | 1.19 GB   | #####4     |  55% pytorch-1.12.1       | 1.19 GB   | #####5     |  55% pytorch-1.12.1       | 1.19 GB   | #####5     |  56% pytorch-1.12.1       | 1.19 GB   | #####5     |  56% pytorch-1.12.1       | 1.19 GB   | #####6     |  56% pytorch-1.12.1       | 1.19 GB   | #####6     |  57% pytorch-1.12.1       | 1.19 GB   | #####7     |  57% pytorch-1.12.1       | 1.19 GB   | #####7     |  57% pytorch-1.12.1       | 1.19 GB   | #####7     |  58% pytorch-1.12.1       | 1.19 GB   | #####8     |  58% pytorch-1.12.1       | 1.19 GB   | #####8     |  58% pytorch-1.12.1       | 1.19 GB   | #####8     |  59% pytorch-1.12.1       | 1.19 GB   | #####9     |  59% pytorch-1.12.1       | 1.19 GB   | #####9     |  60% pytorch-1.12.1       | 1.19 GB   | #####9     |  60% pytorch-1.12.1       | 1.19 GB   | ######     |  60% pytorch-1.12.1       | 1.19 GB   | ######     |  61% pytorch-1.12.1       | 1.19 GB   | ######     |  61% pytorch-1.12.1       | 1.19 GB   | ######1    |  61% pytorch-1.12.1       | 1.19 GB   | ######1    |  62% pytorch-1.12.1       | 1.19 GB   | ######1    |  62% pytorch-1.12.1       | 1.19 GB   | ######2    |  62% pytorch-1.12.1       | 1.19 GB   | ######2    |  62% pytorch-1.12.1       | 1.19 GB   | ######2    |  63% pytorch-1.12.1       | 1.19 GB   | ######3    |  63% pytorch-1.12.1       | 1.19 GB   | ######3    |  63% pytorch-1.12.1       | 1.19 GB   | ######3    |  64% pytorch-1.12.1       | 1.19 GB   | ######4    |  64% pytorch-1.12.1       | 1.19 GB   | ######4    |  65% pytorch-1.12.1       | 1.19 GB   | ######4    |  65% pytorch-1.12.1       | 1.19 GB   | ######5    |  65% pytorch-1.12.1       | 1.19 GB   | ######5    |  66% pytorch-1.12.1       | 1.19 GB   | ######6    |  66% pytorch-1.12.1       | 1.19 GB   | ######6    |  66% pytorch-1.12.1       | 1.19 GB   | ######6    |  67% pytorch-1.12.1       | 1.19 GB   | ######7    |  67% pytorch-1.12.1       | 1.19 GB   | ######7    |  68% pytorch-1.12.1       | 1.19 GB   | ######7    |  68% pytorch-1.12.1       | 1.19 GB   | ######8    |  68% pytorch-1.12.1       | 1.19 GB   | ######8    |  69% pytorch-1.12.1       | 1.19 GB   | ######9    |  69% pytorch-1.12.1       | 1.19 GB   | ######9    |  69% pytorch-1.12.1       | 1.19 GB   | ######9    |  70% pytorch-1.12.1       | 1.19 GB   | ######9    |  70% pytorch-1.12.1       | 1.19 GB   | #######    |  70% pytorch-1.12.1       | 1.19 GB   | #######    |  70% pytorch-1.12.1       | 1.19 GB   | #######    |  71% pytorch-1.12.1       | 1.19 GB   | #######    |  71% pytorch-1.12.1       | 1.19 GB   | #######1   |  71% pytorch-1.12.1       | 1.19 GB   | #######1   |  72% pytorch-1.12.1       | 1.19 GB   | #######2   |  72% pytorch-1.12.1       | 1.19 GB   | #######2   |  72% pytorch-1.12.1       | 1.19 GB   | #######2   |  73% pytorch-1.12.1       | 1.19 GB   | #######3   |  73% pytorch-1.12.1       | 1.19 GB   | #######3   |  74% pytorch-1.12.1       | 1.19 GB   | #######3   |  74% pytorch-1.12.1       | 1.19 GB   | #######4   |  74% pytorch-1.12.1       | 1.19 GB   | #######4   |  75% pytorch-1.12.1       | 1.19 GB   | #######4   |  75% pytorch-1.12.1       | 1.19 GB   | #######5   |  75% pytorch-1.12.1       | 1.19 GB   | #######5   |  76% pytorch-1.12.1       | 1.19 GB   | #######5   |  76% pytorch-1.12.1       | 1.19 GB   | #######6   |  76% pytorch-1.12.1       | 1.19 GB   | #######6   |  77% pytorch-1.12.1       | 1.19 GB   | #######7   |  77% pytorch-1.12.1       | 1.19 GB   | #######7   |  77% pytorch-1.12.1       | 1.19 GB   | #######7   |  78% pytorch-1.12.1       | 1.19 GB   | #######8   |  78% pytorch-1.12.1       | 1.19 GB   | #######8   |  79% pytorch-1.12.1       | 1.19 GB   | #######8   |  79% pytorch-1.12.1       | 1.19 GB   | #######9   |  79% pytorch-1.12.1       | 1.19 GB   | #######9   |  80% pytorch-1.12.1       | 1.19 GB   | #######9   |  80% pytorch-1.12.1       | 1.19 GB   | ########   |  80% pytorch-1.12.1       | 1.19 GB   | ########   |  81% pytorch-1.12.1       | 1.19 GB   | ########1  |  81% pytorch-1.12.1       | 1.19 GB   | ########1  |  81% pytorch-1.12.1       | 1.19 GB   | ########1  |  82% pytorch-1.12.1       | 1.19 GB   | ########2  |  82% pytorch-1.12.1       | 1.19 GB   | ########2  |  82% pytorch-1.12.1       | 1.19 GB   | ########2  |  83% pytorch-1.12.1       | 1.19 GB   | ########3  |  83% pytorch-1.12.1       | 1.19 GB   | ########3  |  84% pytorch-1.12.1       | 1.19 GB   | ########3  |  84% pytorch-1.12.1       | 1.19 GB   | ########4  |  84% pytorch-1.12.1       | 1.19 GB   | ########4  |  85% pytorch-1.12.1       | 1.19 GB   | ########4  |  85% pytorch-1.12.1       | 1.19 GB   | ########5  |  85% pytorch-1.12.1       | 1.19 GB   | ########5  |  86% pytorch-1.12.1       | 1.19 GB   | ########5  |  86% pytorch-1.12.1       | 1.19 GB   | ########6  |  86% pytorch-1.12.1       | 1.19 GB   | ########6  |  87% pytorch-1.12.1       | 1.19 GB   | ########7  |  87% pytorch-1.12.1       | 1.19 GB   | ########7  |  87% pytorch-1.12.1       | 1.19 GB   | ########7  |  88% pytorch-1.12.1       | 1.19 GB   | ########8  |  88% pytorch-1.12.1       | 1.19 GB   | ########8  |  88% pytorch-1.12.1       | 1.19 GB   | ########8  |  89% pytorch-1.12.1       | 1.19 GB   | ########9  |  89% pytorch-1.12.1       | 1.19 GB   | ########9  |  89% pytorch-1.12.1       | 1.19 GB   | ########9  |  90% pytorch-1.12.1       | 1.19 GB   | #########  |  90% pytorch-1.12.1       | 1.19 GB   | #########  |  91% pytorch-1.12.1       | 1.19 GB   | #########  |  91% pytorch-1.12.1       | 1.19 GB   | #########1 |  91% pytorch-1.12.1       | 1.19 GB   | #########1 |  92% pytorch-1.12.1       | 1.19 GB   | #########2 |  92% pytorch-1.12.1       | 1.19 GB   | #########2 |  92% pytorch-1.12.1       | 1.19 GB   | #########2 |  93% pytorch-1.12.1       | 1.19 GB   | #########3 |  93% pytorch-1.12.1       | 1.19 GB   | #########3 |  94% pytorch-1.12.1       | 1.19 GB   | #########3 |  94% pytorch-1.12.1       | 1.19 GB   | #########4 |  94% pytorch-1.12.1       | 1.19 GB   | #########4 |  94% pytorch-1.12.1       | 1.19 GB   | #########4 |  95% pytorch-1.12.1       | 1.19 GB   | #########5 |  95% pytorch-1.12.1       | 1.19 GB   | #########5 |  96% pytorch-1.12.1       | 1.19 GB   | #########5 |  96% pytorch-1.12.1       | 1.19 GB   | #########6 |  96% pytorch-1.12.1       | 1.19 GB   | #########6 |  97% pytorch-1.12.1       | 1.19 GB   | #########6 |  97% pytorch-1.12.1       | 1.19 GB   | #########7 |  97% pytorch-1.12.1       | 1.19 GB   | #########7 |  98% pytorch-1.12.1       | 1.19 GB   | #########7 |  98% pytorch-1.12.1       | 1.19 GB   | #########8 |  98% pytorch-1.12.1       | 1.19 GB   | #########8 |  98% pytorch-1.12.1       | 1.19 GB   | #########8 |  99% pytorch-1.12.1       | 1.19 GB   | #########8 |  99% pytorch-1.12.1       | 1.19 GB   | #########9 |  99% pytorch-1.12.1       | 1.19 GB   | #########9 | 100% pytorch-1.12.1       | 1.19 GB   | #########9 | 100% pytorch-1.12.1       | 1.19 GB   | ########## | 100% 
-torchvision-0.13.1   | 7.5 MB    |            |   0% torchvision-0.13.1   | 7.5 MB    |            |   0% torchvision-0.13.1   | 7.5 MB    | 9          |   9% torchvision-0.13.1   | 7.5 MB    | #4         |  15% torchvision-0.13.1   | 7.5 MB    | ######5    |  65% torchvision-0.13.1   | 7.5 MB    | ########8  |  88% torchvision-0.13.1   | 7.5 MB    | ########## | 100% 
-urllib3-2.2.3        | 180 KB    |            |   0% urllib3-2.2.3        | 180 KB    | ########## | 100% 
-libgomp-11.2.0       | 474 KB    |            |   0% libgomp-11.2.0       | 474 KB    | ########## | 100% 
-setuptools-75.1.0    | 1.7 MB    |            |   0% setuptools-75.1.0    | 1.7 MB    | ######3    |  63% setuptools-75.1.0    | 1.7 MB    | ########## | 100% 
-typing_extensions-4. | 58 KB     |            |   0% typing_extensions-4. | 58 KB     | ########## | 100% 
-mkl-service-2.4.0    | 59 KB     |            |   0% mkl-service-2.4.0    | 59 KB     | ##7        |  27% mkl-service-2.4.0    | 59 KB     | ########## | 100% 
-ld_impl_linux-64-2.4 | 710 KB    |            |   0% ld_impl_linux-64-2.4 | 710 KB    | ########## | 100% 
-libtasn1-4.19.0      | 63 KB     |            |   0% libtasn1-4.19.0      | 63 KB     | ########## | 100% 
-mkl_random-1.2.2     | 309 KB    |            |   0% mkl_random-1.2.2     | 309 KB    | ########## | 100% 
-libffi-3.4.4         | 141 KB    |            |   0% libffi-3.4.4         | 141 KB    | #1         |  11% libffi-3.4.4         | 141 KB    | ########## | 100% 
-mkl_fft-1.3.1        | 182 KB    |            |   0% mkl_fft-1.3.1        | 182 KB    | ########## | 100% mkl_fft-1.3.1        | 182 KB    | ########## | 100% 
-libstdcxx-ng-11.2.0  | 4.7 MB    |            |   0% libstdcxx-ng-11.2.0  | 4.7 MB    |            |   0% libstdcxx-ng-11.2.0  | 4.7 MB    |            |   1% libstdcxx-ng-11.2.0  | 4.7 MB    | ########## | 100% libstdcxx-ng-11.2.0  | 4.7 MB    | ########## | 100% 
-cudatoolkit-11.3.1   | 549.3 MB  |            |   0% cudatoolkit-11.3.1   | 549.3 MB  |            |   0% cudatoolkit-11.3.1   | 549.3 MB  |            |   1% cudatoolkit-11.3.1   | 549.3 MB  | 1          |   2% cudatoolkit-11.3.1   | 549.3 MB  | 2          |   2% cudatoolkit-11.3.1   | 549.3 MB  | 2          |   3% cudatoolkit-11.3.1   | 549.3 MB  | 3          |   4% cudatoolkit-11.3.1   | 549.3 MB  | 4          |   5% cudatoolkit-11.3.1   | 549.3 MB  | 5          |   5% cudatoolkit-11.3.1   | 549.3 MB  | 6          |   6% cudatoolkit-11.3.1   | 549.3 MB  | 7          |   7% cudatoolkit-11.3.1   | 549.3 MB  | 7          |   8% cudatoolkit-11.3.1   | 549.3 MB  | 8          |   8% cudatoolkit-11.3.1   | 549.3 MB  | 9          |   9% cudatoolkit-11.3.1   | 549.3 MB  | #          |  10% cudatoolkit-11.3.1   | 549.3 MB  | #          |  11% cudatoolkit-11.3.1   | 549.3 MB  | #1         |  12% cudatoolkit-11.3.1   | 549.3 MB  | #2         |  12% cudatoolkit-11.3.1   | 549.3 MB  | #3         |  13% cudatoolkit-11.3.1   | 549.3 MB  | #3         |  14% cudatoolkit-11.3.1   | 549.3 MB  | #4         |  15% cudatoolkit-11.3.1   | 549.3 MB  | #5         |  16% cudatoolkit-11.3.1   | 549.3 MB  | #6         |  16% cudatoolkit-11.3.1   | 549.3 MB  | #7         |  17% cudatoolkit-11.3.1   | 549.3 MB  | #7         |  18% cudatoolkit-11.3.1   | 549.3 MB  | #8         |  19% cudatoolkit-11.3.1   | 549.3 MB  | #9         |  20% cudatoolkit-11.3.1   | 549.3 MB  | ##         |  21% cudatoolkit-11.3.1   | 549.3 MB  | ##1        |  21% cudatoolkit-11.3.1   | 549.3 MB  | ##2        |  22% cudatoolkit-11.3.1   | 549.3 MB  | ##3        |  23% cudatoolkit-11.3.1   | 549.3 MB  | ##3        |  24% cudatoolkit-11.3.1   | 549.3 MB  | ##4        |  25% cudatoolkit-11.3.1   | 549.3 MB  | ##5        |  26% cudatoolkit-11.3.1   | 549.3 MB  | ##6        |  26% cudatoolkit-11.3.1   | 549.3 MB  | ##7        |  27% cudatoolkit-11.3.1   | 549.3 MB  | ##8        |  28% cudatoolkit-11.3.1   | 549.3 MB  | ##9        |  29% cudatoolkit-11.3.1   | 549.3 MB  | ##9        |  30% cudatoolkit-11.3.1   | 549.3 MB  | ###        |  31% cudatoolkit-11.3.1   | 549.3 MB  | ###1       |  31% cudatoolkit-11.3.1   | 549.3 MB  | ###2       |  32% cudatoolkit-11.3.1   | 549.3 MB  | ###3       |  33% cudatoolkit-11.3.1   | 549.3 MB  | ###3       |  34% cudatoolkit-11.3.1   | 549.3 MB  | ###4       |  35% cudatoolkit-11.3.1   | 549.3 MB  | ###5       |  36% cudatoolkit-11.3.1   | 549.3 MB  | ###6       |  36% cudatoolkit-11.3.1   | 549.3 MB  | ###7       |  37% cudatoolkit-11.3.1   | 549.3 MB  | ###7       |  38% cudatoolkit-11.3.1   | 549.3 MB  | ###8       |  39% cudatoolkit-11.3.1   | 549.3 MB  | ###9       |  39% cudatoolkit-11.3.1   | 549.3 MB  | ####       |  40% cudatoolkit-11.3.1   | 549.3 MB  | ####1      |  41% cudatoolkit-11.3.1   | 549.3 MB  | ####2      |  42% cudatoolkit-11.3.1   | 549.3 MB  | ####2      |  43% cudatoolkit-11.3.1   | 549.3 MB  | ####3      |  44% cudatoolkit-11.3.1   | 549.3 MB  | ####4      |  45% cudatoolkit-11.3.1   | 549.3 MB  | ####5      |  45% cudatoolkit-11.3.1   | 549.3 MB  | ####6      |  46% cudatoolkit-11.3.1   | 549.3 MB  | ####7      |  47% cudatoolkit-11.3.1   | 549.3 MB  | ####8      |  48% cudatoolkit-11.3.1   | 549.3 MB  | ####8      |  49% cudatoolkit-11.3.1   | 549.3 MB  | ####9      |  50% cudatoolkit-11.3.1   | 549.3 MB  | #####      |  51% cudatoolkit-11.3.1   | 549.3 MB  | #####1     |  51% cudatoolkit-11.3.1   | 549.3 MB  | #####2     |  52% cudatoolkit-11.3.1   | 549.3 MB  | #####3     |  53% cudatoolkit-11.3.1   | 549.3 MB  | #####3     |  54% cudatoolkit-11.3.1   | 549.3 MB  | #####4     |  55% cudatoolkit-11.3.1   | 549.3 MB  | #####5     |  56% cudatoolkit-11.3.1   | 549.3 MB  | #####6     |  56% cudatoolkit-11.3.1   | 549.3 MB  | #####7     |  57% cudatoolkit-11.3.1   | 549.3 MB  | #####8     |  58% cudatoolkit-11.3.1   | 549.3 MB  | #####8     |  59% cudatoolkit-11.3.1   | 549.3 MB  | #####9     |  60% cudatoolkit-11.3.1   | 549.3 MB  | ######     |  61% cudatoolkit-11.3.1   | 549.3 MB  | ######1    |  61% cudatoolkit-11.3.1   | 549.3 MB  | ######2    |  62% cudatoolkit-11.3.1   | 549.3 MB  | ######3    |  63% cudatoolkit-11.3.1   | 549.3 MB  | ######4    |  64% cudatoolkit-11.3.1   | 549.3 MB  | ######4    |  65% cudatoolkit-11.3.1   | 549.3 MB  | ######5    |  65% cudatoolkit-11.3.1   | 549.3 MB  | ######6    |  66% cudatoolkit-11.3.1   | 549.3 MB  | ######6    |  67% cudatoolkit-11.3.1   | 549.3 MB  | ######7    |  68% cudatoolkit-11.3.1   | 549.3 MB  | ######8    |  69% cudatoolkit-11.3.1   | 549.3 MB  | ######9    |  70% cudatoolkit-11.3.1   | 549.3 MB  | #######    |  70% cudatoolkit-11.3.1   | 549.3 MB  | #######1   |  71% cudatoolkit-11.3.1   | 549.3 MB  | #######2   |  72% cudatoolkit-11.3.1   | 549.3 MB  | #######3   |  73% cudatoolkit-11.3.1   | 549.3 MB  | #######3   |  74% cudatoolkit-11.3.1   | 549.3 MB  | #######4   |  75% cudatoolkit-11.3.1   | 549.3 MB  | #######5   |  75% cudatoolkit-11.3.1   | 549.3 MB  | #######6   |  76% cudatoolkit-11.3.1   | 549.3 MB  | #######6   |  77% cudatoolkit-11.3.1   | 549.3 MB  | #######7   |  78% cudatoolkit-11.3.1   | 549.3 MB  | #######8   |  79% cudatoolkit-11.3.1   | 549.3 MB  | #######9   |  79% cudatoolkit-11.3.1   | 549.3 MB  | #######9   |  80% cudatoolkit-11.3.1   | 549.3 MB  | ########   |  81% cudatoolkit-11.3.1   | 549.3 MB  | ########1  |  82% cudatoolkit-11.3.1   | 549.3 MB  | ########2  |  82% cudatoolkit-11.3.1   | 549.3 MB  | ########2  |  83% cudatoolkit-11.3.1   | 549.3 MB  | ########3  |  84% cudatoolkit-11.3.1   | 549.3 MB  | ########4  |  85% cudatoolkit-11.3.1   | 549.3 MB  | ########5  |  85% cudatoolkit-11.3.1   | 549.3 MB  | ########5  |  86% cudatoolkit-11.3.1   | 549.3 MB  | ########6  |  86% cudatoolkit-11.3.1   | 549.3 MB  | ########7  |  87% cudatoolkit-11.3.1   | 549.3 MB  | ########8  |  88% cudatoolkit-11.3.1   | 549.3 MB  | ########9  |  89% cudatoolkit-11.3.1   | 549.3 MB  | ########9  |  90% cudatoolkit-11.3.1   | 549.3 MB  | #########  |  91% cudatoolkit-11.3.1   | 549.3 MB  | #########1 |  92% cudatoolkit-11.3.1   | 549.3 MB  | #########2 |  92% cudatoolkit-11.3.1   | 549.3 MB  | #########3 |  93% cudatoolkit-11.3.1   | 549.3 MB  | #########4 |  94% cudatoolkit-11.3.1   | 549.3 MB  | #########5 |  95% cudatoolkit-11.3.1   | 549.3 MB  | #########5 |  96% cudatoolkit-11.3.1   | 549.3 MB  | #########6 |  97% cudatoolkit-11.3.1   | 549.3 MB  | #########7 |  97% cudatoolkit-11.3.1   | 549.3 MB  | #########8 |  98% cudatoolkit-11.3.1   | 549.3 MB  | #########8 |  99% cudatoolkit-11.3.1   | 549.3 MB  | #########9 | 100% cudatoolkit-11.3.1   | 549.3 MB  | ########## | 100% 
-tzdata-2024b         | 115 KB    |            |   0% tzdata-2024b         | 115 KB    | #3         |  14% tzdata-2024b         | 115 KB    | ########## | 100% 
-libdeflate-1.17      | 64 KB     |            |   0% libdeflate-1.17      | 64 KB     | ########## | 100% 
-xz-5.4.6             | 643 KB    |            |   0% xz-5.4.6             | 643 KB    | ########## | 100% xz-5.4.6             | 643 KB    | ########## | 100% 
-readline-8.2         | 357 KB    |            |   0% readline-8.2         | 357 KB    | ########## | 100% readline-8.2         | 357 KB    | ########## | 100% 
-brotli-python-1.0.9  | 359 KB    |            |   0% brotli-python-1.0.9  | 359 KB    | ########## | 100% 
-zstd-1.5.6           | 664 KB    |            |   0% zstd-1.5.6           | 664 KB    | 4          |   5% zstd-1.5.6           | 664 KB    | ########## | 100% 
-charset-normalizer-3 | 44 KB     |            |   0% charset-normalizer-3 | 44 KB     | ########## | 100% 
-lz4-c-1.9.4          | 156 KB    |            |   0% lz4-c-1.9.4          | 156 KB    | ########## | 100% 
-sqlite-3.45.3        | 1.2 MB    |            |   0% sqlite-3.45.3        | 1.2 MB    | ########7  |  88% sqlite-3.45.3        | 1.2 MB    | ########## | 100% 
-_libgcc_mutex-0.1    | 3 KB      |            |   0% _libgcc_mutex-0.1    | 3 KB      | ########## | 100% _libgcc_mutex-0.1    | 3 KB      | ########## | 100% 
-libtiff-4.5.1        | 533 KB    |            |   0% libtiff-4.5.1        | 533 KB    | ########## | 100% 
-numpy-base-1.23.1    | 5.6 MB    |            |   0% numpy-base-1.23.1    | 5.6 MB    |            |   0% numpy-base-1.23.1    | 5.6 MB    | ########8  |  89% numpy-base-1.23.1    | 5.6 MB    | ########## | 100% 
-freetype-2.12.1      | 626 KB    |            |   0% freetype-2.12.1      | 626 KB    | ####8      |  49% freetype-2.12.1      | 626 KB    | ########## | 100% 
-python-3.9.20        | 25.1 MB   |            |   0% python-3.9.20        | 25.1 MB   |            |   0% python-3.9.20        | 25.1 MB   | #9         |  19% python-3.9.20        | 25.1 MB   | ###5       |  36% python-3.9.20        | 25.1 MB   | #####4     |  55% python-3.9.20        | 25.1 MB   | #######4   |  74% python-3.9.20        | 25.1 MB   | #########1 |  92% python-3.9.20        | 25.1 MB   | ########## | 100% 
-bzip2-1.0.8          | 262 KB    |            |   0% bzip2-1.0.8          | 262 KB    | ########## | 100% 
-jpeg-9e              | 262 KB    |            |   0% jpeg-9e              | 262 KB    | ########## | 100% 
-libidn2-2.3.4        | 146 KB    |            |   0% libidn2-2.3.4        | 146 KB    | #          |  11% libidn2-2.3.4        | 146 KB    | ########## | 100% 
-numpy-1.23.1         | 11 KB     |            |   0% numpy-1.23.1         | 11 KB     | ########## | 100% 
-tk-8.6.14            | 3.4 MB    |            |   0% tk-8.6.14            | 3.4 MB    | ##3        |  23% tk-8.6.14            | 3.4 MB    | ########## | 100% 
-pysocks-1.7.1        | 31 KB     |            |   0% pysocks-1.7.1        | 31 KB     | ########## | 100% 
-openssl-3.0.15       | 5.2 MB    |            |   0% openssl-3.0.15       | 5.2 MB    | #          |  11% openssl-3.0.15       | 5.2 MB    | ########1  |  81% openssl-3.0.15       | 5.2 MB    | ########## | 100% 
-wheel-0.44.0         | 108 KB    |            |   0% wheel-0.44.0         | 108 KB    | ########8  |  89% wheel-0.44.0         | 108 KB    | ########## | 100% 
-zlib-1.2.13          | 111 KB    |            |   0% zlib-1.2.13          | 111 KB    | ########## | 100% 
-libiconv-1.16        | 759 KB    |            |   0% libiconv-1.16        | 759 KB    | ########## | 100% 
-Preparing transaction: ...working... done
-Verifying transaction: ...working... done
-Executing transaction: ...working... By downloading and using the CUDA Toolkit conda packages, you accept the terms and conditions of the CUDA End User License Agreement (EULA): https://docs.nvidia.com/cuda/eula/index.html
-
-done
-Installing pip dependencies: ...working... Ran pip subprocess with arguments:
-['/opt/conda/envs/ldm/bin/python', '-m', 'pip', 'install', '-U', '-r', '/app/stablediffusion/condaenv.0c81elwq.requirements.txt']
-Pip subprocess output:
-Obtaining file:///app/stablediffusion (from -r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 17))
-  Preparing metadata (setup.py): started
-  Preparing metadata (setup.py): finished with status 'done'
-Collecting albumentations==1.3.0 (from -r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 1))
-  Downloading albumentations-1.3.0-py3-none-any.whl.metadata (34 kB)
-Collecting opencv-python==4.6.0.66 (from -r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 2))
-  Downloading opencv_python-4.6.0.66-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (18 kB)
-Collecting imageio==2.9.0 (from -r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 3))
-  Downloading imageio-2.9.0-py3-none-any.whl.metadata (2.6 kB)
-Collecting imageio-ffmpeg==0.4.2 (from -r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 4))
-  Downloading imageio_ffmpeg-0.4.2-py3-none-manylinux2010_x86_64.whl.metadata (1.5 kB)
-Collecting pytorch-lightning==1.4.2 (from -r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading pytorch_lightning-1.4.2-py3-none-any.whl.metadata (32 kB)
-Collecting omegaconf==2.1.1 (from -r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 6))
-  Downloading omegaconf-2.1.1-py3-none-any.whl.metadata (3.6 kB)
-Collecting test-tube>=0.7.5 (from -r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 7))
-  Downloading test_tube-0.7.5.tar.gz (21 kB)
-  Preparing metadata (setup.py): started
-  Preparing metadata (setup.py): finished with status 'done'
-Collecting streamlit==1.12.1 (from -r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading streamlit-1.12.1-py2.py3-none-any.whl.metadata (1.3 kB)
-Collecting einops==0.3.0 (from -r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 9))
-  Downloading einops-0.3.0-py2.py3-none-any.whl.metadata (10 kB)
-Collecting transformers==4.19.2 (from -r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 10))
-  Downloading transformers-4.19.2-py3-none-any.whl.metadata (73 kB)
-Collecting webdataset==0.2.5 (from -r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 11))
-  Downloading webdataset-0.2.5-py3-none-any.whl.metadata (26 kB)
-Collecting kornia==0.6 (from -r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 12))
-  Downloading kornia-0.6.0-py2.py3-none-any.whl.metadata (12 kB)
-Collecting open_clip_torch==2.0.2 (from -r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 13))
-  Downloading open_clip_torch-2.0.2-py3-none-any.whl.metadata (25 kB)
-Collecting invisible-watermark>=0.1.5 (from -r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 14))
-  Downloading invisible_watermark-0.2.0-py3-none-any.whl.metadata (8.2 kB)
-Collecting streamlit-drawable-canvas==0.8.0 (from -r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 15))
-  Downloading streamlit_drawable_canvas-0.8.0-py3-none-any.whl.metadata (8.2 kB)
-Collecting torchmetrics==0.6.0 (from -r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 16))
-  Downloading torchmetrics-0.6.0-py3-none-any.whl.metadata (20 kB)
-Requirement already satisfied: numpy>=1.11.1 in /opt/conda/envs/ldm/lib/python3.9/site-packages (from albumentations==1.3.0->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 1)) (1.23.1)
-Collecting scipy (from albumentations==1.3.0->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 1))
-  Downloading scipy-1.13.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (60 kB)
-Collecting scikit-image>=0.16.1 (from albumentations==1.3.0->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 1))
-  Downloading scikit_image-0.24.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (14 kB)
-Collecting PyYAML (from albumentations==1.3.0->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 1))
-  Downloading PyYAML-6.0.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (2.1 kB)
-Collecting qudida>=0.0.4 (from albumentations==1.3.0->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 1))
-  Downloading qudida-0.0.4-py3-none-any.whl.metadata (1.5 kB)
-Collecting opencv-python-headless>=4.1.1 (from albumentations==1.3.0->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 1))
-  Downloading opencv_python_headless-4.10.0.84-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
-Requirement already satisfied: pillow in /opt/conda/envs/ldm/lib/python3.9/site-packages (from imageio==2.9.0->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 3)) (10.4.0)
-Requirement already satisfied: torch>=1.6 in /opt/conda/envs/ldm/lib/python3.9/site-packages (from pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5)) (1.12.1)
-Collecting future>=0.17.1 (from pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading future-1.0.0-py3-none-any.whl.metadata (4.0 kB)
-Collecting tqdm>=4.41.0 (from pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading tqdm-4.66.6-py3-none-any.whl.metadata (57 kB)
-Collecting fsspec!=2021.06.0,>=2021.05.0 (from fsspec[http]!=2021.06.0,>=2021.05.0->pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading fsspec-2024.10.0-py3-none-any.whl.metadata (11 kB)
-Collecting tensorboard>=2.2.0 (from pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading tensorboard-2.18.0-py3-none-any.whl.metadata (1.6 kB)
-Collecting pyDeprecate==0.3.1 (from pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading pyDeprecate-0.3.1-py3-none-any.whl.metadata (10 kB)
-Collecting packaging>=17.0 (from pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading packaging-24.1-py3-none-any.whl.metadata (3.2 kB)
-Requirement already satisfied: typing-extensions in /opt/conda/envs/ldm/lib/python3.9/site-packages (from pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5)) (4.11.0)
-Collecting antlr4-python3-runtime==4.8 (from omegaconf==2.1.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 6))
-  Downloading antlr4-python3-runtime-4.8.tar.gz (112 kB)
-  Preparing metadata (setup.py): started
-  Preparing metadata (setup.py): finished with status 'done'
-Collecting altair>=3.2.0 (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading altair-5.4.1-py3-none-any.whl.metadata (9.4 kB)
-Collecting blinker>=1.0.0 (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading blinker-1.8.2-py3-none-any.whl.metadata (1.6 kB)
-Collecting cachetools>=4.0 (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading cachetools-5.5.0-py3-none-any.whl.metadata (5.3 kB)
-Collecting click>=7.0 (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading click-8.1.7-py3-none-any.whl.metadata (3.0 kB)
-Collecting importlib-metadata>=1.4 (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading importlib_metadata-8.5.0-py3-none-any.whl.metadata (4.8 kB)
-Collecting pandas>=0.21.0 (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading pandas-2.2.3-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (89 kB)
-Collecting protobuf<4,>=3.12 (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading protobuf-3.20.3-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.whl.metadata (679 bytes)
-Collecting pyarrow>=4.0 (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading pyarrow-18.0.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.3 kB)
-Collecting pydeck>=0.1.dev5 (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading pydeck-0.9.1-py2.py3-none-any.whl.metadata (4.1 kB)
-Collecting pympler>=0.9 (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading Pympler-1.1-py3-none-any.whl.metadata (3.6 kB)
-Collecting python-dateutil (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
-Requirement already satisfied: requests>=2.4 in /opt/conda/envs/ldm/lib/python3.9/site-packages (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8)) (2.32.3)
-Collecting rich>=10.11.0 (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading rich-13.9.3-py3-none-any.whl.metadata (18 kB)
-Collecting semver (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading semver-3.0.2-py3-none-any.whl.metadata (5.0 kB)
-Collecting toml (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading toml-0.10.2-py2.py3-none-any.whl.metadata (7.1 kB)
-Collecting tornado>=5.0 (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading tornado-6.4.1-cp38-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (2.5 kB)
-Collecting tzlocal>=1.1 (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading tzlocal-5.2-py3-none-any.whl.metadata (7.8 kB)
-Collecting validators>=0.2 (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading validators-0.34.0-py3-none-any.whl.metadata (3.8 kB)
-Collecting gitpython!=3.1.19 (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading GitPython-3.1.43-py3-none-any.whl.metadata (13 kB)
-Collecting watchdog (from streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading watchdog-5.0.3-py3-none-manylinux2014_x86_64.whl.metadata (41 kB)
-Collecting filelock (from transformers==4.19.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 10))
-  Downloading filelock-3.16.1-py3-none-any.whl.metadata (2.9 kB)
-Collecting huggingface-hub<1.0,>=0.1.0 (from transformers==4.19.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 10))
-  Downloading huggingface_hub-0.26.2-py3-none-any.whl.metadata (13 kB)
-Collecting regex!=2019.12.17 (from transformers==4.19.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 10))
-  Downloading regex-2024.9.11-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (40 kB)
-Collecting tokenizers!=0.11.3,<0.13,>=0.11.1 (from transformers==4.19.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 10))
-  Downloading tokenizers-0.12.1-cp39-cp39-manylinux_2_12_x86_64.manylinux2010_x86_64.whl.metadata (6.5 kB)
-Collecting braceexpand (from webdataset==0.2.5->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 11))
-  Downloading braceexpand-0.1.7-py2.py3-none-any.whl.metadata (3.0 kB)
-Requirement already satisfied: torchvision in /opt/conda/envs/ldm/lib/python3.9/site-packages (from open_clip_torch==2.0.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 13)) (0.13.1)
-Collecting ftfy (from open_clip_torch==2.0.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 13))
-  Downloading ftfy-6.3.1-py3-none-any.whl.metadata (7.3 kB)
-Collecting PyWavelets>=1.1.1 (from invisible-watermark>=0.1.5->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 14))
-  Downloading pywavelets-1.6.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (9.0 kB)
-Collecting jinja2 (from altair>=3.2.0->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading jinja2-3.1.4-py3-none-any.whl.metadata (2.6 kB)
-Collecting jsonschema>=3.0 (from altair>=3.2.0->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading jsonschema-4.23.0-py3-none-any.whl.metadata (7.9 kB)
-Collecting narwhals>=1.5.2 (from altair>=3.2.0->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading narwhals-1.11.1-py3-none-any.whl.metadata (7.2 kB)
-Collecting aiohttp!=4.0.0a0,!=4.0.0a1 (from fsspec[http]!=2021.06.0,>=2021.05.0->pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading aiohttp-3.10.10-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.6 kB)
-Collecting gitdb<5,>=4.0.1 (from gitpython!=3.1.19->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading gitdb-4.0.11-py3-none-any.whl.metadata (1.2 kB)
-Collecting zipp>=3.20 (from importlib-metadata>=1.4->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading zipp-3.20.2-py3-none-any.whl.metadata (3.7 kB)
-Collecting pytz>=2020.1 (from pandas>=0.21.0->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading pytz-2024.2-py2.py3-none-any.whl.metadata (22 kB)
-Collecting tzdata>=2022.7 (from pandas>=0.21.0->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading tzdata-2024.2-py2.py3-none-any.whl.metadata (1.4 kB)
-Requirement already satisfied: six>=1.5 in /opt/conda/envs/ldm/lib/python3.9/site-packages (from python-dateutil->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8)) (1.16.0)
-Collecting scikit-learn>=0.19.1 (from qudida>=0.0.4->albumentations==1.3.0->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 1))
-  Downloading scikit_learn-1.5.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (13 kB)
-Requirement already satisfied: charset-normalizer<4,>=2 in /opt/conda/envs/ldm/lib/python3.9/site-packages (from requests>=2.4->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8)) (3.3.2)
-Requirement already satisfied: idna<4,>=2.5 in /opt/conda/envs/ldm/lib/python3.9/site-packages (from requests>=2.4->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8)) (3.7)
-Requirement already satisfied: urllib3<3,>=1.21.1 in /opt/conda/envs/ldm/lib/python3.9/site-packages (from requests>=2.4->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8)) (2.2.3)
-Requirement already satisfied: certifi>=2017.4.17 in /opt/conda/envs/ldm/lib/python3.9/site-packages (from requests>=2.4->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8)) (2024.8.30)
-Collecting markdown-it-py>=2.2.0 (from rich>=10.11.0->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading markdown_it_py-3.0.0-py3-none-any.whl.metadata (6.9 kB)
-Collecting pygments<3.0.0,>=2.13.0 (from rich>=10.11.0->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading pygments-2.18.0-py3-none-any.whl.metadata (2.5 kB)
-Collecting networkx>=2.8 (from scikit-image>=0.16.1->albumentations==1.3.0->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 1))
-  Downloading networkx-3.2.1-py3-none-any.whl.metadata (5.2 kB)
-INFO: pip is looking at multiple versions of scikit-image to determine which version is compatible with other requirements. This could take a while.
-Collecting scikit-image>=0.16.1 (from albumentations==1.3.0->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 1))
-  Downloading scikit_image-0.22.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (13 kB)
-  Downloading scikit_image-0.21.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (14 kB)
-  Downloading scikit_image-0.20.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (16 kB)
-Collecting scipy (from albumentations==1.3.0->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 1))
-  Downloading scipy-1.9.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (2.2 kB)
-Collecting tifffile>=2019.7.26 (from scikit-image>=0.16.1->albumentations==1.3.0->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 1))
-  Downloading tifffile-2024.8.30-py3-none-any.whl.metadata (31 kB)
-Collecting lazy_loader>=0.1 (from scikit-image>=0.16.1->albumentations==1.3.0->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 1))
-  Downloading lazy_loader-0.4-py3-none-any.whl.metadata (7.6 kB)
-Collecting absl-py>=0.4 (from tensorboard>=2.2.0->pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading absl_py-2.1.0-py3-none-any.whl.metadata (2.3 kB)
-Collecting grpcio>=1.48.2 (from tensorboard>=2.2.0->pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading grpcio-1.67.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.9 kB)
-Collecting markdown>=2.6.8 (from tensorboard>=2.2.0->pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading Markdown-3.7-py3-none-any.whl.metadata (7.0 kB)
-Requirement already satisfied: setuptools>=41.0.0 in /opt/conda/envs/ldm/lib/python3.9/site-packages (from tensorboard>=2.2.0->pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5)) (75.1.0)
-Collecting tensorboard-data-server<0.8.0,>=0.7.0 (from tensorboard>=2.2.0->pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading tensorboard_data_server-0.7.2-py3-none-any.whl.metadata (1.1 kB)
-Collecting werkzeug>=1.0.1 (from tensorboard>=2.2.0->pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading werkzeug-3.0.6-py3-none-any.whl.metadata (3.7 kB)
-Collecting wcwidth (from ftfy->open_clip_torch==2.0.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 13))
-  Downloading wcwidth-0.2.13-py2.py3-none-any.whl.metadata (14 kB)
-Collecting aiohappyeyeballs>=2.3.0 (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]!=2021.06.0,>=2021.05.0->pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading aiohappyeyeballs-2.4.3-py3-none-any.whl.metadata (6.1 kB)
-Collecting aiosignal>=1.1.2 (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]!=2021.06.0,>=2021.05.0->pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading aiosignal-1.3.1-py3-none-any.whl.metadata (4.0 kB)
-Collecting attrs>=17.3.0 (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]!=2021.06.0,>=2021.05.0->pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading attrs-24.2.0-py3-none-any.whl.metadata (11 kB)
-Collecting frozenlist>=1.1.1 (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]!=2021.06.0,>=2021.05.0->pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading frozenlist-1.5.0-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (13 kB)
-Collecting multidict<7.0,>=4.5 (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]!=2021.06.0,>=2021.05.0->pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading multidict-6.1.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.0 kB)
-Collecting yarl<2.0,>=1.12.0 (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]!=2021.06.0,>=2021.05.0->pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading yarl-1.17.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (64 kB)
-Collecting async-timeout<5.0,>=4.0 (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]!=2021.06.0,>=2021.05.0->pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading async_timeout-4.0.3-py3-none-any.whl.metadata (4.2 kB)
-Collecting smmap<6,>=3.0.1 (from gitdb<5,>=4.0.1->gitpython!=3.1.19->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading smmap-5.0.1-py3-none-any.whl.metadata (4.3 kB)
-Collecting MarkupSafe>=2.0 (from jinja2->altair>=3.2.0->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading MarkupSafe-3.0.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.0 kB)
-Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=3.0->altair>=3.2.0->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading jsonschema_specifications-2024.10.1-py3-none-any.whl.metadata (3.0 kB)
-Collecting referencing>=0.28.4 (from jsonschema>=3.0->altair>=3.2.0->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading referencing-0.35.1-py3-none-any.whl.metadata (2.8 kB)
-Collecting rpds-py>=0.7.1 (from jsonschema>=3.0->altair>=3.2.0->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading rpds_py-0.20.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.2 kB)
-Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich>=10.11.0->streamlit==1.12.1->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 8))
-  Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
-Collecting joblib>=1.2.0 (from scikit-learn>=0.19.1->qudida>=0.0.4->albumentations==1.3.0->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 1))
-  Downloading joblib-1.4.2-py3-none-any.whl.metadata (5.4 kB)
-Collecting threadpoolctl>=3.1.0 (from scikit-learn>=0.19.1->qudida>=0.0.4->albumentations==1.3.0->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 1))
-  Downloading threadpoolctl-3.5.0-py3-none-any.whl.metadata (13 kB)
-Collecting propcache>=0.2.0 (from yarl<2.0,>=1.12.0->aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]!=2021.06.0,>=2021.05.0->pytorch-lightning==1.4.2->-r /app/stablediffusion/condaenv.0c81elwq.requirements.txt (line 5))
-  Downloading propcache-0.2.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.7 kB)
-Downloading albumentations-1.3.0-py3-none-any.whl (123 kB)
-Downloading opencv_python-4.6.0.66-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (60.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 60.9/60.9 MB 33.3 MB/s eta 0:00:00
-Downloading imageio-2.9.0-py3-none-any.whl (3.3 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.3/3.3 MB 25.2 MB/s eta 0:00:00
-Downloading imageio_ffmpeg-0.4.2-py3-none-manylinux2010_x86_64.whl (26.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 26.9/26.9 MB 31.7 MB/s eta 0:00:00
-Downloading pytorch_lightning-1.4.2-py3-none-any.whl (916 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 916.6/916.6 kB 12.8 MB/s eta 0:00:00
-Downloading omegaconf-2.1.1-py3-none-any.whl (74 kB)
-Downloading streamlit-1.12.1-py2.py3-none-any.whl (9.1 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.1/9.1 MB 33.8 MB/s eta 0:00:00
-Downloading einops-0.3.0-py2.py3-none-any.whl (25 kB)
-Downloading transformers-4.19.2-py3-none-any.whl (4.2 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.2/4.2 MB 24.3 MB/s eta 0:00:00
-Downloading webdataset-0.2.5-py3-none-any.whl (46 kB)
-Downloading kornia-0.6.0-py2.py3-none-any.whl (367 kB)
-Downloading open_clip_torch-2.0.2-py3-none-any.whl (1.4 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.4/1.4 MB 19.4 MB/s eta 0:00:00
-Downloading streamlit_drawable_canvas-0.8.0-py3-none-any.whl (1.3 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 7.2 MB/s eta 0:00:00
-Downloading torchmetrics-0.6.0-py3-none-any.whl (329 kB)
-Downloading pyDeprecate-0.3.1-py3-none-any.whl (10 kB)
-Downloading invisible_watermark-0.2.0-py3-none-any.whl (1.6 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.6/1.6 MB 11.8 MB/s eta 0:00:00
-Downloading altair-5.4.1-py3-none-any.whl (658 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 658.1/658.1 kB 3.2 MB/s eta 0:00:00
-Downloading blinker-1.8.2-py3-none-any.whl (9.5 kB)
-Downloading cachetools-5.5.0-py3-none-any.whl (9.5 kB)
-Downloading click-8.1.7-py3-none-any.whl (97 kB)
-Downloading fsspec-2024.10.0-py3-none-any.whl (179 kB)
-Downloading future-1.0.0-py3-none-any.whl (491 kB)
-Downloading GitPython-3.1.43-py3-none-any.whl (207 kB)
-Downloading huggingface_hub-0.26.2-py3-none-any.whl (447 kB)
-Downloading importlib_metadata-8.5.0-py3-none-any.whl (26 kB)
-Downloading opencv_python_headless-4.10.0.84-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (49.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 49.9/49.9 MB 16.0 MB/s eta 0:00:00
-Downloading packaging-24.1-py3-none-any.whl (53 kB)
-Downloading pandas-2.2.3-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (13.1 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.1/13.1 MB 25.9 MB/s eta 0:00:00
-Downloading protobuf-3.20.3-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.whl (1.0 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.0/1.0 MB 6.3 MB/s eta 0:00:00
-Downloading pyarrow-18.0.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (40.1 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 40.1/40.1 MB 33.0 MB/s eta 0:00:00
-Downloading pydeck-0.9.1-py2.py3-none-any.whl (6.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 22.5 MB/s eta 0:00:00
-Downloading Pympler-1.1-py3-none-any.whl (165 kB)
-Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
-Downloading pywavelets-1.6.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (4.5 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.5/4.5 MB 30.4 MB/s eta 0:00:00
-Downloading PyYAML-6.0.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (737 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 737.4/737.4 kB 3.8 MB/s eta 0:00:00
-Downloading qudida-0.0.4-py3-none-any.whl (3.5 kB)
-Downloading regex-2024.9.11-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (781 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 782.0/782.0 kB 4.4 MB/s eta 0:00:00
-Downloading rich-13.9.3-py3-none-any.whl (242 kB)
-Downloading scikit_image-0.20.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (13.2 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.2/13.2 MB 28.9 MB/s eta 0:00:00
-Downloading scipy-1.9.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (43.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 43.9/43.9 MB 32.1 MB/s eta 0:00:00
-Downloading tensorboard-2.18.0-py3-none-any.whl (5.5 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.5/5.5 MB 34.1 MB/s eta 0:00:00
-Downloading tokenizers-0.12.1-cp39-cp39-manylinux_2_12_x86_64.manylinux2010_x86_64.whl (6.6 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.6/6.6 MB 32.3 MB/s eta 0:00:00
-Downloading tornado-6.4.1-cp38-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (436 kB)
-Downloading tqdm-4.66.6-py3-none-any.whl (78 kB)
-Downloading tzlocal-5.2-py3-none-any.whl (17 kB)
-Downloading validators-0.34.0-py3-none-any.whl (43 kB)
-Downloading braceexpand-0.1.7-py2.py3-none-any.whl (5.9 kB)
-Downloading filelock-3.16.1-py3-none-any.whl (16 kB)
-Downloading ftfy-6.3.1-py3-none-any.whl (44 kB)
-Downloading semver-3.0.2-py3-none-any.whl (17 kB)
-Downloading toml-0.10.2-py2.py3-none-any.whl (16 kB)
-Downloading watchdog-5.0.3-py3-none-manylinux2014_x86_64.whl (79 kB)
-Downloading absl_py-2.1.0-py3-none-any.whl (133 kB)
-Downloading aiohttp-3.10.10-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.2 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 11.5 MB/s eta 0:00:00
-Downloading gitdb-4.0.11-py3-none-any.whl (62 kB)
-Downloading grpcio-1.67.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (5.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.9/5.9 MB 29.4 MB/s eta 0:00:00
-Downloading jinja2-3.1.4-py3-none-any.whl (133 kB)
-Downloading jsonschema-4.23.0-py3-none-any.whl (88 kB)
-Downloading lazy_loader-0.4-py3-none-any.whl (12 kB)
-Downloading Markdown-3.7-py3-none-any.whl (106 kB)
-Downloading markdown_it_py-3.0.0-py3-none-any.whl (87 kB)
-Downloading narwhals-1.11.1-py3-none-any.whl (195 kB)
-Downloading networkx-3.2.1-py3-none-any.whl (1.6 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.6/1.6 MB 9.7 MB/s eta 0:00:00
-Downloading pygments-2.18.0-py3-none-any.whl (1.2 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 9.7 MB/s eta 0:00:00
-Downloading pytz-2024.2-py2.py3-none-any.whl (508 kB)
-Downloading scikit_learn-1.5.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (13.4 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.4/13.4 MB 34.3 MB/s eta 0:00:00
-Downloading tensorboard_data_server-0.7.2-py3-none-any.whl (2.4 kB)
-Downloading tifffile-2024.8.30-py3-none-any.whl (227 kB)
-Downloading tzdata-2024.2-py2.py3-none-any.whl (346 kB)
-Downloading werkzeug-3.0.6-py3-none-any.whl (227 kB)
-Downloading zipp-3.20.2-py3-none-any.whl (9.2 kB)
-Downloading wcwidth-0.2.13-py2.py3-none-any.whl (34 kB)
-Downloading aiohappyeyeballs-2.4.3-py3-none-any.whl (14 kB)
-Downloading aiosignal-1.3.1-py3-none-any.whl (7.6 kB)
-Downloading async_timeout-4.0.3-py3-none-any.whl (5.7 kB)
-Downloading attrs-24.2.0-py3-none-any.whl (63 kB)
-Downloading frozenlist-1.5.0-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (242 kB)
-Downloading joblib-1.4.2-py3-none-any.whl (301 kB)
-Downloading jsonschema_specifications-2024.10.1-py3-none-any.whl (18 kB)
-Downloading MarkupSafe-3.0.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (20 kB)
-Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
-Downloading multidict-6.1.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (124 kB)
-Downloading referencing-0.35.1-py3-none-any.whl (26 kB)
-Downloading rpds_py-0.20.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (355 kB)
-Downloading smmap-5.0.1-py3-none-any.whl (24 kB)
-Downloading threadpoolctl-3.5.0-py3-none-any.whl (18 kB)
-Downloading yarl-1.17.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (320 kB)
-Downloading propcache-0.2.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (211 kB)
-Building wheels for collected packages: antlr4-python3-runtime, test-tube
-  Building wheel for antlr4-python3-runtime (setup.py): started
-  Building wheel for antlr4-python3-runtime (setup.py): finished with status 'done'
-  Created wheel for antlr4-python3-runtime: filename=antlr4_python3_runtime-4.8-py3-none-any.whl size=141214 sha256=f994ef60bfaf33c4050ec608578c6c8f06d03a57ed7eacf371cdc71b55a97460
-  Stored in directory: /root/.cache/pip/wheels/42/3c/ae/14db087e6018de74810afe32eb6ac890ef9c68ba19b00db97a
-  Building wheel for test-tube (setup.py): started
-  Building wheel for test-tube (setup.py): finished with status 'done'
-  Created wheel for test-tube: filename=test_tube-0.7.5-py3-none-any.whl size=25325 sha256=6e6e46cb73dde36b35051590ba70bc24bd6523ba6e1584a6c6c114c0e97ef583
-  Stored in directory: /root/.cache/pip/wheels/67/58/3f/e21fc7e325685fffc4b9b866f3be18d7a208f34ff5f847f3d5
-Successfully built antlr4-python3-runtime test-tube
-Installing collected packages: wcwidth, tokenizers, pytz, einops, braceexpand, antlr4-python3-runtime, zipp, watchdog, validators, tzlocal, tzdata, tqdm, tornado, toml, tifffile, threadpoolctl, tensorboard-data-server, smmap, semver, scipy, rpds-py, regex, PyYAML, PyWavelets, python-dateutil, pympler, pygments, pyDeprecate, pyarrow, protobuf, propcache, packaging, opencv-python-headless, opencv-python, networkx, narwhals, multidict, mdurl, MarkupSafe, joblib, imageio-ffmpeg, imageio, grpcio, future, ftfy, fsspec, frozenlist, filelock, click, cachetools, blinker, attrs, async-timeout, aiohappyeyeballs, absl-py, yarl, werkzeug, webdataset, torchmetrics, stable-diffusion, scikit-learn, referencing, pandas, omegaconf, markdown-it-py, lazy_loader, kornia, jinja2, invisible-watermark, importlib-metadata, huggingface-hub, gitdb, aiosignal, transformers, scikit-image, rich, qudida, pydeck, open_clip_torch, markdown, jsonschema-specifications, gitpython, aiohttp, tensorboard, jsonschema, albumentations, test-tube, pytorch-lightning, altair, streamlit, streamlit-drawable-canvas
-  Running setup.py develop for stable-diffusion
-Successfully installed MarkupSafe-3.0.2 PyWavelets-1.6.0 PyYAML-6.0.2 absl-py-2.1.0 aiohappyeyeballs-2.4.3 aiohttp-3.10.10 aiosignal-1.3.1 albumentations-1.3.0 altair-5.4.1 antlr4-python3-runtime-4.8 async-timeout-4.0.3 attrs-24.2.0 blinker-1.8.2 braceexpand-0.1.7 cachetools-5.5.0 click-8.1.7 einops-0.3.0 filelock-3.16.1 frozenlist-1.5.0 fsspec-2024.10.0 ftfy-6.3.1 future-1.0.0 gitdb-4.0.11 gitpython-3.1.43 grpcio-1.67.1 huggingface-hub-0.26.2 imageio-2.9.0 imageio-ffmpeg-0.4.2 importlib-metadata-8.5.0 invisible-watermark-0.2.0 jinja2-3.1.4 joblib-1.4.2 jsonschema-4.23.0 jsonschema-specifications-2024.10.1 kornia-0.6.0 lazy_loader-0.4 markdown-3.7 markdown-it-py-3.0.0 mdurl-0.1.2 multidict-6.1.0 narwhals-1.11.1 networkx-3.2.1 omegaconf-2.1.1 open_clip_torch-2.0.2 opencv-python-4.6.0.66 opencv-python-headless-4.10.0.84 packaging-24.1 pandas-2.2.3 propcache-0.2.0 protobuf-3.20.3 pyDeprecate-0.3.1 pyarrow-18.0.0 pydeck-0.9.1 pygments-2.18.0 pympler-1.1 python-dateutil-2.9.0.post0 pytorch-lightning-1.4.2 pytz-2024.2 qudida-0.0.4 referencing-0.35.1 regex-2024.9.11 rich-13.9.3 rpds-py-0.20.0 scikit-image-0.20.0 scikit-learn-1.5.2 scipy-1.9.1 semver-3.0.2 smmap-5.0.1 stable-diffusion streamlit-1.12.1 streamlit-drawable-canvas-0.8.0 tensorboard-2.18.0 tensorboard-data-server-0.7.2 test-tube-0.7.5 threadpoolctl-3.5.0 tifffile-2024.8.30 tokenizers-0.12.1 toml-0.10.2 torchmetrics-0.6.0 tornado-6.4.1 tqdm-4.66.6 transformers-4.19.2 tzdata-2024.2 tzlocal-5.2 validators-0.34.0 watchdog-5.0.3 wcwidth-0.2.13 webdataset-0.2.5 werkzeug-3.0.6 yarl-1.17.0 zipp-3.20.2
-
-done
-#
-# To activate this environment, use
-#
-#     $ conda activate ldm
-#
-# To deactivate an active environment, use
-#
-#     $ conda deactivate
-
-no change     /opt/conda/condabin/conda
-no change     /opt/conda/bin/conda
-no change     /opt/conda/bin/conda-env
-no change     /opt/conda/bin/activate
-no change     /opt/conda/bin/deactivate
-no change     /opt/conda/etc/profile.d/conda.sh
-no change     /opt/conda/etc/fish/conf.d/conda.fish
-no change     /opt/conda/shell/condabin/Conda.psm1
-no change     /opt/conda/shell/condabin/conda-hook.ps1
-no change     /opt/conda/lib/python3.7/site-packages/xontrib/conda.xsh
-no change     /opt/conda/etc/profile.d/conda.csh
-modified      /root/.bashrc
-
-==> For changes to take effect, close and re-open your current shell. <==
-
