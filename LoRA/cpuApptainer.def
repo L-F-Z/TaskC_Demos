@@ -13,7 +13,9 @@ From: 192.168.2.25:10081/ubuntu:18.04
     # create workspace directory
     mkdir -p ${APPTAINER_ROOTFS}/workspace/loralib
     mkdir -p ${APPTAINER_ROOTFS}/workspace/transformers
+    mkdir -p ${APPTAINER_ROOTFS}/.pip/
 
+    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf
     cp -r ./LoRA/loralib/* ${APPTAINER_ROOTFS}/workspace/loralib/
     cp ./LoRA/setup.py ${APPTAINER_ROOTFS}/workspace/setup.py
     cp ./LoRA/*.md ${APPTAINER_ROOTFS}/workspace/
@@ -39,7 +41,7 @@ From: 192.168.2.25:10081/ubuntu:18.04
     rm -rf /var/lib/apt/lists/*
 
     # Modify ~/.pip/pip.conf to use PkgCache
-    mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
+    # mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
 
     python3 -m pip install --no-cache-dir --upgrade pip && \
     python3 -m pip install --no-cache-dir \

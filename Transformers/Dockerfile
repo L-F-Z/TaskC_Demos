@@ -10,7 +10,6 @@ RUN mv /etc/apt/sources.list.new /etc/apt/sources.list
    
 # Install git and other dependencies
 RUN apt-get update && apt-get install -y \
-    curl \
     pip \
     && rm -rf /var/lib/apt/lists/*
 
@@ -18,8 +17,11 @@ RUN apt-get update && apt-get install -y \
 COPY ./transformers /app/transformers
 COPY ./detectron2 /app/detectron2
 
-RUN mkdir ~/.pip/; test -f ~/.pip/pip.conf && \
-    mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
+# RUN mkdir ~/.pip/; test -f ~/.pip/pip.conf && \
+#     mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
+RUN mkdir -p /root/.pip/ && \
+    if [ -f /root/.pip/pip.conf ]; then mv /root/.pip/pip.conf /root/.pip/pip.conf.bak; fi  
+COPY ./resource/pip.conf /root/.pip/pip.conf
 
 # # Install the Transformers library in editable mode and other dependencies
 # RUN pip install --no-cache-dir -e /app/transformers \

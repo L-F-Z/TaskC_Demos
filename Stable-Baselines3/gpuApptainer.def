@@ -14,6 +14,12 @@ From: 192.168.2.25:10081/mambaorg/micromamba:1.5-jammy
     cp -r ./stable-baselines3/tests/* ${APPTAINER_ROOTFS}/stable-baselines3/tests/
     cp ./stable-baselines3/stable_baselines3/version.txt ${APPTAINER_ROOTFS}/stable-baselines3/stable_baselines3/version.txt
 
+    mkdir -p ${APPTAINER_ROOTFS}/.conda/ && touch ${APPTAINER_ROOTFS}/.conda/.condarc
+    cp ./resource/.condarc ${APPTAINER_ROOTFS}/.conda/.condarc
+
+    mkdir -p ${APPTAINER_ROOTFS}/.pip/
+    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf
+    
 %post
     export PYTORCH_DEPS=cpuonly
     export PYTHON_VERSION=3.10

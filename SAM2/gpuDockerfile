@@ -19,14 +19,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libswscale-dev \
     pkg-config \
     build-essential \
-    libffi-dev \
-    curl
+    libffi-dev
 
 RUN mkdir -p ${APP_ROOT}
 COPY ./sam2/ ${APP_ROOT}/
 
 # Modify ~/.pip/pip.conf to use PkgCache
-RUN mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
+# RUN mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
+RUN mkdir -p /root/.pip/ && \
+    if [ -f /root/.pip/pip.conf ]; then mv /root/.pip/pip.conf /root/.pip/pip.conf.bak; fi  
+COPY ./resource/pip.conf /root/.pip/pip.conf  
 
 RUN cd ${APP_ROOT} && \
     pip install --upgrade pip setuptools && \

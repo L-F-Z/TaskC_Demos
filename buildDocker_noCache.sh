@@ -1,95 +1,273 @@
-#!/bin/bash
+#!/bin/bash  
 
-# 定义项目列表
-projects=(
-    "CLIP"
-    "Deep_Live_Cam"
-    "LoRA"
-    "SAM2"
-    "Stable-Baselines3"
-    # "TTS"
-    "Transformers"
-    "Whisper"
-    "YOLO11"
-    "YOLOv5"
-    "YOLOv8"
-    "mmpretrain"
-    "stablediffusion"
-)
+# define colors  
+RED=$'\033[0;31m'  
+GREEN=$'\033[0;32m'  
+YELLOW=$'\033[1;33m'  
+BLUE=$'\033[0;34m'  
+NC=$'\033[0m'
+                
+usage() {  
+    echo "用法: bash $0 [proj1 proj2 ... | all]"  
+    echo "  proj: 构建指定的项目，例如 ${BLUE}bash buildDocker_noCache.sh CLIP${NC}"  
+    echo "  all : 构建所有项目，例如 ${BLUE}bash buildDocker_noCache.sh all${NC}"  
+    echo "  支持同时构建多个项目，例如 ${BLUE}bash buildDocker_noCache.sh CLIP YOLOv5${NC}"
+    echo "  cleanlog: 清空日志和报错信息文件"
+    echo "  cleanbuild: 清空所有docker镜像、容器和缓存"
+    exit 1  
+}  
 
-log_file="logDocker_noCache.log"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"  
+project_base_dir="${script_dir}"  
 
-> "$log_file"
+mkdir -p $project_base_dir/error_logs 
+log_file="logDocker_noCache.log"  
 
-for project in "${projects[@]}"; do
-    echo "Building project: $project"
+attempt=1  
+max_attempts=3
 
-    cd "$project" || {
-        echo "Failed to enter project directory: $project" | tee -a "../$log_file"
-        continue
-    }
+build_image() {
+    clean_docker
 
-    build_image() {
-        local variant=$1 # cpu or gpu
-        local dockerfile=$2 # cpuDockerfile or gpuDockerfile
+    local project=$1  
+    local variant=$2      # "cpu" 或 "gpu"  
+    local dockerfile=$3   # "cpuDockerfile" 或 "gpuDockerfile"  
+    local project_dir="${project_base_dir}/${project}"  
 
-        echo "Building ${variant^^} image..."
+    if [ ! -d "${project_dir}" ]; then  
+        echo "${RED}}错误: 项目目录不存在: ${project_dir}${NC}"  
+        return 1  
+    fi  
+    cd "${project_dir}" || { echo "${RED}错误: 无法进入项目目录: ${project_dir}${NC}"; return 1; }  
 
-        # set attempt number
-        attempt=1
-        max_attempts=3 # total attempts including initial build and two retries
-        while [ $attempt -le $max_attempts ]; do
-            # use built-in time command to measure build time
-            {time docker build --no-cache -t "${project,,}-${variant}" -f "$dockerfile" . > build_output.log;} 2> time_output.log
-            build_status=$?
+    echo "正在构建 ${project,,}-${variant} 镜像..."  
+    while [ $attempt -le $max_attempts ]; do  
+        { time docker build --no-cache -t "${project,,}-${variant}" -f "$dockerfile" . ; } 2> output.log  
+        build_status=$?  
+        build_time=$(grep '^real' output.log | awk '{print $2}')  
+        
+        if [ $build_status -eq 0 ]; then  
+            image_size=$(docker image inspect "${project,,}-${variant}:latest" --format='{{.Size}}')  
+            # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)  
+            echo "${project,,}-${variant}, ${build_time}, ${image_size}" | tee -a "../$log_file"
+            echo "${GREEN}${project,,}-${variant} 镜像构建完成${NC}"  
+            rm output.log
+            break  
+        else  
+            echo "${RED}构建 ${project,,}-${variant} 镜像失败，尝试次数: $attempt${NC}" 
+            echo -e "错误信息：\n$(<output.log)\n" >> "$project_base_dir/error_logs/docker_${project,,}_error.log"
 
-            # read build output
-            build_output=$(cat build_output.log)
-            rm build_output.log
-
-            if [ $build_status -eq 0 ]; then
-                # extract build time (real time)
-                build_time=$(grep real time_output.log | awk '{print $2}')
-                rm time_output.log
-
-                # get image size
-                image_size=$(docker image inspect "${project,,}-${variant}:latest" --format='{{.Size}}')
-                image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
-                echo "${project}-${variant}, ${build_time}, ${image_size_mb}MB" | tee -a "../$log_file"
-                break
-            else
-                echo "Failed to build ${variant^^} image, attempt: $attempt"
-                if [ $attempt -eq $max_attempts ]; then
-                    echo "${project}-${variant} failed to build after $max_attempts attempts" | tee -a "../$log_file"
-                    # echo "Error message: \n $build_output" | tee -a "../$log_file"
-                    {mkdir -p ./error_logs}
-                    echo "Error message: \n $build_output" | tee -a "./error_logs/docker_${project}-${variant}_error.log"
-                else
-                    echo "Waiting for retrying..."
-                fi
-                attempt=$((attempt + 1))
+            # Retry
+            if [ $attempt -lt $max_attempts ]; then 
+                clean_docker
+                echo "等待 1 秒后重试..." 
+                sleep 1  
             fi
+            attempt=$((attempt + 1))  
+        fi
+        rm output.log 
+    done  
 
-            # clean all docker cache 
-            {docker rmi $(docker images -q) > /dev/null;} 2> /dev/null
-            {docker system prune -a -f > /dev/null;} 2> /dev/null
-            {docker system df}
-            
-            sleep 1
-        done
-    }
-    # build CPU image
-    build_image "cpu" "cpuDockerfile"
-    echo "Waiting 1s before starting the next image build task..."
-    sleep 1
+    cd "$script_dir" || exit  
+    echo "-----------------------------------"  
+} 
 
-    # build GPU image
-    build_image "gpu" "gpuDockerfile"
-    echo "Waiting 1s before starting the next project..."
-    sleep 1
+build_image2() {
+    clean_docker
 
-    cd ..
-    echo "$project done"
-    echo "-----------------------------------"
+    local project=$1  
+    local dockerfile=$2   # "Dockerfile"
+    local project_dir="${project_base_dir}/${project}" 
 
-done
+    if [ ! -d "$project_dir" ]; then  
+        echo "${RED}错误: 项目目录不存在: $project_dir${NC}"  
+        return 1  
+    fi  
+    cd "$project_dir" || { echo "${RED}错误: 无法进入项目目录: $project_dir${NC}"; return 1; }  
+
+    echo "正在构建 ${project,,} 镜像..." 
+    while [ $attempt -le $max_attempts ]; do
+        { time docker build --no-cache -t "${project,,}" -f "$dockerfile" . ; } 2> output.log  
+        build_status=$? 
+        build_time=$(grep '^real' output.log | awk '{print $2}')  
+        if [ $build_status -eq 0 ]; then  
+            image_size=$(docker image inspect "${project,,}:latest" --format='{{.Size}}') 
+            # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
+            echo "${project,,}, ${build_time}, ${image_size}" | tee -a "../$log_file"
+            echo "${GREEN}${project,,} 镜像构建完成${NC}"
+            rm output.log
+            break
+        else
+            echo "${RED}构建 ${project,,} 镜像失败，尝试次数: $attempt${NC}"  
+            echo -e "错误信息：\n$(<output.log)\n" >> "$project_base_dir/error_logs/docker_${project,,}_error.log"
+            if [ $attempt -lt $max_attempts ]; then  
+                clean_docker
+                echo "等待 1 秒后重试..."  
+                sleep 1
+            fi  
+            attempt=$((attempt + 1))  
+        fi
+        rm output.log 
+    done
+
+    cd "$script_dir" || exit
+    echo "-----------------------------------"  
+}
+
+build_CLIP() {  
+    build_image2 "CLIP" "Dockerfile"
+}  
+
+# build_Deep_Live_Cam() {  
+#     build_image "Deep_Live_Cam" "cpu" "cpuDockerfile"  
+#     build_image "Deep_Live_Cam" "gpu" "gpuDockerfile"  
+# }  
+
+build_LoRA() {  
+    build_image "LoRA" "cpu" "cpuDockerfile"  
+    build_image "LoRA" "gpu" "gpuDockerfile"  
+}  
+
+build_SAM2() {  
+    build_image "SAM2" "cpu" "cpuDockerfile"  
+    build_image "SAM2" "gpu" "gpuDockerfile"  
+}  
+
+build_Stable-Baselines3() {  
+    build_image "Stable-Baselines3" "cpu" "cpuDockerfile"  
+    build_image "Stable-Baselines3" "gpu" "gpuDockerfile"  
+}
+
+build_stablediffusion() {  
+    build_image2 "stablediffusion" "Dockerfile"  
+}  
+
+build_TTS() {  
+    build_image2 "TTS" "Dockerfile"  
+}  
+
+build_Transformers() {  
+    build_image2 "Transformers" "Dockerfile"   
+}  
+
+build_Whisper() {  
+    build_image2 "Whisper" "Dockerfile"  
+}  
+
+build_YOLO11() {  
+    build_image "YOLO11" "cpu" "cpuDockerfile"  
+    build_image "YOLO11" "gpu" "gpuDockerfile"  
+}  
+
+# build_YOLOv5() {  
+#     build_image "YOLOv5" "cpu" "cpuDockerfile"  
+#     build_image "YOLOv5" "gpu" "gpuDockerfile"  
+# }  
+
+# build_YOLOv8() {  
+#     build_image "YOLOv8" "cpu" "cpuDockerfile"  
+#     build_image "YOLOv8" "gpu" "gpuDockerfile"  
+# }  
+
+# build_mmpretrain() {  
+#     build_image "mmpretrain" "cpu" "cpuDockerfile"  
+#     build_image "mmpretrain" "gpu" "gpuDockerfile"  
+# }  
+
+
+clean_logfile () {
+    > "$log_file"
+    rm -rf $project_base_dir/error_logs
+}
+
+clean_docker() {
+    if [ "$(docker ps -q)" ]; then
+        docker stop $(docker ps -q) > /dev/null
+    fi
+    if [ "$(docker images -q)" ]; then
+        docker rmi $(docker images -q) > /dev/null
+    fi
+    docker system prune -a -f > /dev/null
+}
+
+if [ $# -eq 0 ]; then  
+    usage  
+fi  
+
+if [[ " $* " == *" all "* ]]; then  
+    clean_logfile
+    echo "开始构建所有项目..."  
+    build_CLIP  
+    # build_Deep_Live_Cam  
+    build_LoRA  
+    build_SAM2  
+    build_Stable-Baselines3  
+    build_stablediffusion  
+    build_TTS
+    build_Transformers  
+    build_Whisper  
+    build_YOLO11  
+    # build_YOLOv5  
+    # build_YOLOv8  
+    # build_mmpretrain  
+    echo "${GREEN}所有项目构建完成。${NC}"  
+    exit 0  
+fi  
+
+for arg in "$@"; do  
+    case "$arg" in  
+        CLIP)  
+            build_CLIP  
+            ;;  
+        # Deep_Live_Cam)  
+        #     build_Deep_Live_Cam  
+        #     ;;  
+        LoRA)  
+            build_LoRA  
+            ;;  
+        SAM2)  
+            build_SAM2  
+            ;;  
+        Stable-Baselines3)  
+            build_Stable-Baselines3  
+            ;;  
+        # TTS)  
+        #     build_TTS  
+        #     ;;  
+        Transformers)  
+            build_Transformers  
+            ;;  
+        Whisper)  
+            build_Whisper  
+            ;;  
+        YOLO11)  
+            build_YOLO11  
+            ;;  
+        YOLOv5)  
+            build_YOLOv5  
+            ;;  
+        YOLOv8)  
+            build_YOLOv8  
+            ;;  
+        mmpretrain)  
+            build_mmpretrain  
+            ;;  
+        stablediffusion)  
+            build_stablediffusion  
+            ;;
+        cleanlog)
+            clean_logfile
+            ;;
+        cleanbuild)
+            clean_docker
+            docker system df
+
+            ;;
+        *)  
+            echo "${RED}错误: 未知的项目 '$arg'${NC}"  
+            echo "可用的项目列表: CLIP, Deep_Live_Cam, LoRA, SAM2, Stable-Baselines3, Transformers, Whisper, YOLO11, YOLOv5, YOLOv8, mmpretrain, stablediffusion"  
+            usage  
+            ;;  
+    esac  
+done  
+

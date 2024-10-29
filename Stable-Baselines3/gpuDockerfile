@@ -34,6 +34,7 @@ COPY --chown=$MAMBA_USER:$MAMBA_USER ./stable-baselines3/stable_baselines3/versi
 RUN mkdir ~/.pip/ && touch ~/.pip/pip.conf
 RUN cat <<'EOF' > ~/.pip/pip.conf
 [global]
+timeout = 1000
 trusted-host = 192.168.2.25
 index = http://192.168.2.25:9081/repository/pypi/pypi
 index-url = http://192.168.2.25:9081/repository/pypi/simple

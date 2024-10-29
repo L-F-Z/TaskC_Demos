@@ -5,6 +5,9 @@ From: 192.168.2.25:10081/nvidia/cuda:12.6.0-devel-ubuntu22.04
 %setup  
     mkdir -p ${APPTAINER_ROOTFS}/app/sam2 
     cp -r ./sam2/* ${APPTAINER_ROOTFS}/app/sam2/
+
+    mkdir -p ${APPTAINER_ROOTFS}/.pip/
+    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf
     
 %environment  
     export DEBIAN_FRONTEND=noninteractive  
@@ -40,7 +43,6 @@ From: 192.168.2.25:10081/nvidia/cuda:12.6.0-devel-ubuntu22.04
         build-essential \
         libffi-dev \
         curl 
-        # git
     
     # Modify ~/.pip/pip.conf to use PkgCache
     mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf

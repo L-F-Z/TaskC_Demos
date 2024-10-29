@@ -5,7 +5,6 @@ From: 192.168.2.25:10081/mambaorg/micromamba:1.5-jammy
     # Create necessary directories
     mkdir -p ${APPTAINER_ROOTFS}/stable-baselines3/stable_baselines3
     mkdir -p ${APPTAINER_ROOTFS}/stable-baselines3/tests
-    # mkdir -p ~/.conda/ && touch ~/.conda/.condarc
 
 
     # Copy files to the container's filesystem
@@ -13,6 +12,12 @@ From: 192.168.2.25:10081/mambaorg/micromamba:1.5-jammy
     cp ./stable-baselines3/setup.py ${APPTAINER_ROOTFS}/stable-baselines3/setup.py
     cp -r ./stable-baselines3/tests/* ${APPTAINER_ROOTFS}/stable-baselines3/tests/
     cp ./stable-baselines3/stable_baselines3/version.txt ${APPTAINER_ROOTFS}/stable-baselines3/stable_baselines3/version.txt
+
+    mkdir -p ${APPTAINER_ROOTFS}/.conda/ && touch ${APPTAINER_ROOTFS}/.conda/.condarc
+    cp ./resource/.condarc ${APPTAINER_ROOTFS}/.conda/.condarc
+
+    mkdir -p ${APPTAINER_ROOTFS}/.pip/
+    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf
 
 %post
     export PYTORCH_DEPS=cpuonly
@@ -29,13 +34,13 @@ From: 192.168.2.25:10081/mambaorg/micromamba:1.5-jammy
     apt-get update && apt-get install -y --no-install-recommends curl
     
     # Modify ~/.conda/.condarc to use PkgCache
-    mkdir -p ~/.conda/ && touch ~/.conda/.condarc
-    test -f ~/.conda/.condarc && \
-    mv ~/.conda/.condarc ~/.conda/.condarc.bak; curl -s -o ~/.conda/.condarc -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/.condarc
+    # mkdir -p ~/.conda/ && touch ~/.conda/.condarc
+    # test -f ~/.conda/.condarc && \
+    # mv ~/.conda/.condarc ~/.conda/.condarc.bak; curl -s -o ~/.conda/.condarc -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/.condarc
 
-    mkdir -p ~/.pip/ && touch ~/.pip/pip.conf
-    test -f ~/.pip/pip.conf && \
-    mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
+    # mkdir -p ~/.pip/ && touch ~/.pip/pip.conf
+    # test -f ~/.pip/pip.conf && \
+    # mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
 
     # Update and install micromamba dependencies
     micromamba install -n base -y python=${PYTHON_VERSION} \

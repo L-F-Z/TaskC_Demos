@@ -6,6 +6,9 @@ From: 192.168.2.25:10081/python:3.10-slim
     mkdir -p ${APPTAINER_ROOTFS}/app/sam2
     cp -r ./sam2/* ${APPTAINER_ROOTFS}/app/sam2/
 
+    mkdir -p ${APPTAINER_ROOTFS}/.pip/
+    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf
+
 %environment  
     export DEBIAN_FRONTEND=noninteractive  
     export PATH="${PATH}:/home/user/.local/bin"  
@@ -29,10 +32,9 @@ From: 192.168.2.25:10081/python:3.10-slim
         build-essential \
         libffi-dev \
         curl
-        # git \
     
-    mkdir ~/.pip/; test -f ~/.pip/pip.conf && \
-    mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
+    # mkdir ~/.pip/; test -f ~/.pip/pip.conf && \
+    # mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
 
     cd ${APPTAINER_ROOTFS}/app/sam2 && \
     pip install --upgrade pip setuptools && \

@@ -7,8 +7,10 @@ From: 192.168.2.25:10081/python:3.9-slim-buster
 
 %setup
     mkdir -p ${APPTAINER_ROOTFS}/app/CLIP
-    mkdir -p ~/.pip/
+    mkdir -p ${APPTAINER_ROOTFS}/.pip/
     cp -r ./CLIP/* ${APPTAINER_ROOTFS}/app/CLIP/
+    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf
+    # pip config list
 
 %post
     # change apt source
@@ -31,9 +33,9 @@ From: 192.168.2.25:10081/python:3.9-slim-buster
 
     # change pip source
     # mkdir ~/.pip/
-    test -f ~/.pip/pip.conf && \
-    mv ~/.pip/pip.conf ~/.pip/pip.conf.bak && \
-    curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
+    # test -f ~/.pip/pip.conf && \
+    # mv ~/.pip/pip.conf ~/.pip/pip.conf.bak && \
+    # curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
 
     pip install --no-cache-dir \
         torch \

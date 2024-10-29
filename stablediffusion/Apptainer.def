@@ -6,8 +6,10 @@ From: 192.168.2.25:10081/pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel
 
     cp -r stablediffusion ${APPTAINER_ROOTFS}/app/  
     cp environment.yaml ${APPTAINER_ROOTFS}/app/stablediffusion/
-    # export HOME=/root
-    # mkdir -p ${HOME}
+
+    mkdir -p ${APPTAINER_ROOTFS}/.conda/ && touch ${APPTAINER_ROOTFS}/.conda/.condarc
+    cp ./resource/.condarc ${APPTAINER_ROOTFS}/.conda/.condarc
+
 
 %post  
     total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
@@ -20,10 +22,10 @@ From: 192.168.2.25:10081/pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel
     curl -o /app/stablediffusion/v2-1_768-ema-pruned.ckpt http://192.168.2.25:9081/repository/storage/v2-1_768-ema-pruned.ckpt
 
     # Modify ~/.conda/.condarc to use PkgCache
-    mkdir ~/.conda/ && \
-    touch ~/.conda/.condarc && \
-    test -f ~/.conda/.condarc && \
-    mv ~/.conda/.condarc ~/.conda/.condarc.bak; curl -s -o ~/.conda/.condarc -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/.condarc
+    # mkdir ~/.conda/ && \
+    # touch ~/.conda/.condarc && \
+    # test -f ~/.conda/.condarc && \
+    # mv ~/.conda/.condarc ~/.conda/.condarc.bak; curl -s -o ~/.conda/.condarc -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/.condarc
 
     conda config --add channels defaults  
     conda config --set show_channel_urls true

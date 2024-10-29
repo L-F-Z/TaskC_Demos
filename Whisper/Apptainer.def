@@ -5,6 +5,9 @@ From: 192.168.2.25:10081/python:3.10-slim
 %setup
     mkdir -p ${APPTAINER_ROOTFS}/app/whisper
     cp -r ./whisper/* ${APPTAINER_ROOTFS}/app/whisper/
+
+    mkdir -p ${APPTAINER_ROOTFS}/.pip/
+    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf
     
 %post  
     # Update and install necessary packages  
@@ -12,12 +15,12 @@ From: 192.168.2.25:10081/python:3.10-slim
     lines_to_keep=$((total_lines - 6)) && \
     head -n $lines_to_keep /etc/apt/sources.list.d/debian.sources > /etc/apt/sources.list.d/debian.sources.new; sed -i 's|http://deb.debian.org/debian|http://192.168.2.25:9081/repository/debian/|g' /etc/apt/sources.list.d/debian.sources.new; mv /etc/apt/sources.list.d/debian.sources.new /etc/apt/sources.list.d/debian.sources
     
-    apt-get update && apt-get install -y ffmpeg curl
+    apt-get update && apt-get install -y ffmpeg
 
     # Install whisper  
     cd ${APPTAINER_ROOTFS}/app/whisper
     
-    mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
+    # mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
     pip install --timeout 1000 --no-cache-dir .
 
     # Run whisper command  

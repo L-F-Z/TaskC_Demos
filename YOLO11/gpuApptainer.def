@@ -13,6 +13,9 @@ From: 192.168.2.25:10081/pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
     mkdir -p ${APPTAINER_ROOTFS}/app
     cp -r ./ultralytics/* ${APPTAINER_ROOTFS}/app
 
+    mkdir -p ${APPTAINER_ROOTFS}/.pip/
+    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf
+
 %post
     export PYTHONUNBUFFERED=1
     export PYTHONDONTWRITEBYTECODE=1
@@ -26,7 +29,7 @@ From: 192.168.2.25:10081/pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
     # Install linux packages
     apt-get update && \
     apt-get install -y --no-install-recommends \
-        python3-pip git zip unzip wget curl htop libgl1 libglib2.0-0 libpython3-dev gnupg g++ libusb-1.0-0 && \
+        python3-pip zip unzip wget curl htop libgl1 libglib2.0-0 libpython3-dev gnupg g++ libusb-1.0-0 && \
     rm -rf /var/lib/apt/lists/*
 
     # Downloads to user config dir
@@ -45,11 +48,11 @@ From: 192.168.2.25:10081/pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
     curl -o ${APPTAINER_ROOTFS}/app/yolo11n.pt http://192.168.2.25:9081/repository/storage/yolo11n.pt
 
     # Modify pip.conf to use PkgCache
-    mkdir -p ~/.pip/
-    if [ -f ~/.pip/pip.conf ]; then
-        mv ~/.pip/pip.conf ~/.pip/pip.conf.bak
-    fi
-    curl -s -o ~/.pip/pip.conf -m 3  http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
+    # mkdir -p ~/.pip/
+    # if [ -f ~/.pip/pip.conf ]; then
+    #     mv ~/.pip/pip.conf ~/.pip/pip.conf.bak
+    # fi
+    # curl -s -o ~/.pip/pip.conf -m 3  http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
 
     # Install pip packages
     python3 -m pip install --upgrade pip wheel

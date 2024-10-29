@@ -9,6 +9,10 @@ From: 192.168.2.25:10081/nvidia/cuda:12.1.0-cudnn8-devel-ubuntu22.04
     cp -r ./transformers ${APPTAINER_ROOTFS}/app/transformers  
     cp -r ./ddetectron2 ${APPTAINER_ROOTFS}/app/ddetectron2
 
+    mkdir -p ${APPTAINER_ROOTFS}/.pip/
+    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf
+
+
 %post
     total_lines=$(wc -l < /etc/apt/sources.list.d/debian.sources) && \
     lines_to_keep=$((total_lines - 6)) && \
@@ -21,10 +25,10 @@ From: 192.168.2.25:10081/nvidia/cuda:12.1.0-cudnn8-devel-ubuntu22.04
     apt-get update && apt-get install -y curl pip\
         && rm -rf /var/lib/apt/lists/*  
 
-    mkdir ~/.pip/ && \
-    touch ~/.pip/pip.conf && \
-    test -f ~/.pip/pip.conf && \
-    mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
+    # mkdir ~/.pip/ && \
+    # touch ~/.pip/pip.conf && \
+    # test -f ~/.pip/pip.conf && \
+    # mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
 
     # Install the Transformers library in editable mode and other dependencies  
     pip install --no-cache-dir -e /app/transformers \
