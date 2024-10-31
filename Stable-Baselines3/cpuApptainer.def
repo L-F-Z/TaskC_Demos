@@ -6,7 +6,6 @@ From: 192.168.2.25:10081/mambaorg/micromamba:1.5-jammy
     mkdir -p ${APPTAINER_ROOTFS}/stable-baselines3/stable_baselines3
     mkdir -p ${APPTAINER_ROOTFS}/stable-baselines3/tests
 
-
     # Copy files to the container's filesystem
     cp -r ./stable-baselines3/stable_baselines3/* ${APPTAINER_ROOTFS}/stable-baselines3/stable_baselines3/
     cp ./stable-baselines3/setup.py ${APPTAINER_ROOTFS}/stable-baselines3/setup.py
@@ -26,13 +25,6 @@ From: 192.168.2.25:10081/mambaorg/micromamba:1.5-jammy
     export MAMBA_USER=micromamba
 
 %post
-    total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
-    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
-    mv /etc/apt/sources.list.new /etc/apt/sources.list
-    
-    # Install system requirements
-    apt-get update && apt-get install -y --no-install-recommends curl
-    
     # Modify ~/.conda/.condarc to use PkgCache
     # mkdir -p ~/.conda/ && touch ~/.conda/.condarc
     # test -f ~/.conda/.condarc && \

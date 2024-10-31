@@ -23,10 +23,11 @@ project_base_dir="${script_dir}"
 mkdir -p $project_base_dir/error_logs 
 log_file="logBuildah_noCache.log"  
 
-attempt=1  
-max_attempts=1
+max_attempts=3
 
 build_image() {
+    attempt=1  
+
     local project=$1  
     local variant=$2      # "cpu" 或 "gpu"  
     local dockerfile=$3   # "cpuDockerfile" 或 "gpuDockerfile"  
@@ -40,20 +41,21 @@ build_image() {
 
     echo "正在构建 ${project,,}-${variant} 镜像..."  
     while [ $attempt -le $max_attempts ]; do  
-        { time buildah bud --no-cache -t "${project,,}-${variant}" -f "$dockerfile" . ; } 2> output.log  
+        { time buildah bud --no-cache -t "${project,,}-${variant}" -f "$dockerfile" . > output.log; } 2> time_output.log  
         build_status=$?  
-        build_time=$(grep '^real' output.log | awk '{print $2}')  
+        build_time=$(grep '^real' time_output.log | awk '{print $2}')  
         
         if [ $build_status -eq 0 ]; then  
-            image_size=$(buildah inspect "${project,,}-${variant}" --format='{{.Size}}')  
+            image_size=$(buildah inspect "${project,,}-${variant}:latest" | jq '[.Manifest | fromjson | .config.size] + [.Manifest | fromjson | .layers[].size] | add')  
             # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)  
             echo "${project,,}-${variant}, ${build_time}, ${image_size}" | tee -a "../$log_file"
-            echo "${GREEN}${project,,}-${variant} 镜像构建完成${NC}"  
+            echo "${GREEN}${project,,}-${variant} 镜像构建完成${NC}"
+            rm time_output.log  
             rm output.log
             break  
         else  
             echo "${RED}构建 ${project,,}-${variant} 镜像失败，尝试次数: $attempt${NC}" 
-            echo -e "错误信息：\n$(<output.log)\n" >> "$project_base_dir/error_logs/buildah_${project,,}_error.log"
+            echo -e "错误信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "$project_base_dir/error_logs/buildah_${project,,}_error.log"
 
             # Retry
             if [ $attempt -lt $max_attempts ]; then 
@@ -62,6 +64,7 @@ build_image() {
             fi
             attempt=$((attempt + 1))  
         fi
+        rm time_output.log
         rm output.log 
     done  
 
@@ -70,6 +73,8 @@ build_image() {
 } 
 
 build_image2() {
+    attempt=1  
+
     local project=$1  
     local dockerfile=$2   # "Dockerfile"
     local project_dir="${project_base_dir}/${project}" 
@@ -82,25 +87,28 @@ build_image2() {
 
     echo "正在构建 ${project,,} 镜像..." 
     while [ $attempt -le $max_attempts ]; do
-        { time buildah bud --no-cache -t "${project,,}" -f "$dockerfile" . ; } 2> output.log  
+        { time buildah bud --no-cache -t "${project,,}" -f "$dockerfile" . > output.log; } 2> time_output.log  
         build_status=$? 
-        build_time=$(grep '^real' output.log | awk '{print $2}')  
+        build_time=$(grep '^real' time_output.log | awk '{print $2}')  
+
         if [ $build_status -eq 0 ]; then  
-            image_size=$(buildah inspect "${project,,}:latest" --format='{{.Size}}') 
+            image_size=$(buildah inspect "${project,,}:latest" | jq '[.Manifest | fromjson | .config.size] + [.Manifest | fromjson | .layers[].size] | add')  
             # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
             echo "${project,,}, ${build_time}, ${image_size}" | tee -a "../$log_file"
             echo "${GREEN}${project,,} 镜像构建完成${NC}"
+            rm time_output.log
             rm output.log
             break
         else
             echo "${RED}构建 ${project,,} 镜像失败，尝试次数: $attempt${NC}"  
-            echo -e "错误信息：\n$(<output.log)\n" >> "$project_base_dir/error_logs/buildah_${project,,}_error.log"
+            echo -e "错误信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "$project_base_dir/error_logs/buildah_${project,,}_error.log"
             if [ $attempt -lt $max_attempts ]; then  
                 echo "等待 1 秒后重试..."  
                 sleep 1
             fi  
             attempt=$((attempt + 1))  
         fi
+        rm time_output.log
         rm output.log 
     done
 
@@ -172,11 +180,12 @@ build_YOLO11() {
 clean_logfile () {
     > "$log_file"
     rm -rf $project_base_dir/error_logs
+    mkdir -p $project_base_dir/error_logs
 }
 
 clean_buildah() {
     if [ "$(buildah images -q)" ]; then
-        buildah rmi $(buildah images -q) > /dev/null
+        buildah rmi -f --all > /dev/null
     fi
     rm /var/lib/containers/cache/*
 }
@@ -222,9 +231,9 @@ for arg in "$@"; do
         Stable-Baselines3)  
             build_Stable-Baselines3  
             ;;  
-        # TTS)  
-        #     build_TTS  
-        #     ;;  
+        TTS)  
+            build_TTS  
+            ;;  
         Transformers)  
             build_Transformers  
             ;;  
@@ -234,15 +243,15 @@ for arg in "$@"; do
         YOLO11)  
             build_YOLO11  
             ;;  
-        YOLOv5)  
-            build_YOLOv5  
-            ;;  
-        YOLOv8)  
-            build_YOLOv8  
-            ;;  
-        mmpretrain)  
-            build_mmpretrain  
-            ;;  
+        # YOLOv5)  
+        #     build_YOLOv5  
+        #     ;;  
+        # YOLOv8)  
+        #     build_YOLOv8  
+        #     ;;  
+        # mmpretrain)  
+        #     build_mmpretrain  
+        #     ;;  
         stablediffusion)  
             build_stablediffusion  
             ;;
@@ -250,11 +259,11 @@ for arg in "$@"; do
             clean_logfile
             ;;
         cleanbuild)
-            clean_buildah
+            clean_apptainer
             ;;
         *)  
             echo "${RED}错误: 未知的项目 '$arg'${NC}"  
-            echo "可用的项目列表: CLIP, Deep_Live_Cam, LoRA, SAM2, Stable-Baselines3, Transformers, Whisper, YOLO11, YOLOv5, YOLOv8, mmpretrain, stablediffusion"  
+            echo "可用的项目列表: CLIP, LoRA, SAM2, Stable-Baselines3, Transformers, Whisper, YOLO11, TTS, stablediffusion"  
             usage  
             ;;  
     esac  

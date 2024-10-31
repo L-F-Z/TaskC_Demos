@@ -23,16 +23,17 @@ project_base_dir="${script_dir}"
 mkdir -p $project_base_dir/error_logs 
 log_file="logApptainer_noCache.log"  
 
-attempt=1  
-max_attempts=1
+max_attempts=3
 
 build_image() {
     clean_apptainer
+    attempt=1  
+
 
     local project=$1  
     local variant=$2      # "cpu" or "gpu"
     local def_file=$3     # "cpuApptainer.def" or "gpuApptainer.def"
-    local output_sif="/tmp/${project}_${variant}.sif"
+    local output_sif="/tmp/${project,,}_${variant}.sif"
     local project_dir="${project_base_dir}/${project}"  
 
     if [ ! -d "${project_dir}" ]; then  
@@ -43,24 +44,25 @@ build_image() {
     
     echo "正在构建 ${project,,}-${variant} 镜像..."  
     while [ $attempt -le $max_attempts ]; do  
-        { time apptainer build --no-https "$output_sif" "$def_file" ; } 2> output.log
+        { time apptainer build --no-https "$output_sif" "$def_file" > output.log; } 2> time_output.log
         build_status=$?  
-        build_time=$(grep '^real' output.log | awk '{print $2}')  
+        build_time=$(grep '^real' time_output.log | awk '{print $2}')  
 
         if [ $build_status -eq 0 ]; then  
             if [ -f "$output_sif" ]; then
                 image_size=$(stat -c%s "$output_sif")
                 # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
-                echo "${project}-${variant}, ${build_time}, ${image_size}" | tee -a "../$log_file"
+                echo "${project,,}-${variant}, ${build_time}, ${image_size}" | tee -a "../$log_file"
                 echo "${GREEN}${project,,}_${variant}.sif 构建完成${NC}"
             else
-                echo "SIF file not found for ${project}-${variant}"
+                echo "SIF file not found for ${project,,}-${variant}"
             fi
+            rm time_output.log
             rm output.log
             break
         else  
             echo "${RED}构建 ${project,,}_${variant}.sif 失败，尝试次数: $attempt${NC}" 
-            echo -e "错误信息：\n$(<output.log)\n" >> "$project_base_dir/error_logs/apptainer_${project,,}_error.log"
+            echo -e "错误信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "$project_base_dir/error_logs/apptainer_${project,,}_error.log"
 
             # Retry
             if [ $attempt -lt $max_attempts ]; then 
@@ -70,6 +72,7 @@ build_image() {
             fi
             attempt=$((attempt + 1))  
         fi
+        rm time_output.log
         rm output.log 
     
     done  
@@ -80,10 +83,11 @@ build_image() {
 
 build_image2() {
     clean_apptainer
+    attempt=1  
 
     local project=$1  
     local def_file=$2   # "Apptainer.def"
-    local output_sif="/tmp/${project}.sif"
+    local output_sif="/tmp/${project,,}.sif"
     local project_dir="${project_base_dir}/${project}" 
 
     if [ ! -d "$project_dir" ]; then  
@@ -94,9 +98,9 @@ build_image2() {
 
     echo "正在构建 ${project,,} 镜像..." 
     while [ $attempt -le $max_attempts ]; do
-        { time apptainer build --no-https "$output_sif" "$def_file" ; } 2> output.log
+        { time apptainer build --no-https "$output_sif" "$def_file" > output.log; } 2> time_output.log
         build_status=$? 
-        build_time=$(grep '^real' output.log | awk '{print $2}')  
+        build_time=$(grep '^real' time_output.log | awk '{print $2}')  
 
         if [ $build_status -eq 0 ]; then  
              if [ -f "$output_sif" ]; then
@@ -107,11 +111,12 @@ build_image2() {
             else
                 echo "SIF file not found for ${project}-${variant}"
             fi
+            rm time_output.log
             rm output.log
             break
         else
             echo "${RED}构建 ${project,,}.sif 失败，尝试次数: $attempt${NC}"  
-            echo -e "错误信息：\n$(<output.log)\n" >> "$project_base_dir/error_logs/apptainer_${project,,}_error.log"
+            echo -e "错误信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "$project_base_dir/error_logs/apptainer_${project,,}_error.log"
 
             if [ $attempt -lt $max_attempts ]; then  
                 clean_apptainer
@@ -120,6 +125,7 @@ build_image2() {
             fi  
             attempt=$((attempt + 1))  
         fi
+        rm time_output.log
         rm output.log 
     done
 
@@ -191,11 +197,12 @@ build_YOLO11() {
 clean_logfile () {
     > "$log_file"
     rm -rf $project_base_dir/error_logs
+    mkdir -p $project_base_dir/error_logs
 }
 
 clean_apptainer() {
     rm -rf /tmp/*
-    apptainer cache clean
+    apptainer cache clean -f > /dev/null
     sleep 1
 }
 
@@ -240,9 +247,9 @@ for arg in "$@"; do
         Stable-Baselines3)  
             build_Stable-Baselines3  
             ;;  
-        # TTS)  
-        #     build_TTS  
-        #     ;;  
+        TTS)  
+            build_TTS  
+            ;;  
         Transformers)  
             build_Transformers  
             ;;  
@@ -252,15 +259,15 @@ for arg in "$@"; do
         YOLO11)  
             build_YOLO11  
             ;;  
-        YOLOv5)  
-            build_YOLOv5  
-            ;;  
-        YOLOv8)  
-            build_YOLOv8  
-            ;;  
-        mmpretrain)  
-            build_mmpretrain  
-            ;;  
+        # YOLOv5)  
+        #     build_YOLOv5  
+        #     ;;  
+        # YOLOv8)  
+        #     build_YOLOv8  
+        #     ;;  
+        # mmpretrain)  
+        #     build_mmpretrain  
+        #     ;;  
         stablediffusion)  
             build_stablediffusion  
             ;;
@@ -272,7 +279,7 @@ for arg in "$@"; do
             ;;
         *)  
             echo "${RED}错误: 未知的项目 '$arg'${NC}"  
-            echo "可用的项目列表: CLIP, Deep_Live_Cam, LoRA, SAM2, Stable-Baselines3, Transformers, Whisper, YOLO11, YOLOv5, YOLOv8, mmpretrain, stablediffusion"  
+            echo "可用的项目列表: CLIP, LoRA, SAM2, Stable-Baselines3, Transformers, Whisper, YOLO11, TTS, stablediffusion"  
             usage  
             ;;  
     esac  

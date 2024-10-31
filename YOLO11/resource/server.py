@@ -1,10 +1,18 @@
+import os
+os.environ['OMP_NUM_THREADS'] = '1'
+os.environ['MKL_NUM_THREADS'] = '1'
 import argparse
 import requests
 import cv2
 import time
+import json
 import numpy as np
 from ultralytics import YOLO
 import flask
+
+import logging
+logger = logging.getLogger('ultralytics')
+logger.setLevel(logging.WARNING)
 
 # Argument parsing
 argparse = argparse.ArgumentParser()
@@ -37,7 +45,8 @@ def run():
             return {"error": "Failed to decode image from bytes."}
 
         # Run the YOLO model
-        results = model(image)
+        for i in range(1):
+            results = model(image)
         detections = results[0]
 
         output = []
@@ -50,17 +59,17 @@ def run():
                 "confidence": round(confidence, 2)
             })
 
-        try:
-            post_response = requests.post(process_request.get('send_addr'), json={"result": output, "time": process_request.get('time')}, timeout=5)
-            if post_response.status_code != 200:
-                print(f"Failed to send POST request to send_addr. Status code: {post_response.status_code}")
-        except requests.exceptions.RequestException as e:
-            print(f"Exception occurred while sending POST request to send_addr: {e}")
+        # try:
+        #     post_response = requests.post(process_request.get('send_addr'), json={"time": process_request.get('time'), "task_id": process_request.get('task_id')}, timeout=5)
+        #     if post_response.status_code != 200:
+        #         print(f"Failed to send POST request to send_addr. Status code: {post_response.status_code}")
+        # except requests.exceptions.RequestException as e:
+        #     print(f"Exception occurred while sending POST request to send_addr: {e}")
 
+        data = {"time": process_request.get('time'), "task_id": process_request.get('task_id')}
         return {
-            "result": output,
-            "send_addr": process_request.get('send_addr'),
-            "executed_time_s": str(time.time())
+            "executed_time_s": str(time.time()),
+            "scheduler_send_to": {"send_addr": process_request.get('send_addr'), "data": json.dumps(data)}
         }, 200
     
         # return flask.jsonify(output)

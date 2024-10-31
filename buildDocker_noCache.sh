@@ -20,14 +20,14 @@ usage() {
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"  
 project_base_dir="${script_dir}"  
 
-mkdir -p $project_base_dir/error_logs 
+mkdir -p $project_base_dir/error_logs
 log_file="logDocker_noCache.log"  
 
-attempt=1  
 max_attempts=3
 
 build_image() {
     clean_docker
+    attempt=1  
 
     local project=$1  
     local variant=$2      # "cpu" 或 "gpu"  
@@ -74,6 +74,7 @@ build_image() {
 
 build_image2() {
     clean_docker
+    attempt=1  
 
     local project=$1  
     local dockerfile=$2   # "Dockerfile"
@@ -178,6 +179,7 @@ build_YOLO11() {
 clean_logfile () {
     > "$log_file"
     rm -rf $project_base_dir/error_logs
+    mkdir -p $project_base_dir/error_logs
 }
 
 clean_docker() {
@@ -185,7 +187,7 @@ clean_docker() {
         docker stop $(docker ps -q) > /dev/null
     fi
     if [ "$(docker images -q)" ]; then
-        docker rmi $(docker images -q) > /dev/null
+        docker rmi --force $(docker images -q) > /dev/null
     fi
     docker system prune -a -f > /dev/null
 }
@@ -231,9 +233,9 @@ for arg in "$@"; do
         Stable-Baselines3)  
             build_Stable-Baselines3  
             ;;  
-        # TTS)  
-        #     build_TTS  
-        #     ;;  
+        TTS)  
+            build_TTS  
+            ;;  
         Transformers)  
             build_Transformers  
             ;;  
@@ -243,14 +245,14 @@ for arg in "$@"; do
         YOLO11)  
             build_YOLO11  
             ;;  
-        YOLOv5)  
-            build_YOLOv5  
-            ;;  
-        YOLOv8)  
-            build_YOLOv8  
-            ;;  
-        mmpretrain)  
-            build_mmpretrain  
+        # YOLOv5)  
+        #     build_YOLOv5  
+        #     ;;  
+        # YOLOv8)  
+        #     build_YOLOv8  
+        #     ;;  
+        # mmpretrain)  
+        #     build_mmpretrain  
             ;;  
         stablediffusion)  
             build_stablediffusion  
@@ -259,13 +261,11 @@ for arg in "$@"; do
             clean_logfile
             ;;
         cleanbuild)
-            clean_docker
-            docker system df
-
+            clean_apptainer
             ;;
         *)  
             echo "${RED}错误: 未知的项目 '$arg'${NC}"  
-            echo "可用的项目列表: CLIP, Deep_Live_Cam, LoRA, SAM2, Stable-Baselines3, Transformers, Whisper, YOLO11, YOLOv5, YOLOv8, mmpretrain, stablediffusion"  
+            echo "可用的项目列表: CLIP, LoRA, SAM2, Stable-Baselines3, Transformers, Whisper, YOLO11, TTS, stablediffusion"  
             usage  
             ;;  
     esac  

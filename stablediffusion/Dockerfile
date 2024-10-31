@@ -5,7 +5,7 @@ RUN total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines
 RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
 RUN mv /etc/apt/sources.list.new /etc/apt/sources.list
 
-RUN apt update && apt install --yes ffmpeg libsm6 libxext6
+RUN apt update && apt install --yes ffmpeg libsm6 libxext6 curl
 # Create conda environment
 # RUN git clone https://github.com/Stability-AI/stablediffusion.git
 
@@ -14,19 +14,20 @@ WORKDIR /workspace/stablediffusion/
 # Overwrite the environment.yaml file
 COPY ./stablediffusion .
 COPY environment.yaml .
-ADD http://192.168.2.25:9081/repository/storage/v2-1_768-ema-pruned.ckpt .
+# ADD http://192.168.2.25:9081/repository/storage/v2-1_768-ema-pruned.ckpt .
 
 RUN mkdir ~/.conda/ && touch ~/.conda/.condarc
-RUN cat <<'EOF' > ~/.conda/.condarc
-default_channels:
-    - http://192.168.2.25:9081/repository/conda/main
-    - http://192.168.2.25:9081/repository/conda/r
-    - http://192.168.2.25:9081/repository/conda/msys2
-custom_channels:
-    conda-forge: http://192.168.2.25:9081/repository/conda2/
-    nvidia: http://192.168.2.25:9081/repository/conda2/
-    pytorch: http://192.168.2.25:9081/repository/conda2/
-EOF
+COPY ./resource/.condarc ~/.conda/.condarc
+# RUN cat <<'EOF' > ~/.conda/.condarc
+# default_channels:
+#     - http://192.168.2.25:9081/repository/conda/main
+#     - http://192.168.2.25:9081/repository/conda/r
+#     - http://192.168.2.25:9081/repository/conda/msys2
+# custom_channels:
+#     conda-forge: http://192.168.2.25:9081/repository/conda2/
+#     nvidia: http://192.168.2.25:9081/repository/conda2/
+#     pytorch: http://192.168.2.25:9081/repository/conda2/
+# EOF
 
 # RUN conda config --set ssl_verify false && \
 RUN conda config --add channels defaults && \
