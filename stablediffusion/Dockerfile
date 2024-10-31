@@ -14,7 +14,7 @@ WORKDIR /workspace/stablediffusion/
 # Overwrite the environment.yaml file
 COPY ./stablediffusion .
 COPY environment.yaml .
-ADD http://192.168.2.25:9081/repository/storage/v2-1_768-ema-pruned.ckpt .
+# ADD http://192.168.2.25:9081/repository/storage/v2-1_768-ema-pruned.ckpt .
 
 RUN mkdir ~/.conda/ && touch ~/.conda/.condarc
 RUN cat <<'EOF' > ~/.conda/.condarc
