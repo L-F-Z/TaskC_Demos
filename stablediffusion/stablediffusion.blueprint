@@ -28,7 +28,6 @@
 - [PyPI] invisible-watermark [>=0.1.5]
 - [PyPI] streamlit-drawable-canvas [==0.8.0]
 - [PyPI] torchmetrics [==0.6.0]
-- [LOCAL] /workspace/stablediffusion/ [http://192.168.2.25:9081/repository/storage/v2-1_768-ema-pruned.ckpt]
 - [LOCAL] /workspace/stablediffusion/ [./stablediffusion]
 - [PYTHON] [./stablediffusion]
 
