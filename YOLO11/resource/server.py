@@ -59,12 +59,17 @@ def run():
                 "confidence": round(confidence, 2)
             })
 
-        # try:
-        #     post_response = requests.post(process_request.get('send_addr'), json={"time": process_request.get('time'), "task_id": process_request.get('task_id')}, timeout=5)
-        #     if post_response.status_code != 200:
-        #         print(f"Failed to send POST request to send_addr. Status code: {post_response.status_code}")
-        # except requests.exceptions.RequestException as e:
-        #     print(f"Exception occurred while sending POST request to send_addr: {e}")
+        while True:
+            try:
+                post_response = requests.post(process_request.get('send_addr'), json={"time": process_request.get('time'), "task_id": process_request.get('task_id')}, timeout=5)
+                if post_response.status_code != 200:
+                    print(f"Failed to send POST request to send_addr. Status code: {post_response.status_code}")
+                    time.sleep(0.1)
+                else:
+                    break
+            except requests.exceptions.RequestException as e:
+                print(f"Exception occurred while sending POST request to send_addr: {e}")
+                time.sleep(0.1)
 
         data = {"time": process_request.get('time'), "task_id": process_request.get('task_id')}
         return {

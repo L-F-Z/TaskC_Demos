@@ -197,7 +197,7 @@ clean_logfile () {
 clean_apptainer() {
     rm -rf /tmp/*
     # dont need output
-    apptainer cache clean -f > /dev/null
+    apptainer cache clean -f > /dev/null 2>&1
     sleep 1
 }
 

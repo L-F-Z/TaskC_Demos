@@ -105,7 +105,7 @@ build_image2() {
              if [ -f "$output_sif" ]; then
                 image_size=$(stat -c%s "$output_sif")
                 # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
-                echo "${project}, ${build_time}, ${image_size}" | tee -a "../$log_file"
+                echo "${project,,}, ${build_time}, ${image_size}" | tee -a "../$log_file"
                 echo "${GREEN}${project,,}.sif 构建完成${NC}"
             else
                 echo "SIF file not found for ${project}-${variant}"
@@ -201,7 +201,7 @@ clean_logfile () {
 
 clean_apptainer() {
     rm -rf /tmp/*
-    apptainer cache clean -f > /dev/null
+    apptainer cache clean -f > /dev/null 2>&1
     sleep 1
 }
 
