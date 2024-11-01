@@ -21,12 +21,11 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 project_base_dir="${script_dir}"  
 
 mkdir -p $project_base_dir/error_logs
-log_file="logTaskc_noCache.log"  
+log_file="logTaskc_withCache.log"  
 
 max_attempts=3
 
 build_image() {
-    clean_taskc
     attempt=1  
 
     local project=$1  
@@ -57,7 +56,6 @@ build_image() {
             echo "${RED}构建 ${project,,} Taskc Image失败，尝试次数: $attempt${NC}"  
             echo -e "错误信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "$project_base_dir/error_logs/taskc_${project,,}_error.log"
             if [ $attempt -lt $max_attempts ]; then  
-                clean_taskc
                 echo "等待 1 秒后重试..."  
                 sleep 1
             fi  

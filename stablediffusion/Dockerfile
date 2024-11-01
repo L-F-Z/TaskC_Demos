@@ -13,7 +13,9 @@ WORKDIR /workspace/stablediffusion/
 
 # Overwrite the environment.yaml file
 COPY ./stablediffusion .
-COPY environment.yaml .
+COPY ./resource/environment.yaml .
+COPY ./resource/txt2img.py ./scripts/txt2img.py
+COPY ./resource/v2-inference-v.yaml ./stablediffusion/configs/stable-diffusion/v2-inference-v.yaml
 # ADD http://192.168.2.25:9081/repository/storage/v2-1_768-ema-pruned.ckpt .
 
 RUN mkdir ~/.conda/ && touch ~/.conda/.condarc

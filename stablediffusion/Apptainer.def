@@ -5,8 +5,10 @@ From: 192.168.2.25:10081/pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel
     mkdir -p ${APPTAINER_ROOTFS}/app/stablediffusion
 
     cp -r stablediffusion ${APPTAINER_ROOTFS}/app/  
-    cp environment.yaml ${APPTAINER_ROOTFS}/app/stablediffusion/
-
+    cp ./resource/environment.yaml ${APPTAINER_ROOTFS}/app/stablediffusion/
+    cp ./resource/txt2img.py ${APPTAINER_ROOTFS}/app/scripts/txt2img.py
+    cp ./resource/v2-inference-v.yaml ${APPTAINER_ROOTFS}/app/stablediffusion/configs/stable-diffusion/v2-inference-v.yaml
+    
     mkdir -p ${APPTAINER_ROOTFS}/.conda/ && touch ${APPTAINER_ROOTFS}/.conda/.condarc
     cp ./resource/.condarc ${APPTAINER_ROOTFS}/.conda/.condarc
 
@@ -19,7 +21,7 @@ From: 192.168.2.25:10081/pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel
     apt update && apt install --yes ffmpeg libsm6 libxext6 curl
 
     cd /app/stablediffusion/ 
-    curl -o /app/stablediffusion/v2-1_768-ema-pruned.ckpt http://192.168.2.25:9081/repository/storage/v2-1_768-ema-pruned.ckpt
+    # curl -o /app/stablediffusion/v2-1_768-ema-pruned.ckpt http://192.168.2.25:9081/repository/storage/v2-1_768-ema-pruned.ckpt
 
     # Modify ~/.conda/.condarc to use PkgCache
     # mkdir ~/.conda/ && \

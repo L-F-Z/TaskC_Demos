@@ -29,7 +29,6 @@ build_image() {
     clean_apptainer
     attempt=1  
 
-
     local project=$1  
     local variant=$2      # "cpu" or "gpu"
     local def_file=$3     # "cpuApptainer.def" or "gpuApptainer.def"
