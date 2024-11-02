@@ -8,10 +8,12 @@
 - [DockerHub] python [3.10-slim]
 - [Apt] ffmpeg [any]
 - [PyPI] numba [any]
+- [PyPI] numpy [any]
 - [PyPI] torch [any]
 - [PyPI] tqdm [any]
 - [PyPI] more-itertools [any]
 - [PyPI] tiktoken [any]
+- [PyPI] triton [>=2.0.0]
 - [LOCAL] /app/whisper [./whisper]
 - [PYTHON] whisper:whisper.transcribe:cli [./whisper/whisper]
 
