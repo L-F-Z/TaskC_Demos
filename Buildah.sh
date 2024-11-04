@@ -8,25 +8,58 @@ BLUE=$'\033[0;34m'
 NC=$'\033[0m'
                 
 usage() {  
-    echo "用法: bash $0 [proj1 proj2 ... | all]"  
-    echo "  proj: 构建指定的项目，例如 ${BLUE}bash buildDocker_noCache.sh CLIP${NC}"  
-    echo "  all : 构建所有项目，例如 ${BLUE}bash buildDocker_noCache.sh all${NC}"  
-    echo "  支持同时构建多个项目，例如 ${BLUE}bash buildDocker_noCache.sh CLIP YOLOv5${NC}"
+    echo "用法: bash $0 [proj1 proj2 ... | all]"
+    echo "  --no-cache   每次构建时清除缓存"  
+    echo "  --cpu        仅构建 CPU 版本的镜像"  
+    echo "  --gpu        仅构建 GPU 版本的镜像" 
+    echo "  proj: 构建指定的项目，例如 ${BLUE}bash buildBuildah_noCache.sh CLIP${NC}"  
+    echo "  all : 构建所有项目，例如 ${BLUE}bash buildBuildah_noCache.sh all${NC}"  
+    echo "  支持同时构建多个项目，例如 ${BLUE}bash buildBuildah_noCache.sh CLIP YOLOv5${NC}"
     echo "  cleanlog: 清空日志和报错信息文件"
-    echo "  cleanbuild: 清空所有docker镜像、容器和缓存"
+    echo "  cleanbuild: 清空所有Buildah镜像和缓存"
     exit 1  
 }  
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"  
 project_base_dir="${script_dir}"  
 
-mkdir -p $project_base_dir/error_logs
-log_file="logDocker_noCache.log"  
-
 max_attempts=3
+use_cache=true  
+cpu_only=false  
+gpu_only=false
+
+# Parse command line arguments  
+project_args=()  
+for arg in "$@"; do  
+    case "$arg" in  
+        --no-cache)  
+            use_cache=false  
+            ;;  
+        --cpu)  
+            cpu_only=true  
+            ;;  
+        --gpu)  
+            gpu_only=true  
+            ;;  
+        *)  
+            project_args+=("$arg") # Collect additional arguments for projects  
+            ;;  
+    esac  
+done 
+
+log_file="logBuildah.log" 
+error_dir = "$project_base_dir/error_logs"
+mkdir -p ${error_dir}
+error_logfile = "buildah_${project,,}_error.log"
+
+clean_cache_if_needed() {  
+    if [ "$use_cache" = false ]; then  
+        clean_buildah  
+    fi  
+} 
 
 build_image() {
-    clean_docker
+    clean_cache_if_needed
     attempt=1  
 
     local project=$1  
@@ -42,29 +75,36 @@ build_image() {
 
     echo "正在构建 ${project,,}-${variant} 镜像..."  
     while [ $attempt -le $max_attempts ]; do  
-        { time docker build --no-cache -t "${project,,}-${variant}" -f "$dockerfile" . ; } 2> output.log  
+        if [[ "$use_cache" = false ]; then
+            { time buildah bud --no-cache -t "${project,,}-${variant}" -f "$dockerfile" . > output.log; } 2> time_output.log  
+        else
+            { time buildah bud -t "${project,,}-${variant}" -f "$dockerfile" . > output.log; } 2> time_output.log  
+        fi
+
         build_status=$?  
-        build_time=$(grep '^real' output.log | awk '{print $2}')  
+        build_time=$(grep '^real' time_output.log | awk '{print $2}')  
         
         if [ $build_status -eq 0 ]; then  
-            image_size=$(docker image inspect "${project,,}-${variant}:latest" --format='{{.Size}}')  
+            image_size=$(buildah inspect "${project,,}-${variant}:latest" | jq '[.Manifest | fromjson | .config.size] + [.Manifest | fromjson | .layers[].size] | add')  
             # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)  
             echo "${project,,}-${variant}, ${build_time}, ${image_size}" | tee -a "../$log_file"
             echo "${GREEN}${project,,}-${variant} 镜像构建完成${NC}"  
+            rm time_output.log
             rm output.log
             break  
         else  
             echo "${RED}构建 ${project,,}-${variant} 镜像失败，尝试次数: $attempt${NC}" 
-            echo -e "错误信息：\n$(<output.log)\n" >> "$project_base_dir/error_logs/docker_${project,,}_error.log"
+            echo -e "错误信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "${error_dir}/${error_logfile}"
 
             # Retry
             if [ $attempt -lt $max_attempts ]; then 
-                clean_docker
+                clean_cache_if_needed
                 echo "等待 1 秒后重试..." 
                 sleep 1  
             fi
             attempt=$((attempt + 1))  
         fi
+        rm time_output.log
         rm output.log 
     done  
 
@@ -73,7 +113,7 @@ build_image() {
 } 
 
 build_image2() {
-    clean_docker
+    clean_cache_if_needed
     attempt=1  
 
     local project=$1  
@@ -88,31 +128,52 @@ build_image2() {
 
     echo "正在构建 ${project,,} 镜像..." 
     while [ $attempt -le $max_attempts ]; do
-        { time docker build --no-cache -t "${project,,}" -f "$dockerfile" . ; } 2> output.log  
+        if [[ "$use_cache" = false ]; then
+            { time buildah bud --no-cache -t "${project,,}" -f "$dockerfile" . > output.log; } 2> time_output.log  
+        else
+            { time buildah bud -t "${project,,}" -f "$dockerfile" . > output.log; } 2> time_output.log  
+        fi
+
         build_status=$? 
-        build_time=$(grep '^real' output.log | awk '{print $2}')  
+        build_time=$(grep '^real' time_output.log | awk '{print $2}')  
         if [ $build_status -eq 0 ]; then  
-            image_size=$(docker image inspect "${project,,}:latest" --format='{{.Size}}') 
+            image_size=$(buildah inspect "${project,,}:latest" | jq '[.Manifest | fromjson | .config.size] + [.Manifest | fromjson | .layers[].size] | add')  
             # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
             echo "${project,,}, ${build_time}, ${image_size}" | tee -a "../$log_file"
             echo "${GREEN}${project,,} 镜像构建完成${NC}"
+            rm time_output.log
             rm output.log
             break
         else
             echo "${RED}构建 ${project,,} 镜像失败，尝试次数: $attempt${NC}"  
-            echo -e "错误信息：\n$(<output.log)\n" >> "$project_base_dir/error_logs/docker_${project,,}_error.log"
+            echo -e "错误信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "${error_dir}/${error_logfile}"
             if [ $attempt -lt $max_attempts ]; then  
-                clean_docker
+                clean_cache_if_needed
                 echo "等待 1 秒后重试..."  
                 sleep 1
             fi  
             attempt=$((attempt + 1))  
         fi
+        rm time_output.log
         rm output.log 
     done
 
     cd "$script_dir" || exit
     echo "-----------------------------------"  
+}
+
+buildImage() {
+    local project=$1
+    if [ "$cpu_only" = true ]; then  
+        build_image "${project}" "cpu" "cpuDockerfile"  
+    fi  
+    if [ "$gpu_only" = true ]; then  
+        build_image "${project}" "gpu" "gpuDockerfile"  
+    fi 
+    if ["$cpu_only" = false && "$gpu_only" = false ]; then
+        build_image "${project}" "cpu" "cpuDockerfile"  
+        build_image "${project}" "gpu" "gpuDockerfile"
+    fi
 }
 
 build_CLIP() {  
@@ -125,18 +186,15 @@ build_CLIP() {
 # }  
 
 build_LoRA() {  
-    build_image "LoRA" "cpu" "cpuDockerfile"  
-    build_image "LoRA" "gpu" "gpuDockerfile"  
+    buildImage "LoRA"
 }  
 
 build_SAM2() {  
-    build_image "SAM2" "cpu" "cpuDockerfile"  
-    build_image "SAM2" "gpu" "gpuDockerfile"  
+    buildImage "SAM2"
 }  
 
 build_Stable-Baselines3() {  
-    build_image "Stable-Baselines3" "cpu" "cpuDockerfile"  
-    build_image "Stable-Baselines3" "gpu" "gpuDockerfile"  
+    buildImage "Stable-Baselines3"
 }
 
 build_stablediffusion() {  
@@ -155,9 +213,8 @@ build_Whisper() {
     build_image2 "Whisper" "Dockerfile"  
 }  
 
-build_YOLO11() {  
-    build_image "YOLO11" "cpu" "cpuDockerfile"  
-    build_image "YOLO11" "gpu" "gpuDockerfile"  
+build_YOLO11() {
+    buildImage "YOLO11"
 }  
 
 # build_YOLOv5() {  
@@ -182,21 +239,18 @@ clean_logfile () {
     mkdir -p $project_base_dir/error_logs
 }
 
-clean_docker() {
-    if [ "$(docker ps -q)" ]; then
-        docker stop $(docker ps -q) > /dev/null
+clean_buildah() {
+    if [ "$(buildah images -q)" ]; then
+        buildah rmi -f --all > /dev/null
     fi
-    if [ "$(docker images -q)" ]; then
-        docker rmi --force $(docker images -q) > /dev/null
-    fi
-    docker system prune -a -f > /dev/null
+    rm /var/lib/containers/cache/*
 }
 
-if [ $# -eq 0 ]; then  
+if [ ${#project_args[@]} -eq 0 ]; then  
     usage  
-fi  
+fi 
 
-if [[ " $* " == *" all "* ]]; then  
+if [[ " ${project_args[*]} " == *" all "* ]]; then
     clean_logfile
     echo "开始构建所有项目..."  
     build_CLIP  
@@ -216,7 +270,7 @@ if [[ " $* " == *" all "* ]]; then
     exit 0  
 fi  
 
-for arg in "$@"; do  
+for arg in "${project_args[@]}"; do 
     case "$arg" in  
         CLIP)  
             build_CLIP  
@@ -253,7 +307,7 @@ for arg in "$@"; do
         #     ;;  
         # mmpretrain)  
         #     build_mmpretrain  
-            ;;  
+        #     ;;  
         stablediffusion)  
             build_stablediffusion  
             ;;

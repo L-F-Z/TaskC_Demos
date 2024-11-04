@@ -9,23 +9,74 @@ NC=$'\033[0m'
                 
 usage() {  
     echo "用法: bash $0 [proj1 proj2 ... | all]"  
-    echo "  proj: 构建指定的项目，例如 ${BLUE}bash buildDocker_noCache.sh CLIP${NC}"  
-    echo "  all : 构建所有项目，例如 ${BLUE}bash buildDocker_noCache.sh all${NC}"  
-    echo "  支持同时构建多个项目，例如 ${BLUE}bash buildDocker_noCache.sh CLIP YOLOv5${NC}"
+    echo "  --no-cache   每次构建时清除缓存"  
+    echo "  --full       使用full版blueprint，full优先级高于cpu/gpu"
+    echo "  --cpu        仅构建 CPU 版本的镜像"  
+    echo "  --gpu        仅构建 GPU 版本的镜像" 
+    echo "  proj: 构建指定的项目，例如 ${BLUE}bash buildTaskc_noCache.sh CLIP${NC}"  
+    echo "  all : 构建所有项目，例如 ${BLUE}bash buildTaskc_noCache.sh all${NC}"  
+    echo "  支持同时构建多个项目，例如 ${BLUE}bash buildTaskc_noCache.sh CLIP YOLOv5${NC}"
     echo "  cleanlog: 清空日志和报错信息文件"
-    echo "  cleanbuild: 清空所有docker镜像、容器和缓存"
+    echo "  cleanbuild: 清空所有Taskc镜像、容器和缓存"
     exit 1  
 }  
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"  
 project_base_dir="${script_dir}"  
 
-mkdir -p $project_base_dir/error_logs
-log_file="logTaskc_noCache.log"  
-
 max_attempts=3
+use_cache=true  
+cpu_only=false  
+gpu_only=false
+full_version=false
+
+# Parse command line arguments  
+project_args=()  
+for arg in "$@"; do  
+    case "$arg" in  
+        --no-cache)  
+            use_cache=false  
+            ;;  
+        --cpu)  
+            cpu_only=true  
+            ;;  
+        --gpu)  
+            gpu_only=true  
+            ;;  
+        --full)
+            full_version=true
+            ;;
+        *)  
+            project_args+=("$arg") # Collect additional arguments for projects  
+            ;;  
+    esac  
+done 
+
+error_dir = "$project_base_dir/error_logs"
+mkdir -p ${error_dir}
+log1 = "logTaskc.log"
+log2 = "logTaskc_full.log" 
+if ["$full_version" = true]; then
+    log_file = $log1
+else
+    log_file = $log2
+fi
+
+if ["$full_version" = true]; then
+    error_logfile = "taskc_full_${project,,}_error.log"  
+else
+    error_logfile = "taskc_${project,,}_error.log"
+fi
+
+
+clean_cache_if_needed() {  
+    if [ "$use_cache" = false ]; then  
+        clean_taskc  
+    fi  
+} 
+
 build_image() {
-    clean_taskc
+    clean_cache_if_needed
     attempt=1  
 
     local project=$1
@@ -46,6 +97,7 @@ build_image() {
         else
             { time taskc asm "$buildfile" > output.log; } 2> time_output.log
         fi
+
         build_status=$? 
         build_time=$(grep '^real' time_output.log | awk '{print $2}')  
 
@@ -59,9 +111,9 @@ build_image() {
             break
         else
             echo "${RED}构建 ${project,,} Taskc Image 失败，尝试次数: $attempt${NC}"  
-            echo -e "错误信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "$project_base_dir/error_logs/taskc_${project,,}_error.log"
+            echo -e "错误信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "${error_dir}/${error_logfile}"
             if [ $attempt -lt $max_attempts ]; then  
-                clean_taskc
+                clean_cache_if_needed
                 echo "等待 1 秒后重试..."  
                 sleep 1
             fi  
@@ -75,12 +127,14 @@ build_image() {
     echo "-----------------------------------"  
 }
 
+# build full version
 build_image2() {
-    clean_taskc
+    clean_cache_if_needed
     attempt=1  
 
     local project=$1  
-    local buildfile="${project}.blueprint"
+    local version=$2
+    local buildfile="${project}-full-${version}.blueprint"
     local project_dir="${project_base_dir}/${project}" 
 
     if [ ! -d "$project_dir" ]; then  
@@ -91,6 +145,12 @@ build_image2() {
 
     echo "正在构建 ${project,,} Taskc Image..." 
     while [ $attempt -le $max_attempts ]; do
+        if [ "$version" == "cpu" ]; then
+            { time taskc asm --ignore-gpu "$buildfile" > output.log; } 2> time_output.log
+        else
+            { time taskc asm "$buildfile" > output.log; } 2> time_output.log
+        fi
+         
         { time taskc asm "$buildfile" >output.log; } 2> time_output.log
         build_status=$? 
         build_time=$(grep '^real' time_output.log | awk '{print $2}')  
@@ -105,9 +165,9 @@ build_image2() {
             break
         else
             echo "${RED}构建 ${project,,} Taskc Image 失败，尝试次数: $attempt${NC}"  
-            echo -e "错误信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "$project_base_dir/error_logs/taskc_${project,,}_error.log"
+            echo -e "错误信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "${error_dir}/${error_logfile}"
             if [ $attempt -lt $max_attempts ]; then  
-                clean_taskc
+                clean_cache_if_needed
                 echo "等待 1 秒后重试..."  
                 sleep 1
             fi  
@@ -121,76 +181,90 @@ build_image2() {
     echo "-----------------------------------"  
 }
 
+buildImage() {
+    local project=$1
+    if [ "$full_verison" = false]; then 
+        if [ "$cpu_only" = true ]; then 
+            build_image "${project}" "cpu" 
+        fi
+        if [ "$gpu_only" = true ]; then 
+            build_image "${project}" "gpu" 
+        fi
+        if [ "$cpu_only" = false && "$gpu_only" = false ]; then 
+            build_image "${project}" "cpu"
+            build_image "${project}" "gpu" 
+        fi
+    else
+        if [ "$cpu_only" = true ]; then 
+            build_image2 "${project}" "cpu" 
+        fi
+        if [ "$gpu_only" = true ]; then 
+            build_image2 "${project}" "gpu" 
+        fi
+        if [ "$cpu_only" = false && "$gpu_only" = false ]; then 
+            build_image2 "${project}" "cpu"
+            build_image2 "${project}" "gpu" 
+        fi
+    fi
+}
 build_CLIP() {  
-    build_image "CLIP" "cpu"
-    build_image "CLIP" "gpu"
+    buildImage "CLIP"
 }  
 
 # build_Deep_Live_Cam() {  
-#     build_image "Deep_Live_Cam" "cpu" "cpuDockerfile"  
-#     build_image "Deep_Live_Cam" "gpu" "gpuDockerfile"  
+#     buildImage "Deep_Live_Cam"
 # }  
 
 build_LoRA() {  
-    build_image "LoRA" "cpu" 
-    build_image "LoRA" "gpu"
+    buildImage "LoRA"
 }  
 
-build_SAM2() {  
-    build_image "SAM2" "cpu"
-    build_image "SAM2" "gpu"
+build_SAM2() { 
+    buildImage "SAM2" 
 }  
 
 build_Stable-Baselines3() { 
-    build_image "Stable-Baselines3" "cpu"
-    build_image "Stable-Baselines3" "gpu"
+    buildImage "Stable-Baselines3" 
 }
 
 build_stablediffusion() {  
-    build_image "stablediffusion" "cpu"
-    build_image "stablediffusion" "gpu"
+    buildImage "stablediffusion"
 }  
 
 build_TTS() {  
-    build_image "TTS" "cpu"
-    build_image "TTS" "gpu"
+    buildImage "TTS"
 }  
 
 build_Transformers() {  
-    build_image "Transformers" "cpu"
-    build_image "Transformers" "gpu"
+    buildImage "Transformers"
 }  
 
 build_Whisper() {  
-    build_image "Whisper" "cpu"
-    build_image "Whisper" "gpu"
+    buildImage "Whisper"
 }  
 
 build_YOLO11() {  
-    build_image "YOLO11" "cpu"
-    build_image "YOLO11" "gpu"
+    buildImage "YOLO11"
 }  
 
 # build_YOLOv5() {  
-#     build_image "YOLOv5" "cpu" "cpuDockerfile"  
-#     build_image "YOLOv5" "gpu" "gpuDockerfile"  
+#     buildImage "YOLOv5"
 # }  
 
 # build_YOLOv8() {  
-#     build_image "YOLOv8" "cpu" "cpuDockerfile"  
-#     build_image "YOLOv8" "gpu" "gpuDockerfile"  
+#     buildImage "YOLOv8"
 # }  
 
 # build_mmpretrain() {  
-#     build_image "mmpretrain" "cpu" "cpuDockerfile"  
-#     build_image "mmpretrain" "gpu" "gpuDockerfile"  
+#     buildImage "mmpretrain" 
 # }  
 
 
 clean_logfile () {
-    > "$log_file"
-    rm -rf $project_base_dir/error_logs
-    mkdir -p $project_base_dir/error_logs
+    rm $log1
+    rm $log2
+    rm -rf $error_dir
+    mkdir -p $error_dir
 }
 
 clean_taskc() {
