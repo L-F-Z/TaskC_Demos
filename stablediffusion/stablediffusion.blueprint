@@ -5,7 +5,7 @@
 [ENVIRONMENT] any
 
 [DEPEND]
-- [DockerHub] python [3.8-slim]
+- [DockerHub] python [3.9-slim]
 - [Apt] ffmpeg [any]
 - [Apt] libsm6 [any]
 - [Apt] libxext6 [any]

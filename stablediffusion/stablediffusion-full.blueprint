@@ -5,10 +5,12 @@
 [ENVIRONMENT] any
 
 [DEPEND]
-- [DockerHub] python [3.8-slim]
+- [DockerHub] pytorch/pytorch [1.12.1-cuda11.3-cudnn8-devel]
 - [Apt] ffmpeg [any]
 - [Apt] libsm6 [any]
 - [Apt] libxext6 [any]
+- [Apt] curl [any]
+- [Apt] python3.9 [any]
 - [PyPI] torch [<=2.4.0]
 - [PyPI] torchvision [<=0.19.0]
 - [PyPI] numpy [any]
