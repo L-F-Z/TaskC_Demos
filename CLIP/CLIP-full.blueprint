@@ -1,0 +1,30 @@
+[BLUEPRINT] v1
+[NAME] CLIP-full
+[TYPE] Prefab
+[VERSION] latest
+[ENVIRONMENT] any
+
+[DEPEND]
+- [DockerHub] python [3.9-slim-buster]
+- [Apt] libgl1-mesa-glx [any]
+- [Apt] libegl1-mesa [any]
+- [Apt] libxrandr2 [any]
+- [Apt] libxss1 [any]
+- [Apt] libxcursor1 [any]
+- [Apt] libxcomposite1 [any]
+- [Apt] libasound2 [any]
+- [Apt] libxi6 [any]
+- [Apt] libxtst6 [any]
+- [PyPI] torch [any]
+- [PyPI] torchvision [any]
+- [PyPI] torchaudio [any]
+- [PyPI] ftfy [any]
+- [PyPI] regex [any]
+- [PyPI] tqdm [any]
+- [PyPI] packaging [any]
+- [LOCAL] /app/CLIP [./CLIP]
+- [PYTHON] [./CLIP/clip]
+
+[WORKDIR] /app/CLIP
+[CMD]
+- bin/bash
