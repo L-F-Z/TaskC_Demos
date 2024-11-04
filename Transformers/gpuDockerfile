@@ -27,6 +27,7 @@ COPY ./resource/pip.conf /root/.pip/pip.conf
 # RUN pip install --no-cache-dir -e /app/transformers \
 #     torch torchvision timm
 RUN pip install --no-cache-dir -e /app/transformers \
+    timm \
     torch==2.4.0 \
     torchvision \
     torchaudio \

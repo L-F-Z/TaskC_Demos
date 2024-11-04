@@ -16,7 +16,7 @@ RUN pip install --no-cache-dir -e /app/transformers \
     torchvision \
     torchaudio \
     pytesseract \
-    "itsdangerous<2.1.0"\
+    "itsdangerous<2.1.0" \
     --extra-index-url https://download.pytorch.org/whl/cpu
 
 RUN cd /app/detectron2 && pip install --no-cache-dir -e .

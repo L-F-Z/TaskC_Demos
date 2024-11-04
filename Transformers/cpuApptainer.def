@@ -1,0 +1,54 @@
+Bootstrap: docker  
+From: 192.168.2.25:10081/python:3.10-slim
+
+%setup  
+    # Create the working directory  
+    mkdir -p ${APPTAINER_ROOTFS}/app
+    
+    # Copy the cloned transformers repository into the container  
+    cp -r ./transformers ${APPTAINER_ROOTFS}/app/transformers  
+    cp -r ./detectron2 ${APPTAINER_ROOTFS}/app/ddetectron2
+
+    mkdir -p ${APPTAINER_ROOTFS}/.pip/
+    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf
+
+
+%post
+    total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
+    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+    mv /etc/apt/sources.list.new /etc/apt/sources.list
+
+    # Set the working directory  
+    cd /app  
+
+    # Install git and other dependencies  
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        libsndfile1-dev \
+        espeak-ng time g++ cmake \
+        pkg-config openssh-client && \
+    rm -rf /var/lib/apt/lists/*  
+
+    # mkdir ~/.pip/ && \
+    # touch ~/.pip/pip.conf && \
+    # test -f ~/.pip/pip.conf && \
+    # mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
+
+    # Install the Transformers library in editable mode and other dependencies  
+
+    #pip source info
+
+    pip install --no-cache-dir -e /app/transformers \
+        timm \
+        torch===2.4.0+cpu \
+        torchvision \
+        torchaudio \
+        pytesseract \
+        "itsdangerous<2.1.0" \
+        --extra-index-url https://download.pytorch.org/whl/cpu
+
+    cd /app/detectron2 && pip install --no-cache-dir -e .
+    cd /app/transformers && python3 setup.py develop
+
+%runscript  
+    exec /bin/bash
