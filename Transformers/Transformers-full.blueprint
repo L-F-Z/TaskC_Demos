@@ -1,18 +1,21 @@
 [BLUEPRINT] v1
-[NAME] Transformers
+[NAME] Transformers-full
 [TYPE] Prefab
 [VERSION] latest
 [ENVIRONMENT] any
 
 [DEPEND]
-- [DockerHub] python [3.10-slim]
+- [DockerHub] nvidia/cuda [12.1.0-cudnn8-devel-ubuntu22.04]
+- [Apt] pip [any]
 - [Apt] libsndfile1-dev [any]
 - [Apt] tesseract-ocr [any]
 - [Apt] espeak-ng [any]
+- [Apt] python3 [any]
+- [Apt] python3-pip [any]
 - [Apt] ffmpeg [any]
-- [PyPI] torch [any]
-- [PyPI] torchvision [any]
-- [PyPI] torchaudio [any]
+- [PyPI] torch [==2.4.0]
+- [PyPI] torchvision [==0.19.0]
+- [PyPI] torchaudio [==2.4.0]
 - [PyPI] pytesseract [any]
 - [PyPI] itsdangerous [<2.1.0]
 - [PyPI] timm [any]
@@ -46,7 +49,6 @@
 - [PyPI] tqdm [>=4.27]
 - [PYTHON] transformers-cli:transformers.commands.transformers_cli:main [./transformers/src/transformers]
 - [LOCAL] /app [./transformers]
-- [LOCAL] /test [./test]
 
 [WORKDIR] /app
 [CMD]
