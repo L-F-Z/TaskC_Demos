@@ -1,0 +1,39 @@
+[BLUEPRINT] v1
+[NAME] LoRA-full-cpu
+[TYPE] Prefab
+[VERSION] latest
+[ENVIRONMENT] any
+
+[DEPEND]
+- [DockerHub] nvidia/cuda [11.1.1-cudnn8-devel-ubuntu20.04]
+- [Apt] bash [any]
+- [Apt] build-essential [any]
+- [Apt] cmake [any]
+- [Apt] ca-certificates [any]
+- [Apt] python3 [any]
+- [Apt] python3-pip [any]
+- [PyPI] jupyter [any]
+- [PyPI] torch [any]
+- [PyPI] jupyter [any]
+- [PyPI] packaging [==20.9]
+- [PyPI] datasets [==2.0.0]
+- [PyPI] sentencepiece [==0.1.91]
+- [PyPI] black [==20.8b1]
+- [PyPI] cookiecutter [==1.7.2]
+- [PyPI] flake8 [==3.8.3]
+- [PyPI] flax [==0.3.2]
+- [PyPI] fugashi [==1.0]
+- [PyPI] importlib_metadata [any]
+- [PyPI] ipadic [==1.0.0]
+- [PyPI] isort [==5.5.4]
+- [PyPI] jax [==0.2.8]
+- [PyPI] unidic [==1.0.2]
+- [PyPI] unidic_lite [==1.0.7]
+- [PyPI] tokenizers [==0.10.2]
+- [PyPI] transformers [any]
+- [LOCAL] /app [./LoRA]
+- [PYTHON] [./LoRA/loralib]
+
+[WORKDIR] /
+[CMD]
+- /bin/bash
