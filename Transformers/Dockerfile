@@ -10,7 +10,7 @@ RUN mv /etc/apt/sources.list.new /etc/apt/sources.list
    
 # Install git and other dependencies
 RUN apt-get update && apt-get install -y \
-    pip \
+    libsndfile1-dev tesseract-ocr espeak-ng python3 python3-pip ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy the cloned transformers repository into the container
