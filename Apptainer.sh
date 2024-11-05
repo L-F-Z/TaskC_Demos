@@ -47,10 +47,9 @@ for arg in "$@"; do
     esac  
 done 
 
-error_dir = "$project_base_dir/error_logs"
+error_dir="$project_base_dir/error_logs"
 mkdir -p ${error_dir}
-error_logfile = "apptainer_${project,,}_error.log"
-log_file = "logApptainer.log"
+log_file="logApptainer.log"
 
 clean_cache_if_needed() {  
     if [ "$use_cache" = false ]; then  
@@ -63,10 +62,69 @@ build_image() {
     attempt=1  
 
     local project=$1  
+    local def_file=$2   # "Apptainer.def"
+    local output_sif="/tmp/${project,,}.sif"
+    local project_dir="${project_base_dir}/${project}" 
+    local error_logfile="apptainer_${project,,}_error.log"
+
+    if [ ! -d "$project_dir" ]; then  
+        echo "${RED}错误: 项目目录不存在: $project_dir${NC}"  
+        return 1  
+    fi  
+    cd "$project_dir" || { echo "${RED}错误: 无法进入项目目录: $project_dir${NC}"; return 1; }  
+
+    echo "正在构建 ${project,,} 镜像..." 
+    while [ $attempt -le $max_attempts ]; do
+        if [ "$use_cache" = false ]; then
+            { time apptainer build --no-https --disable-cache "$output_sif" "$def_file" > output.log; } 2> time_output.log
+        else
+            { time apptainer build --no-https "$output_sif" "$def_file" > output.log; } 2> time_output.log
+        fi
+
+        build_status=$? 
+        build_time=$(grep '^real' time_output.log | awk '{print $2}')  
+
+        if [ $build_status -eq 0 ]; then  
+             if [ -f "$output_sif" ]; then
+                image_size=$(stat -c%s "$output_sif")
+                # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
+                echo "${project,,}, ${build_time}, ${image_size}" | tee -a "../$log_file"
+                echo "${GREEN}${project,,}.sif 构建完成${NC}"
+            else
+                echo "SIF file not found for ${project}-${variant}"
+            fi
+            rm time_output.log
+            rm output.log
+            break
+        else
+            echo "${RED}构建 ${project,,}.sif 失败，尝试次数: $attempt${NC}"  
+            echo -e "错误信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "${error_dir}/${error_logfile}"
+
+            if [ $attempt -lt $max_attempts ]; then  
+                clean_cache_if_needed
+                echo "等待 1 秒后重试..."  
+                sleep 1
+            fi  
+            attempt=$((attempt + 1))  
+        fi
+        rm time_output.log
+        rm output.log 
+    done
+
+    cd "$script_dir" || exit
+    echo "-----------------------------------"  
+}
+
+build_image2() {
+    clean_cache_if_needed
+    attempt=1  
+
+    local project=$1  
     local variant=$2      # "cpu" or "gpu"
     local def_file=$3     # "cpuApptainer.def" or "gpuApptainer.def"
     local output_sif="/tmp/${project,,}_${variant}.sif"
     local project_dir="${project_base_dir}/${project}"  
+    local error_logfile="apptainer_${project,,}_${variant}_error.log"
 
     if [ ! -d "${project_dir}" ]; then  
         echo "${RED}}错误: 项目目录不存在: ${project_dir}${NC}"  
@@ -76,7 +134,7 @@ build_image() {
     
     echo "正在构建 ${project,,}-${variant} 镜像..."  
     while [ $attempt -le $max_attempts ]; do  
-        if [[ "$use_cache" = false ]; then
+        if [ "$use_cache" = false ]; then
             { time apptainer build --no-https --disable-cache "$output_sif" "$def_file" > output.log; } 2> time_output.log
         else
             { time apptainer build --no-https "$output_sif" "$def_file" > output.log; } 2> time_output.log
@@ -117,88 +175,31 @@ build_image() {
     echo "-----------------------------------"  
 } 
 
-build_image2() {
-    clean_cache_if_needed
-    attempt=1  
-
-    local project=$1  
-    local def_file=$2   # "Apptainer.def"
-    local output_sif="/tmp/${project,,}.sif"
-    local project_dir="${project_base_dir}/${project}" 
-
-    if [ ! -d "$project_dir" ]; then  
-        echo "${RED}错误: 项目目录不存在: $project_dir${NC}"  
-        return 1  
+buildImage2() {
+    local project=$1
+    if [ "$cpu_only" = true ]; then  
+        build_image2 "${project}" "cpu" "cpuApptainer.def"  
     fi  
-    cd "$project_dir" || { echo "${RED}错误: 无法进入项目目录: $project_dir${NC}"; return 1; }  
-
-    echo "正在构建 ${project,,} 镜像..." 
-    while [ $attempt -le $max_attempts ]; do
-        if [[ "$use_cache" = false ]; then
-            { time apptainer build --no-https --disable-cache "$output_sif" "$def_file" > output.log; } 2> time_output.log
-        else
-            { time apptainer build --no-https "$output_sif" "$def_file" > output.log; } 2> time_output.log
-        fi
-
-        build_status=$? 
-        build_time=$(grep '^real' time_output.log | awk '{print $2}')  
-
-        if [ $build_status -eq 0 ]; then  
-             if [ -f "$output_sif" ]; then
-                image_size=$(stat -c%s "$output_sif")
-                # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
-                echo "${project,,}, ${build_time}, ${image_size}" | tee -a "../$log_file"
-                echo "${GREEN}${project,,}.sif 构建完成${NC}"
-            else
-                echo "SIF file not found for ${project}-${variant}"
-            fi
-            rm time_output.log
-            rm output.log
-            break
-        else
-            echo "${RED}构建 ${project,,}.sif 失败，尝试次数: $attempt${NC}"  
-            echo -e "错误信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "${error_dir}/${error_logfile}"
-
-            if [ $attempt -lt $max_attempts ]; then  
-                clean_cache_if_needed
-                echo "等待 1 秒后重试..."  
-                sleep 1
-            fi  
-            attempt=$((attempt + 1))  
-        fi
-        rm time_output.log
-        rm output.log 
-    done
-
-    cd "$script_dir" || exit
-    echo "-----------------------------------"  
+    if [ "$gpu_only" = true ]; then  
+        build_image2 "${project}" "gpu" "gpuApptainer.def"  
+    fi 
+    if ["$cpu_only" = false && "$gpu_only" = false ]; then
+        build_image2 "${project}" "cpu" "cpuApptainer.def"  
+        build_image2 "${project}" "gpu" "gpuApptainer.def"
+    fi
 }
 
 buildImage() {
     local project=$1
-    if [ "$cpu_only" = true ]; then  
-        build_image "${project}" "cpu" "cpuApptainer.def"  
-    fi  
-    if [ "$gpu_only" = true ]; then  
-        build_image "${project}" "gpu" "gpuApptainer.def"  
-    fi 
-    if ["$cpu_only" = false && "$gpu_only" = false ]; then
-        build_image "${project}" "cpu" "cpuApptainer.def"  
-        build_image "${project}" "gpu" "gpuApptainer.def"
-    fi
+    build_image "${project}" "Apptainer.def"
 }
 
 build_CLIP() {  
-    build_image2 "CLIP" "Apptainer.def"
+    buildImage "CLIP" "Apptainer.def"
 }  
 
-# build_Deep_Live_Cam() {  
-#     build_image "Deep_Live_Cam" "cpu" "cpuApptainer.def"  
-#     build_image "Deep_Live_Cam" "gpu" "gpuApptainer.def"  
-# }  
-
 build_LoRA() {  
-    buildImage "LoRA"
+    buildImage2 "LoRA"
 }  
 
 build_SAM2() {  
@@ -206,48 +207,32 @@ build_SAM2() {
 }  
 
 build_Stable-Baselines3() {  
-    buildImage "Stable-Baselines3"
+    buildImage2 "Stable-Baselines3"
 }
 
 build_stablediffusion() {  
-    build_image2 "stablediffusion" "Apptainer.def"  
+    buildImage "stablediffusion"
 }  
 
 build_TTS() {  
-    build_image2 "TTS" "Apptainer.def"  
+    buildImage "TTS"
 }  
 
 build_Transformers() {  
-    build_image2 "Transformers" "Apptainer.def"   
+    buildImage2 "Transformers" 
 }  
 
 build_Whisper() {  
-    build_image2 "Whisper" "Apptainer.def"  
+    buildImage "Whisper"
 }  
 
 build_YOLO11() {
-    buildImage "YOLO11"
+    buildImage2 "YOLO11"
 }   
 
-# build_YOLOv5() {  
-#     build_image "YOLOv5" "cpu" "cpuApptainer.def"  
-#     build_image "YOLOv5" "gpu" "gpuApptainer.def"  
-# }  
-
-# build_YOLOv8() {  
-#     build_image "YOLOv8" "cpu" "cpuApptainer.def"  
-#     build_image "YOLOv8" "gpu" "gpuApptainer.def"  
-# }  
-
-# build_mmpretrain() {  
-#     build_image "mmpretrain" "cpu" "cpuApptainer.def"  
-#     build_image "mmpretrain" "gpu" "gpuApptainer.def"  
-# }  
-
-
 clean_logfile () {
-    rm $log_file
-    rm -rf $error_dir
+    rm $log_file > /dev/null 2>&1
+    rm -rf $error_dir > /dev/null 2>&1
     mkdir -p $error_dir
 }
 

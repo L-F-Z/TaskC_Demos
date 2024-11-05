@@ -28,6 +28,10 @@ use_cache=true
 cpu_only=false  
 gpu_only=false
 
+error_dir="${project_base_dir}/error_logs"
+mkdir -p ${error_dir}
+log_file="logDocker.log"
+
 # Parse command line arguments  
 project_args=()  
 for arg in "$@"; do  
@@ -47,10 +51,7 @@ for arg in "$@"; do
     esac  
 done 
 
-error_dir = "$project_base_dir/error_logs"
-mkdir -p ${error_dir}
-error_logfile = "docker_${project,,}_error.log"
-log_file = "logDocker.log"
+
 
 clean_cache_if_needed() {  
     if [ "$use_cache" = false ]; then  
@@ -63,9 +64,59 @@ build_image() {
     attempt=1  
 
     local project=$1  
+    local dockerfile=$2   # "Dockerfile"
+    local project_dir="${project_base_dir}/${project}" 
+    local error_logfile="docker_${project,,}_error.log"
+
+    if [ ! -d "$project_dir" ]; then  
+        echo "${RED}错误: 项目目录不存在: $project_dir${NC}"  
+        return 1  
+    fi  
+    cd "$project_dir" || { echo "${RED}错误: 无法进入项目目录: $project_dir${NC}"; return 1; }  
+
+    echo "正在构建 ${project,,} 镜像..." 
+    while [ $attempt -le $max_attempts ]; do
+        if [ "$use_cache" = false ]; then
+            { time docker build --no-cache -t "${project,,}" -f "$dockerfile" . ; } 2> output.log  
+        else
+            { time docker build -t "${project,,}" -f "$dockerfile" . ; } 2> output.log  
+        fi
+
+        build_status=$? 
+        build_time=$(grep '^real' output.log | awk '{print $2}')  
+        if [ $build_status -eq 0 ]; then  
+            image_size=$(docker image inspect "${project,,}:latest" --format='{{.Size}}') 
+            # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
+            echo "${project,,}, ${build_time}, ${image_size}" | tee -a "../$log_file"
+            echo "${GREEN}${project,,} 镜像构建完成${NC}"
+            rm output.log
+            break
+        else
+            echo "${RED}构建 ${project,,} 镜像失败，尝试次数: $attempt${NC}"  
+            echo -e "错误信息：\n$(<output.log)\n" >> "${error_dir}/${error_logfile}"
+            if [ $attempt -lt $max_attempts ]; then  
+                clean_cache_if_needed
+                echo "等待 1 秒后重试..."  
+                sleep 1
+            fi  
+            attempt=$((attempt + 1))  
+        fi
+        rm output.log 
+    done
+
+    cd "$script_dir" || exit
+    echo "-----------------------------------"  
+}
+
+build_image2() {
+    clean_cache_if_needed
+    attempt=1  
+
+    local project=$1  
     local variant=$2      # "cpu" 或 "gpu"  
     local dockerfile=$3   # "cpuDockerfile" 或 "gpuDockerfile"  
     local project_dir="${project_base_dir}/${project}"  
+    local error_logfile="docker_${project,,}_${variant}_error.log"
 
     if [ ! -d "${project_dir}" ]; then  
         echo "${RED}}错误: 项目目录不存在: ${project_dir}${NC}"  
@@ -75,7 +126,7 @@ build_image() {
 
     echo "正在构建 ${project,,}-${variant} 镜像..."  
     while [ $attempt -le $max_attempts ]; do  
-        if [[ "$use_cache" = false ]; then
+        if [ "$use_cache" = false ]; then
             { time docker build --no-cache -t "${project,,}-${variant}" -f "$dockerfile" . ; } 2> output.log  
         else
             { time docker build -t "${project,,}-${variant}" -f "$dockerfile" . ; } 2> output.log  
@@ -110,79 +161,31 @@ build_image() {
     echo "-----------------------------------"  
 } 
 
-build_image2() {
-    clean_cache_if_needed
-    attempt=1  
-
-    local project=$1  
-    local dockerfile=$2   # "Dockerfile"
-    local project_dir="${project_base_dir}/${project}" 
-
-    if [ ! -d "$project_dir" ]; then  
-        echo "${RED}错误: 项目目录不存在: $project_dir${NC}"  
-        return 1  
+buildImage2() {
+    local project=$1
+    if [ "$cpu_only" = true ]; then  
+        build_image2 "${project}" "cpu" "cpuDockerfile"  
     fi  
-    cd "$project_dir" || { echo "${RED}错误: 无法进入项目目录: $project_dir${NC}"; return 1; }  
-
-    echo "正在构建 ${project,,} 镜像..." 
-    while [ $attempt -le $max_attempts ]; do
-        if [[ "$use_cache" = false ]; then
-            { time docker build --no-cache -t "${project,,}" -f "$dockerfile" . ; } 2> output.log  
-        else
-            { time docker build -t "${project,,}" -f "$dockerfile" . ; } 2> output.log  
-        fi
-
-        build_status=$? 
-        build_time=$(grep '^real' output.log | awk '{print $2}')  
-        if [ $build_status -eq 0 ]; then  
-            image_size=$(docker image inspect "${project,,}:latest" --format='{{.Size}}') 
-            # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
-            echo "${project,,}, ${build_time}, ${image_size}" | tee -a "../$log_file"
-            echo "${GREEN}${project,,} 镜像构建完成${NC}"
-            rm output.log
-            break
-        else
-            echo "${RED}构建 ${project,,} 镜像失败，尝试次数: $attempt${NC}"  
-            echo -e "错误信息：\n$(<output.log)\n" >> "${error_dir}/${error_logfile}"
-            if [ $attempt -lt $max_attempts ]; then  
-                clean_cache_if_needed
-                echo "等待 1 秒后重试..."  
-                sleep 1
-            fi  
-            attempt=$((attempt + 1))  
-        fi
-        rm output.log 
-    done
-
-    cd "$script_dir" || exit
-    echo "-----------------------------------"  
+    if [ "$gpu_only" = true ]; then  
+        build_image2 "${project}" "gpu" "gpuDockerfile"  
+    fi 
+    if [ "$cpu_only" = false ] && [ "$gpu_only" = false ]; then  
+        build_image2 "${project}" "cpu" "cpuDockerfile"  
+        build_image2 "${project}" "gpu" "gpuDockerfile"
+    fi
 }
 
 buildImage() {
     local project=$1
-    if [ "$cpu_only" = true ]; then  
-        build_image "${project}" "cpu" "cpuDockerfile"  
-    fi  
-    if [ "$gpu_only" = true ]; then  
-        build_image "${project}" "gpu" "gpuDockerfile"  
-    fi 
-    if ["$cpu_only" = false && "$gpu_only" = false ]; then
-        build_image "${project}" "cpu" "cpuDockerfile"  
-        build_image "${project}" "gpu" "gpuDockerfile"
-    fi
+    build_image "${project}" "Dockerfile"
 }
 
 build_CLIP() {  
-    build_image2 "CLIP" "Dockerfile"
+    buildImage "CLIP"
 }  
 
-# build_Deep_Live_Cam() {  
-#     build_image "Deep_Live_Cam" "cpu" "cpuDockerfile"  
-#     build_image "Deep_Live_Cam" "gpu" "gpuDockerfile"  
-# }  
-
 build_LoRA() {  
-    buildImage "LoRA"
+    buildImage2 "LoRA"
 }  
 
 build_SAM2() {  
@@ -190,59 +193,43 @@ build_SAM2() {
 }  
 
 build_Stable-Baselines3() {  
-    buildImage "Stable-Baselines3"
+    buildImage2 "Stable-Baselines3"
 }
 
 build_stablediffusion() {  
-    build_image2 "stablediffusion" "Dockerfile"  
+    buildImage "stablediffusion"
 }  
 
 build_TTS() {  
-    build_image2 "TTS" "Dockerfile"  
+    buildImage "TTS"
 }  
 
 build_Transformers() {  
-    build_image2 "Transformers" "Dockerfile"   
+    buildImage2 "Transformers"  
 }  
 
 build_Whisper() {  
-    build_image2 "Whisper" "Dockerfile"  
+    buildImage "Whisper"
 }  
 
 build_YOLO11() {
-    buildImage "YOLO11"
+    buildImage2 "YOLO11"
 }  
 
-# build_YOLOv5() {  
-#     build_image "YOLOv5" "cpu" "cpuDockerfile"  
-#     build_image "YOLOv5" "gpu" "gpuDockerfile"  
-# }  
-
-# build_YOLOv8() {  
-#     build_image "YOLOv8" "cpu" "cpuDockerfile"  
-#     build_image "YOLOv8" "gpu" "gpuDockerfile"  
-# }  
-
-# build_mmpretrain() {  
-#     build_image "mmpretrain" "cpu" "cpuDockerfile"  
-#     build_image "mmpretrain" "gpu" "gpuDockerfile"  
-# }  
-
-
 clean_logfile () {
-    rm "$log_file"
-    rm -rf $error_dir
+    rm "$log_file" > /dev/null 2>&1
+    rm -rf $error_dir > /dev/null 2>&1
     mkdir -p $error_dir
 }
 
 clean_docker() {
     if [ "$(docker ps -q)" ]; then
-        docker stop $(docker ps -q) > /dev/null
+        docker stop $(docker ps -q) > /dev/null 2>&1
     fi
     if [ "$(docker images -q)" ]; then
-        docker rmi --force $(docker images -q) > /dev/null
+        docker rmi --force $(docker images -q) > /dev/null 2>&1
     fi
-    docker system prune -a -f > /dev/null
+    docker system prune -a -f > /dev/null 2>&1
 }
 
 if [ ${#project_args[@]} -eq 0 ]; then  
