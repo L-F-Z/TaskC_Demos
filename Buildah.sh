@@ -12,9 +12,9 @@ usage() {
     echo "  --no-cache   每次构建时清除缓存"  
     echo "  --cpu        仅构建 CPU 版本的镜像"  
     echo "  --gpu        仅构建 GPU 版本的镜像" 
-    echo "  proj: 构建指定的项目，例如 ${BLUE}bash buildBuildah_noCache.sh CLIP${NC}"  
-    echo "  all : 构建所有项目，例如 ${BLUE}bash buildBuildah_noCache.sh all${NC}"  
-    echo "  支持同时构建多个项目，例如 ${BLUE}bash buildBuildah_noCache.sh CLIP YOLOv5${NC}"
+    echo "  proj: 构建指定的项目，例如 ${BLUE}bash Buildah.sh CLIP${NC}"  
+    echo "  all : 构建所有项目，例如 ${BLUE}bash Buildah.sh all${NC}"  
+    echo "  支持同时构建多个项目，例如 ${BLUE}bash Buildah.sh CLIP YOLOv5${NC}"
     echo "  cleanlog: 清空日志和报错信息文件"
     echo "  cleanbuild: 清空所有Buildah镜像和缓存"
     exit 1  
