@@ -1,5 +1,5 @@
 Bootstrap: docker  
-From: 192.168.143.41:10081/python:3.10-slim
+From: 192.168.143.41:10081/library/python:3.10-slim
 
 %setup  
     # Create the working directory  

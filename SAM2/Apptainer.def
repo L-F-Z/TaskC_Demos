@@ -1,5 +1,5 @@
 Bootstrap: docker  
-From: 192.168.143.41:10081/nvidia/cuda:12.6.0-devel-ubuntu22.04  
+From: 192.168.143.41:10081/pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
 
 # Set working directory and copy files
 %setup  

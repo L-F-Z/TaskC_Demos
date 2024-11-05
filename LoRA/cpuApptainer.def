@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: 192.168.143.41:10081/ubuntu:18.04
+From: 192.168.143.41:10081/library/ubuntu:18.04
 
 %labels
     maintainer "Hugging Face"

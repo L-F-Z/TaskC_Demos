@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: 192.168.2.25:10081/nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04
+From: 192.168.143.41:10081/nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04
 
 %labels
     maintainer "Hugging Face"
@@ -23,7 +23,7 @@ From: 192.168.2.25:10081/nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04
 
     # Modify /etc/apt/sources.list to use PkgCache
     total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
-    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.143.41:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
     mv /etc/apt/sources.list.new /etc/apt/sources.list
 
     apt update && \
@@ -62,7 +62,7 @@ From: 192.168.2.25:10081/nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04
 
     # python3 -m pip install --no-cache-dir \
     #     torch==1.9.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
-    python3 -m pip install -v http://192.168.2.25:9081/repository/python/packages/torch/1.9.0%2Bcu111/torch-1.9.0%2Bcu111-cp36-cp36m-linux_x86_64.whl
+    python3 -m pip install -v http://192.168.143.41:9081/repository/python/packages/torch/1.9.0%2Bcu111/torch-1.9.0%2Bcu111-cp36-cp36m-linux_x86_64.whl
 
     # Option: Install apex (commented out in the original Dockerfile)
     # git clone https://github.com/NVIDIA/apex /opt/apex

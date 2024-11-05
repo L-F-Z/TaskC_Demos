@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: 192.168.143.41:10081/python:3.9-slim-buster
+From: 192.168.143.41:10081/library/python:3.9-slim-buster
 
 %environment
     export PATH=/usr/local/bin:$PATH
