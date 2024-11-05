@@ -11,13 +11,13 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_BREAK_SYSTEM_PACKAGES=1
 
-ADD http://192.168.2.25:9081/repository/storage/Arial.ttf \
-    http://192.168.2.25:9081/repository/storage/Arial.Unicode.ttf \
+ADD http://192.168.143.41:9081/repository/storage/Arial.ttf \
+    http://192.168.143.41:9081/repository/storage/Arial.Unicode.ttf \
     /root/.config/Ultralytics/
 
 # Modify /etc/apt/sources.list to use PkgCache
 RUN total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
-RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.143.41:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
 RUN mv /etc/apt/sources.list.new /etc/apt/sources.list
 
 # Install linux packages
@@ -34,7 +34,7 @@ WORKDIR /ultralytics
 COPY ./ultralytics .
 # RUN sed -i '/^\[http "https:\/\/github\.com\/"\]/,+1d' .git/config
 RUN if [ -f .git/config ]; then sed -i '/^\[http "https:\/\/github\.com\/"\]/,+1d' .git/config; fi
-ADD http://192.168.2.25:9081/repository/storage/yolo11n.pt .
+ADD http://192.168.143.41:9081/repository/storage/yolo11n.pt .
 
 # Modify ~/.pip/pip.conf to use PkgCache
 # RUN mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
@@ -45,7 +45,7 @@ COPY ./resource/pip.conf /root/.pip/pip.conf
 # Install pip packages
 RUN python3 -m pip install --upgrade pip wheel
 # RUN pip install -e ".[export]" --extra-index-url https://download.pytorch.org/whl/cpu
-RUN pip install -e . --extra-index-url http://192.168.2.25:9081/repository/python/simple/
+RUN pip install -e . --extra-index-url http://192.168.143.41:9081/repository/python/simple/
 
 # Run exports to AutoInstall packages
 
@@ -61,7 +61,7 @@ RUN ln -sf /usr/bin/python3 /usr/bin/python
 # Remove extra build files
 RUN rm -rf tmp /root/.config/Ultralytics/persistent_cache.json
 
-ENTRYPOINT ["yolo", "predict", "model=yolo11n.pt", "source=https://ultralytics.com/images/bus.jpg"]
+CMD ["yolo", "predict", "model=yolo11n.pt", "source=https://ultralytics.com/images/bus.jpg"]
 
 # Usage Examples -------------------------------------------------------------------------------------------------------
 

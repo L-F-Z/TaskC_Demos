@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: 192.168.2.25:10081/python:3.9-slim-buster
+From: 192.168.143.41:10081/python:3.9-slim-buster
 
 %environment
     export PATH=/usr/local/bin:$PATH
@@ -15,7 +15,7 @@ From: 192.168.2.25:10081/python:3.9-slim-buster
 %post
     # change apt source
     sed -i '4s/^/#/' /etc/apt/sources.list && \
-    sed -i 's|http://deb.debian.org/debian|http://192.168.2.25:9081/repository/debian/|g' /etc/apt/sources.list
+    sed -i 's|http://deb.debian.org/debian|http://192.168.143.41:9081/repository/debian/|g' /etc/apt/sources.list
 
     apt-get update && apt-get install -y \
         libgl1-mesa-glx \

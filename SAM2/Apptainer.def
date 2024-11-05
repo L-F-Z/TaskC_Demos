@@ -1,5 +1,5 @@
 Bootstrap: docker  
-From: 192.168.2.25:10081/nvidia/cuda:12.6.0-devel-ubuntu22.04  
+From: 192.168.143.41:10081/nvidia/cuda:12.6.0-devel-ubuntu22.04  
 
 # Set working directory and copy files
 %setup  
@@ -29,7 +29,7 @@ From: 192.168.2.25:10081/nvidia/cuda:12.6.0-devel-ubuntu22.04
     echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
     total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
-    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.143.41:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
     mv /etc/apt/sources.list.new /etc/apt/sources.list
 
     # Install system requirements
@@ -54,10 +54,10 @@ From: 192.168.2.25:10081/nvidia/cuda:12.6.0-devel-ubuntu22.04
 
     rm /opt/conda/bin/ffmpeg && ln -s /bin/ffmpeg /opt/conda/bin/ffmpeg
     
-    curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_tiny.pt http://192.168.2.25:9081/repository/storage/sam2.1_hiera_tiny.pt
-    curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_small.pt http://192.168.2.25:9081/repository/storage/sam2.1_hiera_small.pt
-    curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_base_plus.pt http://192.168.2.25:9081/repository/storage/sam2.1_hiera_base_plus.pt
-    curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_large.pt http://192.168.2.25:9081/repository/storage/sam2.1_hiera_large.pt
+    curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_tiny.pt http://192.168.143.41:9081/repository/storage/sam2.1_hiera_tiny.pt
+    curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_small.pt http://192.168.143.41:9081/repository/storage/sam2.1_hiera_small.pt
+    curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_base_plus.pt http://192.168.143.41:9081/repository/storage/sam2.1_hiera_base_plus.pt
+    curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_large.pt http://192.168.143.41:9081/repository/storage/sam2.1_hiera_large.pt
 
 %startscript  
     exec /bin/bash  

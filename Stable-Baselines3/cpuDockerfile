@@ -9,13 +9,13 @@ RUN mkdir ~/.conda/ && touch ~/.conda/.condarc
 COPY ./resource/.condarc ~/.conda/.condarc
 # RUN cat <<'EOF' > ~/.conda/.condarc && \
 # default_channels: && \
-#     - http://192.168.2.25:9081/repository/conda/main && \
-#     - http://192.168.2.25:9081/repository/conda/r && \
-#     - http://192.168.2.25:9081/repository/conda/msys2 && \
+#     - http://192.168.143.41:9081/repository/conda/main && \
+#     - http://192.168.143.41:9081/repository/conda/r && \
+#     - http://192.168.143.41:9081/repository/conda/msys2 && \
 # custom_channels: && \
-#     conda-forge: http://192.168.2.25:9081/repository/conda2/ && \
-#     nvidia: http://192.168.2.25:9081/repository/conda2/ && \
-#     pytorch: http://192.168.2.25:9081/repository/conda2/ 
+#     conda-forge: http://192.168.143.41:9081/repository/conda2/ && \
+#     nvidia: http://192.168.143.41:9081/repository/conda2/ && \
+#     pytorch: http://192.168.143.41:9081/repository/conda2/ 
 # EOF
 
 # Install micromamba env and dependencies
@@ -37,9 +37,9 @@ COPY ./resource/pip.conf ~/.pip/pip.conf
 # RUN cat <<'EOF' > ~/.pip/pip.conf
 #     [global]
 #     timeout = 1000
-#     trusted-host = 192.168.2.25
-#     index = http://192.168.2.25:9081/repository/pypi/pypi
-#     index-url = http://192.168.2.25:9081/repository/pypi/simple
+#     trusted-host = 192.168.143.41
+#     index = http://192.168.143.41:9081/repository/pypi/pypi
+#     index-url = http://192.168.143.41:9081/repository/pypi/simple
 # EOF
 
 # RUN cd ${CODE_DIR}/stable-baselines3 && \

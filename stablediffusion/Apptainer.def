@@ -1,5 +1,5 @@
 Bootstrap: docker  
-From: 192.168.2.25:10081/pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel
+From: 192.168.143.41:10081/pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel
 
 %setup  
     mkdir -p ${APPTAINER_ROOTFS}/app/stablediffusion
@@ -15,19 +15,19 @@ From: 192.168.2.25:10081/pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel
 
 %post  
     total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
-    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.143.41:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
     mv /etc/apt/sources.list.new /etc/apt/sources.list
 
     apt update && apt install --yes ffmpeg libsm6 libxext6 curl
 
     cd /app/stablediffusion/ 
-    # curl -o /app/stablediffusion/v2-1_768-ema-pruned.ckpt http://192.168.2.25:9081/repository/storage/v2-1_768-ema-pruned.ckpt
+    # curl -o /app/stablediffusion/v2-1_768-ema-pruned.ckpt http://192.168.143.41:9081/repository/storage/v2-1_768-ema-pruned.ckpt
 
     # Modify ~/.conda/.condarc to use PkgCache
     # mkdir ~/.conda/ && \
     # touch ~/.conda/.condarc && \
     # test -f ~/.conda/.condarc && \
-    # mv ~/.conda/.condarc ~/.conda/.condarc.bak; curl -s -o ~/.conda/.condarc -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/.condarc
+    # mv ~/.conda/.condarc ~/.conda/.condarc.bak; curl -s -o ~/.conda/.condarc -m 3 http://192.168.143.41:4000/root/staging/raw/branch/main/.condarc
 
     conda config --add channels defaults  
     conda config --set show_channel_urls true

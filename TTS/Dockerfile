@@ -3,7 +3,7 @@ FROM ${BASE}
 
 # Modify /etc/apt/sources.list to use PkgCache
 RUN total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
-RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.143.41:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
 RUN mv /etc/apt/sources.list.new /etc/apt/sources.list
 
 RUN apt-get update && apt-get upgrade -y
@@ -18,7 +18,7 @@ COPY ./resource/pip.conf /root/.pip/pip.conf
 RUN pip3 install llvmlite --ignore-installed
 
 # Install Dependencies:
-RUN pip3 install torch==2.1.1 torchaudio==2.1.1 --extra-index-url http://192.168.2.25:9081/repository/python/simple/
+RUN pip3 install torch==2.1.1 torchaudio==2.1.1 --extra-index-url http://192.168.143.41:9081/repository/python/simple/
 RUN rm -rf /root/.cache/pip
 
 # Copy TTS repository contents:
@@ -29,5 +29,4 @@ COPY ./resource/requirements.txt /root/TTS/requirements.txt
 
 RUN make install
 
-ENTRYPOINT ["tts"]
-CMD ["--help"]
+CMD ["tts", "--help"]

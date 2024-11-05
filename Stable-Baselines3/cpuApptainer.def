@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: 192.168.2.25:10081/mambaorg/micromamba:1.5-jammy
+From: 192.168.143.41:10081/mambaorg/micromamba:1.5-jammy
 
 %setup
     # Create necessary directories
@@ -28,11 +28,11 @@ From: 192.168.2.25:10081/mambaorg/micromamba:1.5-jammy
     # Modify ~/.conda/.condarc to use PkgCache
     # mkdir -p ~/.conda/ && touch ~/.conda/.condarc
     # test -f ~/.conda/.condarc && \
-    # mv ~/.conda/.condarc ~/.conda/.condarc.bak; curl -s -o ~/.conda/.condarc -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/.condarc
+    # mv ~/.conda/.condarc ~/.conda/.condarc.bak; curl -s -o ~/.conda/.condarc -m 3 http://192.168.143.41:4000/root/staging/raw/branch/main/.condarc
 
     # mkdir -p ~/.pip/ && touch ~/.pip/pip.conf
     # test -f ~/.pip/pip.conf && \
-    # mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
+    # mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.143.41:4000/root/staging/raw/branch/main/pip.conf
 
     # Update and install micromamba dependencies
     micromamba install -n base -y python=${PYTHON_VERSION} \

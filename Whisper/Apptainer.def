@@ -1,5 +1,5 @@
 Bootstrap: docker  
-From: 192.168.2.25:10081/python:3.10-slim  
+From: 192.168.143.41:10081/python:3.10-slim  
 
 # Set working directory and copy files  
 %setup
@@ -13,14 +13,14 @@ From: 192.168.2.25:10081/python:3.10-slim
     # Update and install necessary packages  
     total_lines=$(wc -l < /etc/apt/sources.list.d/debian.sources) && \
     lines_to_keep=$((total_lines - 6)) && \
-    head -n $lines_to_keep /etc/apt/sources.list.d/debian.sources > /etc/apt/sources.list.d/debian.sources.new; sed -i 's|http://deb.debian.org/debian|http://192.168.2.25:9081/repository/debian/|g' /etc/apt/sources.list.d/debian.sources.new; mv /etc/apt/sources.list.d/debian.sources.new /etc/apt/sources.list.d/debian.sources
+    head -n $lines_to_keep /etc/apt/sources.list.d/debian.sources > /etc/apt/sources.list.d/debian.sources.new; sed -i 's|http://deb.debian.org/debian|http://192.168.143.41:9081/repository/debian/|g' /etc/apt/sources.list.d/debian.sources.new; mv /etc/apt/sources.list.d/debian.sources.new /etc/apt/sources.list.d/debian.sources
     
     apt-get update && apt-get install -y ffmpeg
 
     # Install whisper  
     cd ${APPTAINER_ROOTFS}/app/whisper
     
-    # mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
+    # mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.143.41:4000/root/staging/raw/branch/main/pip.conf
     pip install --timeout 1000 --no-cache-dir .
 
     # Run whisper command  

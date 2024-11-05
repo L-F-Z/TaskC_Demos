@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: 192.168.2.25:10081/mambaorg/micromamba:1.5-jammy-cuda-11.7.1
+From: 192.168.143.41:10081/mambaorg/micromamba:1.5-jammy-cuda-11.7.1
 
 %setup
     # Create necessary directories
@@ -29,7 +29,7 @@ From: 192.168.2.25:10081/mambaorg/micromamba:1.5-jammy-cuda-11.7.1
     # mv ${APPTAINER_ROOTFS}/.conda/.condarc ${APPTAINER_ROOTFS}/.conda/.condarc.bak; curl -s -o ${APPTAINER_ROOTFS}/.conda/.condarc -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/.condarc
 
     # test -f ${APPTAINER_ROOTFS}/.pip/pip.conf && \
-    # mv ${APPTAINER_ROOTFS}/.pip/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf.bak; curl -s -o ${APPTAINER_ROOTFS}/.pip/pip.conf -m 3 http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
+    # mv ${APPTAINER_ROOTFS}/.pip/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf.bak; curl -s -o ${APPTAINER_ROOTFS}/.pip/pip.conf -m 3 http://192.168.143.41:4000/root/staging/raw/branch/main/pip.conf
 
     # Update and install micromamba dependencies
     micromamba install -n base -y python=${PYTHON_VERSION} \

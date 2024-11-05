@@ -213,7 +213,7 @@ def put_watermark(img, wm_encoder=None):
 
 def main(opt):
     print("Downloading model checkpoint...")
-    os.system('curl -o v2-1_768-ema-pruned.ckpt http://192.168.2.25:9081/repository/storage/v2-1_768-ema-pruned.ckpt')
+    os.system('curl -o v2-1_768-ema-pruned.ckpt http://192.168.143.41:9081/repository/storage/v2-1_768-ema-pruned.ckpt')
     print("Model checkpoint downloaded successfully.")
 
     seed_everything(opt.seed)

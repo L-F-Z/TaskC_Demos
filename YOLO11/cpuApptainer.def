@@ -1,6 +1,6 @@
 
 Bootstrap: docker
-From: 192.168.2.25:10081/ubuntu:23.10
+From: 192.168.143.41:10081/ubuntu:23.10
 
 %environment
     export PYTHONUNBUFFERED=1
@@ -23,7 +23,7 @@ From: 192.168.2.25:10081/ubuntu:23.10
     export PIP_BREAK_SYSTEM_PACKAGES=1
 
     total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
-    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.2.25:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.143.41:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
     mv /etc/apt/sources.list.new /etc/apt/sources.list
 
     # Install linux packages
@@ -33,8 +33,8 @@ From: 192.168.2.25:10081/ubuntu:23.10
     rm -rf /var/lib/apt/lists/*
     
     # Downloads to user config dir
-    curl -o ${APPTAINER_ROOTFS}/.config/Ultralytics/Arial.ttf http://192.168.2.25:9081/repository/storage/Arial.ttf
-    curl -o ${APPTAINER_ROOTFS}/.config/Ultralytics/Arial.Unicode.ttf http://192.168.2.25:9081/repository/storage/Arial.Unicode.ttf
+    curl -o ${APPTAINER_ROOTFS}/.config/Ultralytics/Arial.ttf http://192.168.143.41:9081/repository/storage/Arial.ttf
+    curl -o ${APPTAINER_ROOTFS}/.config/Ultralytics/Arial.Unicode.ttf http://192.168.143.41:9081/repository/storage/Arial.Unicode.ttf
     
     # Create working directory
     cd ${APPTAINER_ROOTFS}/app
@@ -45,18 +45,18 @@ From: 192.168.2.25:10081/ubuntu:23.10
     fi
 
     # Add yolo model file
-    curl -o ${APPTAINER_ROOTFS}/app/yolo11n.pt http://192.168.2.25:9081/repository/storage/yolo11n.pt
+    curl -o ${APPTAINER_ROOTFS}/app/yolo11n.pt http://192.168.143.41:9081/repository/storage/yolo11n.pt
 
     # Modify pip.conf to use PkgCache
     # mkdir -p ~/.pip/
     # if [ -f ~/.pip/pip.conf ]; then
     #     mv ~/.pip/pip.conf ~/.pip/pip.conf.bak
     # fi
-    # curl -s -o ~/.pip/pip.conf -m 3  http://192.168.2.25:4000/root/staging/raw/branch/main/pip.conf
+    # curl -s -o ~/.pip/pip.conf -m 3  http://192.168.143.41:4000/root/staging/raw/branch/main/pip.conf
 
     # Install pip packages
     python3 -m pip install --upgrade pip wheel
-    pip install -e . --extra-index-url http://192.168.2.25:9081/repository/python/simple/ --timeout 1000
+    pip install -e . --extra-index-url http://192.168.143.41:9081/repository/python/simple/ --timeout 1000
 
     # Create symbolic link for python
     ln -sf /usr/bin/python3 /usr/bin/python
