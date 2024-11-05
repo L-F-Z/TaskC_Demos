@@ -9,13 +9,15 @@ NC=$'\033[0m'
                 
 usage() {  
     echo "用法: bash $0 [proj1 proj2 ... | all]"  
-    echo "  --no-cache   每次构建时清除缓存"  
-    echo "  --full       使用full版blueprint，full优先级高于cpu/gpu"
-    echo "  --cpu        仅构建 CPU 版本的镜像"  
-    echo "  --gpu        仅构建 GPU 版本的镜像" 
-    echo "  proj: 构建指定的项目，例如 ${BLUE}bash buildTaskc_noCache.sh CLIP${NC}"  
-    echo "  all : 构建所有项目，例如 ${BLUE}bash buildTaskc_noCache.sh all${NC}"  
-    echo "  支持同时构建多个项目，例如 ${BLUE}bash buildTaskc_noCache.sh CLIP YOLOv5${NC}"
+    echo "  proj: 构建指定的项目，例如 ${BLUE}bash Taskc.sh CLIP${NC}"  
+    echo "  all : 构建所有项目，例如 ${BLUE}bash Taskc.sh all${NC}"  
+    echo "  支持同时构建多个项目，例如 ${BLUE}bash Taskc.sh CLIP YOLOv5${NC}"
+    echo "Flags:"
+    echo "  --no-cache   每次构建时清除缓存，例如 ${BLUE}bash Taskc.sh --no-cache all${NC}"  
+    echo "  --full       使用full版blueprint，full优先级高于cpu/gpu，例如 ${BLUE}bash Taskc.sh --full all${NC}"
+    echo "  --cpu        仅构建 CPU 版本的镜像，例如 ${BLUE}bash Taskc.sh --cpu all${NC}"  
+    echo "  --gpu        仅构建 GPU 版本的镜像，例如 ${BLUE}bash Taskc.sh --gpu all${NC}"
+    echo "Available Commands:"
     echo "  cleanlog: 清空日志和报错信息文件"
     echo "  cleanbuild: 清空所有Taskc镜像、容器和缓存"
     exit 1  
@@ -52,22 +54,21 @@ for arg in "$@"; do
     esac  
 done 
 
-error_dir = "$project_base_dir/error_logs"
+error_dir="$project_base_dir/error_logs"
 mkdir -p ${error_dir}
-log1 = "logTaskc.log"
-log2 = "logTaskc_full.log" 
-if ["$full_version" = true]; then
-    log_file = $log1
+log1="logTaskc.log"
+log2="logTaskc_full.log" 
+if [ "$full_version" = true ]; then
+    log_file=$log1
 else
-    log_file = $log2
+    log_file=$log2
 fi
 
-if ["$full_version" = true]; then
-    error_logfile = "taskc_full_${project,,}_error.log"  
+if [ "$full_version" = true ]; then
+    error_logfile="taskc_full_${project,,}_error.log"  
 else
-    error_logfile = "taskc_${project,,}_error.log"
+    error_logfile="taskc_${project,,}_error.log"
 fi
-
 
 clean_cache_if_needed() {  
     if [ "$use_cache" = false ]; then  
@@ -83,6 +84,8 @@ build_image() {
     local version=$2
     local buildfile="${project}.blueprint"
     local project_dir="${project_base_dir}/${project}" 
+    local error_logfile="taskc_${project,,}_${version}_error.log"
+
 
     if [ ! -d "$project_dir" ]; then  
         echo "${RED}错误: 项目目录不存在: $project_dir${NC}"  
@@ -127,8 +130,63 @@ build_image() {
     echo "-----------------------------------"  
 }
 
-# build full version
+# build full with 1 version
 build_image2() {
+    clean_cache_if_needed
+    attempt=1  
+
+    local project=$1  
+    local version=$2
+    local buildfile="${project}-full.blueprint"
+    local project_dir="${project_base_dir}/${project}" 
+    local error_logfile="taskc_full_${project,,}_${version}_error.log"  
+
+    if [ ! -d "$project_dir" ]; then  
+        echo "${RED}错误: 项目目录不存在: $project_dir${NC}"  
+        return 1  
+    fi  
+    cd "$project_dir" || { echo "${RED}错误: 无法进入项目目录: $project_dir${NC}"; return 1; }  
+
+    echo "正在构建 ${project,,} Taskc Image..." 
+    while [ $attempt -le $max_attempts ]; do
+        if [ "$version" == "cpu" ]; then
+            { time taskc asm --ignore-gpu "$buildfile" > output.log; } 2> time_output.log
+        else
+            { time taskc asm "$buildfile" > output.log; } 2> time_output.log
+        fi
+         
+        { time taskc asm "$buildfile" >output.log; } 2> time_output.log
+        build_status=$? 
+        build_time=$(grep '^real' time_output.log | awk '{print $2}')  
+
+        if [ $build_status -eq 0 ]; then  
+            image_size=$(du -sb /var/lib/taskc/Image/${project}-latest | awk '{print $1}')
+            # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
+            echo "${project,,}, ${build_time}, ${image_size}" | tee -a "../$log_file"
+            echo "${GREEN}${project,,} Taskc Image 构建完成${NC}"
+            rm time_output.log
+            rm output.log
+            break
+        else
+            echo "${RED}构建 ${project,,} Taskc Image 失败，尝试次数: $attempt${NC}"  
+            echo -e "错误信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "${error_dir}/${error_logfile}"
+            if [ $attempt -lt $max_attempts ]; then  
+                clean_cache_if_needed
+                echo "等待 1 秒后重试..."  
+                sleep 1
+            fi  
+            attempt=$((attempt + 1))  
+        fi
+        rm time_output.log
+        rm output.log 
+    done
+
+    cd "$script_dir" || exit
+    echo "-----------------------------------"  
+}
+
+# build full with 2 version
+build_image3() {
     clean_cache_if_needed
     attempt=1  
 
@@ -136,6 +194,7 @@ build_image2() {
     local version=$2
     local buildfile="${project}-full-${version}.blueprint"
     local project_dir="${project_base_dir}/${project}" 
+    local error_logfile="taskc_full_${project,,}_${version}_error.log"  
 
     if [ ! -d "$project_dir" ]; then  
         echo "${RED}错误: 项目目录不存在: $project_dir${NC}"  
@@ -190,7 +249,7 @@ buildImage() {
         if [ "$gpu_only" = true ]; then 
             build_image "${project}" "gpu" 
         fi
-        if [ "$cpu_only" = false && "$gpu_only" = false ]; then 
+        if [ "$cpu_only" = false ] && [ "$gpu_only" = false ]; then 
             build_image "${project}" "cpu"
             build_image "${project}" "gpu" 
         fi
@@ -201,12 +260,40 @@ buildImage() {
         if [ "$gpu_only" = true ]; then 
             build_image2 "${project}" "gpu" 
         fi
-        if [ "$cpu_only" = false && "$gpu_only" = false ]; then 
+        if [ "$cpu_only" = false ] && [ "$gpu_only" = false ]; then 
             build_image2 "${project}" "cpu"
             build_image2 "${project}" "gpu" 
         fi
     fi
 }
+
+buildImage2() {
+    local project=$1
+    if [ "$full_verison" = false]; then 
+        if [ "$cpu_only" = true ]; then 
+            build_image "${project}" "cpu" 
+        fi
+        if [ "$gpu_only" = true ]; then 
+            build_image "${project}" "gpu" 
+        fi
+        if [ "$cpu_only" = false ] && ["$gpu_only" = false ]; then 
+            build_image "${project}" "cpu"
+            build_image "${project}" "gpu" 
+        fi
+    else
+        if [ "$cpu_only" = true ]; then 
+            build_image3 "${project}" "cpu" 
+        fi
+        if [ "$gpu_only" = true ]; then 
+            build_image3 "${project}" "gpu" 
+        fi
+        if [ "$cpu_only" = false ] && [ "$gpu_only" = false ]; then 
+            build_image3 "${project}" "cpu"
+            build_image3 "${project}" "gpu" 
+        fi
+    fi
+}
+
 build_CLIP() {  
     buildImage "CLIP"
 }  
@@ -216,7 +303,7 @@ build_CLIP() {
 # }  
 
 build_LoRA() {  
-    buildImage "LoRA"
+    buildImage2 "LoRA"
 }  
 
 build_SAM2() { 
@@ -224,7 +311,7 @@ build_SAM2() {
 }  
 
 build_Stable-Baselines3() { 
-    buildImage "Stable-Baselines3" 
+    buildImage2 "Stable-Baselines3" 
 }
 
 build_stablediffusion() {  
@@ -236,7 +323,7 @@ build_TTS() {
 }  
 
 build_Transformers() {  
-    buildImage "Transformers"
+    buildImage2 "Transformers"
 }  
 
 build_Whisper() {  
@@ -244,7 +331,7 @@ build_Whisper() {
 }  
 
 build_YOLO11() {  
-    buildImage "YOLO11"
+    buildImage2 "YOLO11"
 }  
 
 # build_YOLOv5() {  

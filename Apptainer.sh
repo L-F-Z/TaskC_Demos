@@ -9,12 +9,14 @@ NC=$'\033[0m'
 
 usage() {  
     echo "用法: bash $0 [proj1 proj2 ... | all]"  
-    echo "  --no-cache   每次构建时清除缓存"  
-    echo "  --cpu        仅构建 CPU 版本的镜像"  
-    echo "  --gpu        仅构建 GPU 版本的镜像" 
     echo "  proj: 构建指定的项目，例如 ${BLUE}bash Apptainer.sh CLIP${NC}"  
     echo "  all : 构建所有项目，例如 ${BLUE}bash Apptainer.sh all${NC}"  
     echo "  支持同时构建多个项目，例如 ${BLUE}bash Apptainer.sh CLIP YOLOv5${NC}"
+    echo "Flags:"
+    echo "  --no-cache   每次构建时清除缓存"  
+    echo "  --cpu        仅构建 CPU 版本的镜像"  
+    echo "  --gpu        仅构建 GPU 版本的镜像" 
+    echo "Available Commands:"
     echo "  cleanlog: 清空日志和报错信息文件"
     echo "  cleanbuild: 清空所有apptainer镜像和缓存"
     exit 1  
@@ -183,7 +185,7 @@ buildImage2() {
     if [ "$gpu_only" = true ]; then  
         build_image2 "${project}" "gpu" "gpuApptainer.def"  
     fi 
-    if ["$cpu_only" = false && "$gpu_only" = false ]; then
+    if [ "$cpu_only" = false ] && [ "$gpu_only" = false ]; then
         build_image2 "${project}" "cpu" "cpuApptainer.def"  
         build_image2 "${project}" "gpu" "gpuApptainer.def"
     fi
@@ -250,7 +252,6 @@ if [[ " ${project_args[*]} " == *" all "* ]]; then
     clean_logfile
     echo "开始构建所有项目..."  
     build_CLIP  
-    # build_Deep_Live_Cam  
     build_LoRA  
     build_SAM2  
     build_Stable-Baselines3  
@@ -258,10 +259,7 @@ if [[ " ${project_args[*]} " == *" all "* ]]; then
     build_TTS
     build_Transformers  
     build_Whisper  
-    build_YOLO11  
-    # build_YOLOv5  
-    # build_YOLOv8  
-    # build_mmpretrain  
+    build_YOLO11   
     echo "${GREEN}所有项目构建完成。${NC}"  
     exit 0  
 fi  
@@ -270,10 +268,7 @@ for arg in "${project_args[@]}"; do
     case "$arg" in  
         CLIP)  
             build_CLIP  
-            ;;  
-        # Deep_Live_Cam)  
-        #     build_Deep_Live_Cam  
-        #     ;;  
+            ;;   
         LoRA)  
             build_LoRA  
             ;;  
@@ -295,15 +290,6 @@ for arg in "${project_args[@]}"; do
         YOLO11)  
             build_YOLO11  
             ;;  
-        # YOLOv5)  
-        #     build_YOLOv5  
-        #     ;;  
-        # YOLOv8)  
-        #     build_YOLOv8  
-        #     ;;  
-        # mmpretrain)  
-        #     build_mmpretrain  
-        #     ;;  
         stablediffusion)  
             build_stablediffusion  
             ;;
