@@ -34,9 +34,9 @@
 - [PyPI] pandas [>=1.1.4]
 - [PyPI] seaborn [>=0.11.0]
 - [PyPI] ultralytics-thop [>=2.0.0]
-- [LOCAL] /root/.config/Ultralytics/ [http://192.168.2.25:9081/repository/storage/Arial.ttf]
-- [LOCAL] /root/.config/Ultralytics/ [http://192.168.2.25:9081/repository/storage/Arial.Unicode.ttf]
-- [LOCAL] /ultralytics [http://192.168.2.25:9081/repository/storage/yolo11n.pt]
+- [LOCAL] /root/.config/Ultralytics/ [http://192.168.143.41:9081/repository/storage/Arial.ttf]
+- [LOCAL] /root/.config/Ultralytics/ [http://192.168.143.41:9081/repository/storage/Arial.Unicode.ttf]
+- [LOCAL] /ultralytics [http://192.168.143.41:9081/repository/storage/yolo11n.pt]
 - [LOCAL] /ultralytics [./ultralytics/ultralytics]
 - [PYTHON] yolo:ultralytics.cfg:entrypoint [./ultralytics/ultralytics]
 
