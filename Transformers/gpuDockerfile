@@ -28,11 +28,12 @@ COPY ./resource/pip.conf /root/.pip/pip.conf
 #     torch torchvision timm
 RUN pip install --no-cache-dir -e /app/transformers \
     timm \
-    torch==2.4.0 \
+    torch===2.4.0+cu121 \
     torchvision \
     torchaudio \
     pytesseract \
-    "itsdangerous<2.1.0"
+    "itsdangerous<2.1.0" \
+    --extra-index-url http://192.168.143.41:9081/repository/python/simple/
 
 # git clone https://github.com/facebookresearch/detectron2.git
 RUN cd /app/detectron2 && pip install -e .

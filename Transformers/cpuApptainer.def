@@ -45,7 +45,8 @@ From: 192.168.143.41:10081/library/python:3.10-slim
         torchaudio \
         pytesseract \
         "itsdangerous<2.1.0" \
-        --extra-index-url https://download.pytorch.org/whl/cpu
+        # --extra-index-url https://download.pytorch.org/whl/cpu
+        --extra-index-url http://192.168.143.41:9081/repository/python/simple/
 
     cd /app/detectron2 && pip install --no-cache-dir -e .
     cd /app/transformers && python3 setup.py develop
