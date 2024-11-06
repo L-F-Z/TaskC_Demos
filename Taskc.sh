@@ -45,14 +45,21 @@ for arg in "$@"; do
         --gpu)  
             gpu_only=true  
             ;;  
-        --full)
-            full_version=true
-            ;;
+        --full)  
+            full_version=true  
+            ;;  
         *)  
-            project_args+=("$arg") # Collect additional arguments for projects  
+            # Collect project names, ensuring they do not start with --  
+            if [[ "$arg" != --* ]]; then  
+                project_args+=("$arg")   
+            else  
+                echo "${RED}错误: 未知的项目 '$arg'${NC}"  
+                usage  
+                exit 1  
+            fi  
             ;;  
     esac  
-done 
+done   
 
 error_dir="$project_base_dir/error_logs"
 mkdir -p ${error_dir}
@@ -76,6 +83,13 @@ clean_cache_if_needed() {
     fi  
 } 
 
+avg(){
+    echo "cache: $use_cache"
+    echo "cpu: $cpu_only"
+    echo "gpu: $gpu_only"
+    echo "full: $full_version"
+}
+
 build_image() {
     clean_cache_if_needed
     attempt=1  
@@ -95,25 +109,25 @@ build_image() {
 
     echo "正在构建 ${project,,} ${version} Tasck Image..." 
     while [ $attempt -le $max_attempts ]; do
-        if [ "$version" == "cpu" ]; then
-            { time taskc asm --ignore-gpu "$buildfile" > output.log; } 2> time_output.log
+        if [ "$version" = "cpu" ]; then
+            { time taskc asm --id "${project,,}-${version}" --ignore-gpu "$buildfile" > output.log; } 2> time_output.log
         else
-            { time taskc asm "$buildfile" > output.log; } 2> time_output.log
+            { time taskc asm --id "${project,,}-${version}" "$buildfile" > output.log; } 2> time_output.log
         fi
 
         build_status=$? 
         build_time=$(grep '^real' time_output.log | awk '{print $2}')  
 
         if [ $build_status -eq 0 ]; then  
-            image_size=$(du -sb /var/lib/taskc/Image/${project}-latest | awk '{print $1}')
+            image_size=$(du -sb /var/lib/taskc/Image/${project,,}-${version} | awk '{print $1}')
             # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
             echo "${project,,}-${version}, ${build_time}, ${image_size}" | tee -a "../$log_file"
-            echo "${GREEN}${project,,} ${version} Taskc Image 构建完成${NC}"
+            echo "${GREEN}${project,,}-${version} Taskc Image 构建完成${NC}"
             rm time_output.log
             rm output.log
             break
         else
-            echo "${RED}构建 ${project,,} Taskc Image 失败，尝试次数: $attempt${NC}"  
+            echo "${RED}构建 ${project}-${version} Taskc Image 失败，尝试次数: $attempt${NC}"  
             echo -e "错误信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "${error_dir}/${error_logfile}"
             if [ $attempt -lt $max_attempts ]; then  
                 clean_cache_if_needed
@@ -149,26 +163,25 @@ build_image2() {
 
     echo "正在构建 ${project,,} Taskc Image..." 
     while [ $attempt -le $max_attempts ]; do
-        if [ "$version" == "cpu" ]; then
-            { time taskc asm --ignore-gpu "$buildfile" > output.log; } 2> time_output.log
+        if [ "$version" = "cpu" ]; then
+            { time taskc asm --id "${project,,}-${version}-full" --ignore-gpu "$buildfile" > output.log; } 2> time_output.log
         else
-            { time taskc asm "$buildfile" > output.log; } 2> time_output.log
+            { time taskc asm --id "${project,,}-${version}-full" "$buildfile" > output.log; } 2> time_output.log
         fi
          
-        { time taskc asm "$buildfile" >output.log; } 2> time_output.log
         build_status=$? 
         build_time=$(grep '^real' time_output.log | awk '{print $2}')  
 
         if [ $build_status -eq 0 ]; then  
-            image_size=$(du -sb /var/lib/taskc/Image/${project}-latest | awk '{print $1}')
+            image_size=$(du -sb /var/lib/taskc/Image/${project,,}-${version}-full | awk '{print $1}')
             # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
-            echo "${project,,}, ${build_time}, ${image_size}" | tee -a "../$log_file"
-            echo "${GREEN}${project,,} Taskc Image 构建完成${NC}"
+            echo "${project,,}-${version}-full, ${build_time}, ${image_size}" | tee -a "../$log_file"
+            echo "${GREEN}${project,,}-${version}-full Taskc Image 构建完成${NC}"
             rm time_output.log
             rm output.log
             break
         else
-            echo "${RED}构建 ${project,,} Taskc Image 失败，尝试次数: $attempt${NC}"  
+            echo "${RED}构建 ${project,,}-${version}-full Taskc Image 失败，尝试次数: $attempt${NC}"  
             echo -e "错误信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "${error_dir}/${error_logfile}"
             if [ $attempt -lt $max_attempts ]; then  
                 clean_cache_if_needed
@@ -204,26 +217,25 @@ build_image3() {
 
     echo "正在构建 ${project,,} Taskc Image..." 
     while [ $attempt -le $max_attempts ]; do
-        if [ "$version" == "cpu" ]; then
-            { time taskc asm --ignore-gpu "$buildfile" > output.log; } 2> time_output.log
+        if [ "$version" = "cpu" ]; then
+            { time taskc asm --id "${project,,}-${version}-full" --ignore-gpu "$buildfile" > output.log; } 2> time_output.log
         else
-            { time taskc asm "$buildfile" > output.log; } 2> time_output.log
+            { time taskc asm --id "${project,,}-${version}-full" "$buildfile" > output.log; } 2> time_output.log
         fi
          
-        { time taskc asm "$buildfile" >output.log; } 2> time_output.log
         build_status=$? 
         build_time=$(grep '^real' time_output.log | awk '{print $2}')  
 
         if [ $build_status -eq 0 ]; then  
-            image_size=$(du -sb /var/lib/taskc/Image/${project}-latest | awk '{print $1}')
+            image_size=$(du -sb /var/lib/taskc/Image/${project,,}-${version}-full | awk '{print $1}')
             # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
-            echo "${project,,}, ${build_time}, ${image_size}" | tee -a "../$log_file"
-            echo "${GREEN}${project,,} Taskc Image 构建完成${NC}"
+            echo "${project,,}-${version}-full, ${build_time}, ${image_size}" | tee -a "../$log_file"
+            echo "${GREEN}${project,,}-${version}-full Taskc Image 构建完成${NC}"
             rm time_output.log
             rm output.log
             break
         else
-            echo "${RED}构建 ${project,,} Taskc Image 失败，尝试次数: $attempt${NC}"  
+            echo "${RED}构建 ${project,,}-${version}-full Taskc Image 失败，尝试次数: $attempt${NC}"  
             echo -e "错误信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "${error_dir}/${error_logfile}"
             if [ $attempt -lt $max_attempts ]; then  
                 clean_cache_if_needed
@@ -242,7 +254,7 @@ build_image3() {
 
 buildImage() {
     local project=$1
-    if [ "$full_verison" = false]; then 
+    if [ "$full_version" = false ]; then 
         if [ "$cpu_only" = true ]; then 
             build_image "${project}" "cpu" 
         fi
@@ -269,14 +281,14 @@ buildImage() {
 
 buildImage2() {
     local project=$1
-    if [ "$full_verison" = false]; then 
+    if [ "$full_version" = false ]; then 
         if [ "$cpu_only" = true ]; then 
             build_image "${project}" "cpu" 
         fi
         if [ "$gpu_only" = true ]; then 
             build_image "${project}" "gpu" 
         fi
-        if [ "$cpu_only" = false ] && ["$gpu_only" = false ]; then 
+        if [ "$cpu_only" = false ] && [ "$gpu_only" = false ]; then 
             build_image "${project}" "cpu"
             build_image "${project}" "gpu" 
         fi
@@ -298,9 +310,6 @@ build_CLIP() {
     buildImage "CLIP"
 }  
 
-# build_Deep_Live_Cam() {  
-#     buildImage "Deep_Live_Cam"
-# }  
 
 build_LoRA() {  
     buildImage2 "LoRA"
@@ -366,7 +375,6 @@ if [[ " $* " == *" all "* ]]; then
     clean_logfile
     echo "开始构建所有项目..."  
     build_CLIP  
-    # build_Deep_Live_Cam  
     build_LoRA  
     build_SAM2  
     build_Stable-Baselines3  
@@ -375,21 +383,15 @@ if [[ " $* " == *" all "* ]]; then
     build_Transformers  
     build_Whisper  
     build_YOLO11  
-    # build_YOLOv5  
-    # build_YOLOv8  
-    # build_mmpretrain  
     echo "${GREEN}所有项目构建完成${NC}"  
     exit 0  
 fi  
 
-for arg in "$@"; do  
+for arg in "$project_args"; do  
     case "$arg" in  
         CLIP)  
             build_CLIP  
             ;;  
-        # Deep_Live_Cam)  
-        #     build_Deep_Live_Cam  
-        #     ;;  
         LoRA)  
             build_LoRA  
             ;;  
@@ -411,15 +413,6 @@ for arg in "$@"; do
         YOLO11)  
             build_YOLO11  
             ;;  
-        # YOLOv5)  
-        #     build_YOLOv5  
-        #     ;;  
-        # YOLOv8)  
-        #     build_YOLOv8  
-        #     ;;  
-        # mmpretrain)  
-        #     build_mmpretrain  
-            ;;  
         stablediffusion)  
             build_stablediffusion  
             ;;
@@ -427,7 +420,7 @@ for arg in "$@"; do
             clean_logfile
             ;;
         cleanbuild)
-            clean_apptainer
+            clean_taskc
             ;;
         *)  
             echo "${RED}错误: 未知的项目 '$arg'${NC}"  
