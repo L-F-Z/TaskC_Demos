@@ -1,5 +1,5 @@
 [BLUEPRINT] v1
-[NAME] Transformers-full
+[NAME] Transformers-full-gpu
 [TYPE] Prefab
 [VERSION] latest
 [ENVIRONMENT] any

@@ -1,0 +1,38 @@
+[BLUEPRINT] v1
+[NAME] Transformers-full-cpu
+[TYPE] Prefab
+[VERSION] latest
+[ENVIRONMENT] any
+
+[DEPEND]
+- [DockerHub] python [3.10-slim]
+- [Apt] libsndfile1-dev [any]
+- [Apt] espeak-ng [any]
+- [Apt] time [any]
+- [Apt] g++ [any]
+- [Apt] cmake [any]
+- [Apt] pkg-config [any]
+- [Apt] openssh-client [any]
+- [PyPI] torch [==2.4.0]
+- [PyPI] torchvision [==0.19.0]
+- [PyPI] torchaudio [==2.4.0]
+- [PyPI] pytesseract [any]
+- [PyPI] itsdangerous [<2.1.0]
+- [PyPI] timm [any]
+// transformers
+- [PyPI] filelock [any]
+- [PyPI] huggingface-hub [>=0.23.2,<1.0]
+- [PyPI] numpy [>=1.17]
+- [PyPI] packaging [>=20.0]
+- [PyPI] pyyaml [>=5.1]
+- [PyPI] regex [!=2019.12.17]
+- [PyPI] requests [any]
+- [PyPI] tokenizers [>=0.19,<0.20]
+- [PyPI] safetensors [>=0.4.1]
+- [PyPI] tqdm [>=4.27]
+- [PYTHON] transformers-cli:transformers.commands.transformers_cli:main [./transformers/src/transformers]
+- [LOCAL] /app [./transformers]
+
+[WORKDIR] /app
+[CMD]
+- /bin/bash
