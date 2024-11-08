@@ -4,10 +4,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 
 USER root
 WORKDIR /app
-
-RUN total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
-RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.143.41:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
-RUN mv /etc/apt/sources.list.new /etc/apt/sources.list
+RUN total_lines=$(wc -l < /etc/apt/sources.list.d/debian.sources) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list.d/debian.sources > /etc/apt/sources.list.d/debian.sources.new; sed -i 's|http://deb.debian.org/debian|http://192.168.143.41:9081/repository/debian/|g' /etc/apt/sources.list.d/debian.sources.new; mv /etc/apt/sources.list.d/debian.sources.new /etc/apt/sources.list.d/debian.sources
 
 RUN apt-get update &&  apt-get install -y --no-install-recommends libsndfile1-dev espeak-ng time g++ cmake pkg-config openssh-client
 
@@ -21,7 +18,7 @@ COPY ./resource/pip.conf /root/.pip/pip.conf
 RUN pip install --no-cache-dir -e /app/transformers \
     timm \
     torch===2.4.0+cpu \
-    torchvision===0.19.0+cpu \
+    torchvision===2.4.0+cpu \
     torchaudio===2.4.0+cpu \
     pytesseract \
     "itsdangerous<2.1.0" \

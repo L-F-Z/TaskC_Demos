@@ -14,9 +14,7 @@ From: 192.168.143.41:10081/library/python:3.10-slim
 
 
 %post
-    total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
-    sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.143.41:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
-    mv /etc/apt/sources.list.new /etc/apt/sources.list
+    total_lines=$(wc -l < /etc/apt/sources.list.d/debian.sources) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list.d/debian.sources > /etc/apt/sources.list.d/debian.sources.new; sed -i 's|http://deb.debian.org/debian|http://192.168.143.41:9081/repository/debian/|g' /etc/apt/sources.list.d/debian.sources.new; mv /etc/apt/sources.list.d/debian.sources.new /etc/apt/sources.list.d/debian.sources
 
     # Set the working directory  
     cd /app  
