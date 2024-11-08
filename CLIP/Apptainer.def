@@ -9,8 +9,8 @@ From: 192.168.143.41:10081/library/python:3.9-slim-buster
     mkdir -p ${APPTAINER_ROOTFS}/app/CLIP
     mkdir -p ${APPTAINER_ROOTFS}/.pip/
     cp -r ./CLIP/* ${APPTAINER_ROOTFS}/app/CLIP/
-    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf
-    # pip config list
+    # cp ./resource/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf
+
 
 %post
     # change apt source
@@ -32,10 +32,12 @@ From: 192.168.143.41:10081/library/python:3.9-slim-buster
         && rm -rf /var/lib/apt/lists/*
 
     # change pip source
-    # mkdir ~/.pip/
-    # test -f ~/.pip/pip.conf && \
-    # mv ~/.pip/pip.conf ~/.pip/pip.conf.bak && \
-    # curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
+    mkdir -p ${APPTAINER_ROOTFS}/.pip/
+
+    curl -s -o ${APPTAINER_ROOTFS}/.pip/pip.conf -m 3 http://192.168.143.41:9081/repository/storage/pip.conf
+    cat ${APPTAINER_ROOTFS}/.pip/pip.conf
+    pip install --upgrade pip
+    pip config list
 
     pip install --no-cache-dir \
         torch===2.1.1+cu121 \
@@ -44,6 +46,7 @@ From: 192.168.143.41:10081/library/python:3.9-slim-buster
         ftfy \
         regex \
         tqdm \
+        --trusted-host 192.168.143.41 \
         --extra-index-url http://192.168.143.41:9081/repository/python/simple/
 
     cd /app/CLIP
