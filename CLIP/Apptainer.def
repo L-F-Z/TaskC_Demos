@@ -38,9 +38,9 @@ From: 192.168.143.41:10081/library/python:3.9-slim-buster
     # curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
 
     pip install --no-cache-dir \
-        torch===2.5.1+cu124 \
-        torchvision===0.20.1+cu124 \
-        torchaudio===2.5.1+cu124 \
+        torch===2.1.1+cu121 \
+        torchvision===0.16.1+cu121 \
+        torchaudio===2.1.1+cu121 \
         ftfy \
         regex \
         tqdm \
