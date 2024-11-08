@@ -287,7 +287,7 @@ for arg in "${project_args[@]}"; do
             clean_logfile
             ;;
         cleanbuild)
-            clean_apptainer
+            clean_docker
             ;;
         *)  
             echo "${RED}错误: 未知的项目 '$arg'${NC}"  

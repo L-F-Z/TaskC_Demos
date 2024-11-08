@@ -45,7 +45,8 @@ COPY ./resource/pip.conf /root/.pip/pip.conf
 # Install pip packages
 RUN python3 -m pip install --upgrade pip wheel
 # RUN pip install -e ".[export]" --extra-index-url https://download.pytorch.org/whl/cpu
-RUN pip install -e . --extra-index-url http://192.168.143.41:9081/repository/python/simple/
+RUN pip install --no-cache-dir torch===2.5.1+cpu torchvision===0.20.1+cpu --extra-index-url http://192.168.143.41:9081/repository/python/simple/
+RUN pip install --no-cache-dir -e . --extra-index-url http://192.168.143.41:9081/repository/python/simple/
 
 # Run exports to AutoInstall packages
 

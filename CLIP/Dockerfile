@@ -14,7 +14,6 @@ RUN apt-get update && apt-get install -y \
     libasound2 \
     libxi6 \
     libxtst6 \
-    curl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -24,12 +23,13 @@ RUN mkdir -p /root/.pip/ && \
 COPY ./resource/pip.conf /root/.pip/pip.conf  
 
 RUN pip install --no-cache-dir \
-    torch \
-    torchvision \
-    torchaudio \
+    torch===2.5.1+cu124 \
+    torchvision===0.20.1+cu124 \
+    torchaudio===2.5.1+cu124 \
     ftfy \
     regex \
-    tqdm
+    tqdm \
+    --extra-index-url http://192.168.143.41:9081/repository/python/simple/
 
 WORKDIR /app/CLIP  
 COPY ./CLIP /app/CLIP  

@@ -56,7 +56,9 @@ From: 192.168.143.41:10081/library/ubuntu:23.10
 
     # Install pip packages
     python3 -m pip install --upgrade pip wheel
-    pip install -e . --extra-index-url http://192.168.143.41:9081/repository/python/simple/ --timeout 1000
+    pip install --no-cache-dir torch===2.5.1+cpu torchvision===0.20.1+cpu --extra-index-url http://192.168.143.41:9081/repository/python/simple/
+
+    pip install --no-cache-dir -e . --extra-index-url http://192.168.143.41:9081/repository/python/simple/ --timeout 1000
 
     # Create symbolic link for python
     ln -sf /usr/bin/python3 /usr/bin/python

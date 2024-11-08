@@ -29,8 +29,8 @@ COPY ./resource/pip.conf /root/.pip/pip.conf
 RUN pip install --no-cache-dir -e /app/transformers \
     timm \
     torch===2.4.0+cu121 \
-    torchvision \
-    torchaudio \
+    torchvision===0.19.0+cu121 \
+    torchaudio===2.4.0+cu121 \
     pytesseract \
     "itsdangerous<2.1.0" \
     --extra-index-url http://192.168.143.41:9081/repository/python/simple/

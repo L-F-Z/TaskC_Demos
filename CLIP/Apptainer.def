@@ -38,12 +38,13 @@ From: 192.168.143.41:10081/library/python:3.9-slim-buster
     # curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
 
     pip install --no-cache-dir \
-        torch \
-        torchvision \
-        torchaudio \
+        torch===2.5.1+cu124 \
+        torchvision===0.20.1+cu124 \
+        torchaudio===2.5.1+cu124 \
         ftfy \
         regex \
-        tqdm
+        tqdm \
+        --extra-index-url http://192.168.143.41:9081/repository/python/simple/
 
     cd /app/CLIP
     pip install --no-cache-dir -r requirements.txt

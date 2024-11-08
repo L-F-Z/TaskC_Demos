@@ -18,10 +18,11 @@ RUN mkdir -p /root/.pip/ && \
 COPY ./resource/pip.conf /root/.pip/pip.conf  
 
 RUN cd /app/whisper && \
+    pip install --no-cache-dir torch===2.5.1+cu121 --extra-index-url http://192.168.143.41:9081/repository/python/simple/ && \
     pip install --no-cache-dir .
 # RUN pip install -r /app/whisper/requirements.txt
 
-RUN whisper --model_dir /usr/local --model medium audio >> /dev/null 2>&1; exit 0
+# RUN whisper --model_dir /usr/local --modsel medium audio >> /dev/null 2>&1; exit 0
 
 WORKDIR /app
 

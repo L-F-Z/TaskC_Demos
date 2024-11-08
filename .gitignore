@@ -3,5 +3,6 @@ error_logs/
 test.sh
 YOLO11/resource/__init__.py
 YOLO11/resource/server.py
+YOLO11/resource/numpyDockerfile
 YOLO11/cpuDockerfile1
 pp.sh
