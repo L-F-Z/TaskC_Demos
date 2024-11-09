@@ -15,7 +15,7 @@
 // - [PyPI] jupyter-server [==1.13.1]
 // - [PyPI] jupyterlab [==3.2.9]
 // - [PyPI] jupyter [==1.1.1]
-- [PyPI] torch [==1.9.0]
+- [PyPI] torch [===1.9.0+cpu]
 - [PyPI] packaging [any]
 - [PyPI] datasets [==2.0.0]
 - [PyPI] sentencepiece [==0.1.91]

@@ -7,7 +7,7 @@
 [DEPEND]
 - [DockerHub] mambaorg/micromamba [1.5-jammy-cuda-11.7.1]
 - [Apt] python3.10 [any]
-- [PyPI] torch [>=1.13,<2.0]
+- [PyPI] torch [===2.5.1+cu118]
 - [PyPI] gymnasium [>=0.28.1,<0.30]
 - [PyPI] numpy [>=1.20,<2.0]
 - [PyPI] cloudpickle [any]

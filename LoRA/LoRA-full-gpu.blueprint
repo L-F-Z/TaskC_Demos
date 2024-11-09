@@ -14,7 +14,7 @@
 - [Apt] python3.8 [any]
 - [PyPI] numpy [any]
 - [PyPI] mkl [any]
-- [PyPI] torch [==1.9.0+cu111]
+- [PyPI] torch [===1.9.0+cu111]
 // - [PyPI] jupyter [==1.1.1]
 - [PyPI] packaging [any]
 - [PyPI] datasets [==2.0.0]
