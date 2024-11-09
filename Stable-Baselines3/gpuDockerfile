@@ -5,25 +5,15 @@ ARG PYTORCH_DEPS="pytorch-cuda=11.7"
 ARG PYTHON_VERSION=3.10
 ARG MAMBA_DOCKERFILE_ACTIVATE=1  # (otherwise python will not be found)
 
-RUN mkdir ~/.conda/ && touch ~/.conda/.condarc
-COPY ./resource/.condarc ~/.conda/.condarc
-# RUN cat <<'EOF' > ~/.conda/.condarc
-# default_channels:
-#     - http://192.168.143.41:9081/repository/conda/main
-#     - http://192.168.143.41:9081/repository/conda/r
-#     - http://192.168.143.41:9081/repository/conda/msys2
-# custom_channels:
-#     conda-forge: http://192.168.143.41:9081/repository/conda2/
-#     nvidia: http://192.168.143.41:9081/repository/conda2/
-#     pytorch: http://192.168.143.41:9081/repository/conda2/
-# EOF
+ENV CODE_DIR=/home/$MAMBA_USER
+
+RUN mkdir -p ${CODE_DIR}/.conda/ && touch ${CODE_DIR}/.conda/.condarc
+COPY --chown=$MAMBA_USER:$MAMBA_USER ./resource/.condarc ${CODE_DIR}/.conda/.condarc
 
 # Install micromamba env and dependencies
 RUN micromamba install -v -n base -y python=$PYTHON_VERSION \
     pytorch $PYTORCH_DEPS -c conda-forge -c pytorch -c nvidia && \
     micromamba clean --all --yes
-
-ENV CODE_DIR=/home/$MAMBA_USER
 
 # Copy setup file only to install dependencies -> not enough!
 COPY --chown=$MAMBA_USER:$MAMBA_USER ./stable-baselines3/stable_baselines3/ ${CODE_DIR}/stable-baselines3/stable_baselines3
@@ -32,24 +22,9 @@ COPY --chown=$MAMBA_USER:$MAMBA_USER ./stable-baselines3/tests/ ${CODE_DIR}/stab
 COPY --chown=$MAMBA_USER:$MAMBA_USER ./stable-baselines3/stable_baselines3/version.txt ${CODE_DIR}/stable-baselines3/stable_baselines3/version.txt
 
 # Modify ~/.pip/pip.conf to use PkgCache
-RUN mkdir ~/.pip/ && touch ~/.pip/pip.conf
-COPY ./resource/pip.conf ~/.pip/pip.conf
+RUN mkdir ${CODE_DIR}/.pip/ && touch ${CODE_DIR}/.pip/pip.conf
+COPY --chown=$MAMBA_USER:$MAMBA_USER ./resource/pip.conf ${CODE_DIR}/.pip/pip.conf
 
-# RUN cat <<'EOF' > ~/.pip/pip.conf
-# [global]
-# timeout = 1000
-# trusted-host = 192.168.143.41
-# index = http://192.168.143.41:9081/repository/pypi/pypi
-# index-url = http://192.168.143.41:9081/repository/pypi/simple
-# EOF
-
-# RUN cd ${CODE_DIR}/stable-baselines3 && \
-#     pip install -e .[extra,tests,docs] && \
-#     # Use headless version for docker
-#     pip uninstall -y opencv-python && \
-#     pip install opencv-python-headless && \
-#     pip cache purge
-
-RUN micromamba run -n base bash -c " cd ${CODE_DIR}/stable-baselines3 && pip install -e .[extra,tests,docs] && pip uninstall -y opencv-python && pip install opencv-python-headless && pip cache purge"
+RUN micromamba run -n base bash -c " cd ${CODE_DIR}/stable-baselines3 && pip install -v --no-cache -e .[extra,tests,docs] && pip uninstall -y opencv-python && pip install -v opencv-python-headless && pip cache purge"
 
 CMD /bin/bash

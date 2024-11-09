@@ -15,10 +15,10 @@ RUN mkdir -p /root/.pip/ && \
     if [ -f /root/.pip/pip.conf ]; then mv /root/.pip/pip.conf /root/.pip/pip.conf.bak; fi  
 COPY ./resource/pip.conf /root/.pip/pip.conf  
 
-RUN pip3 install llvmlite --ignore-installed
+RUN pip3 install -v llvmlite --ignore-installed
 
 # Install Dependencies:
-RUN pip3 install torch==2.1.1+cu118 torchaudio==2.1.1+cu118 --extra-index-url http://192.168.143.41:9081/repository/python/simple/
+RUN pip3 install -v torch==2.1.1+cu118 torchaudio==2.1.1+cu118 --extra-index-url http://192.168.143.41:9081/repository/python/simple/
 RUN rm -rf /root/.cache/pip
 
 # Copy TTS repository contents:

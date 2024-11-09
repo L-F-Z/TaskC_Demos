@@ -37,15 +37,17 @@ RUN if [ -f .git/config ]; then sed -i '/^\[http "https:\/\/github\.com\/"\]/,+1
 ADD http://192.168.143.41:9081/repository/storage/yolo11n.pt .
 
 # Modify ~/.pip/pip.conf to use PkgCache
-# RUN mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
+RUN mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
 RUN mkdir -p /root/.pip/ && \
     if [ -f /root/.pip/pip.conf ]; then mv /root/.pip/pip.conf /root/.pip/pip.conf.bak; fi  
 COPY ./resource/pip.conf /root/.pip/pip.conf  
 
 # Install pip packages
 RUN python3 -m pip install --upgrade pip wheel
-# RUN pip install -e ".[export]" --extra-index-url https://download.pytorch.org/whl/cpu
-RUN pip install --no-cache-dir torch===2.5.1+cpu torchvision===0.20.1+cpu --extra-index-url http://192.168.143.41:9081/repository/python/simple/
+# RUN pip install --no-cache-dir torch===2.5.0+cpu torchvision==0.20.1+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+# RUN pip install --no-cache-dir -e . --extra-index-url https://download.pytorch.org/whl/cpu
+
+RUN pip install --no-cache-dir torch===2.5.0+cpu torchvision===0.20.0+cpu --extra-index-url http://192.168.143.41:9081/repository/python/simple/
 RUN pip install --no-cache-dir -e . --extra-index-url http://192.168.143.41:9081/repository/python/simple/
 
 # Run exports to AutoInstall packages
