@@ -27,17 +27,21 @@ From: 192.168.143.41:10081/library/python:3.9-slim-buster
         libasound2 \
         libxi6 \
         libxtst6 \
-        curl \
         && apt-get clean \
         && rm -rf /var/lib/apt/lists/*
 
     # change pip source
-    mkdir -p ${APPTAINER_ROOTFS}/.pip/
+    # mkdir -p ${APPTAINER_ROOTFS}/.pip/
 
-    curl -s -o ${APPTAINER_ROOTFS}/.pip/pip.conf -m 3 http://192.168.143.41:9081/repository/storage/pip.conf
-    cat ${APPTAINER_ROOTFS}/.pip/pip.conf
-    pip install --upgrade pip
-    pip config list
+    # curl -s -o ${APPTAINER_ROOTFS}/.pip/pip.conf -m 3 http://192.168.143.41:9081/repository/storage/pip.conf
+    # cat ${APPTAINER_ROOTFS}/.pip/pip.conf
+    # pip install --upgrade pip
+    # pip config list
+
+    pip config set global.timeout 1000
+    pip config set global.trusted-host 192.168.143.41
+    pip config set global.index http://192.168.143.41:9081/repository/pypi/pypi
+    pip config set global.index-url http://192.168.143.41:9081/repository/pypi/simple
 
     pip install --no-cache-dir \
         torch===2.1.1+cu121 \
@@ -46,7 +50,6 @@ From: 192.168.143.41:10081/library/python:3.9-slim-buster
         ftfy \
         regex \
         tqdm \
-        --trusted-host 192.168.143.41 \
         --extra-index-url http://192.168.143.41:9081/repository/python/simple/
 
     cd /app/CLIP

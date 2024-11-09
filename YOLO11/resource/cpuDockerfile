@@ -1,0 +1,75 @@
+# Ultralytics YOLO 🚀, AGPL-3.0 license
+# Builds ultralytics/ultralytics:latest-cpu image on DockerHub https://hub.docker.com/r/ultralytics/ultralytics
+# Image is CPU-optimized for ONNX, OpenVINO and PyTorch YOLO11 deployments
+
+# Start FROM Ubuntu image https://hub.docker.com/_/ubuntu
+FROM ubuntu:23.10
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_BREAK_SYSTEM_PACKAGES=1
+
+ADD http://192.168.143.41:9081/repository/storage/Arial.ttf \
+    http://192.168.143.41:9081/repository/storage/Arial.Unicode.ttf \
+    /root/.config/Ultralytics/
+
+# Modify /etc/apt/sources.list to use PkgCache
+RUN total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
+RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.143.41:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+RUN mv /etc/apt/sources.list.new /etc/apt/sources.list
+
+# Install linux packages
+# g++ required to build 'tflite_support' and 'lap' packages, libusb-1.0-0 required for 'tflite_support' package
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    python3-pip zip unzip wget curl htop libgl1 libglib2.0-0 libpython3-dev gnupg g++ libusb-1.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create working directory
+WORKDIR /ultralytics
+
+# Copy contents and configure git
+COPY ./ultralytics .
+# RUN sed -i '/^\[http "https:\/\/github\.com\/"\]/,+1d' .git/config
+RUN if [ -f .git/config ]; then sed -i '/^\[http "https:\/\/github\.com\/"\]/,+1d' .git/config; fi
+ADD http://192.168.143.41:9081/repository/storage/yolo11n.pt .
+
+# Modify ~/.pip/pip.conf to use PkgCache
+
+# Install pip packages
+RUN python3 -m pip install --upgrade pip wheel
+RUN pip install --no-cache-dir torch===2.5.0+cpu torchvision===0.20.0+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+RUN pip install --no-cache-dir -e . --extra-index-url https://download.pytorch.org/whl/cpu
+
+
+# Run exports to AutoInstall packages
+
+# RUN yolo export model=tmp/yolo11n.pt format=edgetpu imgsz=32
+# RUN yolo export model=tmp/yolo11n.pt format=ncnn imgsz=32
+
+# Requires Python<=3.10, bug with paddlepaddle==2.5.0 https://github.com/PaddlePaddle/X2Paddle/issues/991
+# RUN pip install "paddlepaddle>=2.6.0" x2paddle
+
+# Creates a symbolic link to make 'python' point to 'python3'
+RUN ln -sf /usr/bin/python3 /usr/bin/python
+
+# Remove extra build files
+RUN rm -rf tmp /root/.config/Ultralytics/persistent_cache.json
+
+CMD ["yolo", "predict", "model=yolo11n.pt", "source=https://ultralytics.com/images/bus.jpg"]
+
+# Usage Examples -------------------------------------------------------------------------------------------------------
+
+# Build and Push
+# t=ultralytics/ultralytics:latest-cpu && sudo docker build -f docker/Dockerfile-cpu -t $t . && sudo docker push $t
+
+# Run
+# t=ultralytics/ultralytics:latest-cpu && sudo docker run -it --ipc=host --name NAME $t
+
+# Pull and Run
+# t=ultralytics/ultralytics:latest-cpu && sudo docker pull $t && sudo docker run -it --ipc=host --name NAME $t
+
+# Pull and Run with local volume mounted
+# t=ultralytics/ultralytics:latest-cpu && sudo docker pull $t && sudo docker run -it --ipc=host -v "$(pwd)"/shared/datasets:/datasets $t

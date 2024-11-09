@@ -25,7 +25,7 @@ usage() {
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"  
 project_base_dir="${script_dir}"  
 
-max_attempts=3
+max_attempts=1
 use_cache=true  
 cpu_only=false  
 gpu_only=false
@@ -79,9 +79,9 @@ build_image() {
     echo "正在构建 ${project,,} 镜像..." 
     while [ $attempt -le $max_attempts ]; do
         if [ "$use_cache" = false ]; then
-            { time docker build --no-cache -t "${project,,}" -f "$dockerfile" . ; } 2> output.log  
+            { time docker build --no-cache -t "${project,,}" -f "$dockerfile" . > log.log ; } 2> output.log  
         else
-            { time docker build -t "${project,,}" -f "$dockerfile" . ; } 2> output.log  
+            { time docker build -t "${project,,}" -f "$dockerfile" . > log.log ; } 2> output.log  
         fi
 
         build_status=$? 
@@ -91,11 +91,12 @@ build_image() {
             # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
             echo "${project,,}, ${build_time}, ${image_size}" | tee -a "../$log_file"
             echo "${GREEN}${project,,} 镜像构建完成${NC}"
+            rm log.log
             rm output.log
             break
         else
             echo "${RED}构建 ${project,,} 镜像失败，尝试次数: $attempt${NC}"  
-            echo -e "错误信息：\n$(<output.log)\n" >> "${error_dir}/${error_logfile}"
+            echo -e "错误信息：\n$(<log.log)\n$(<output.log)\n" >> "${error_dir}/${error_logfile}"
             if [ $attempt -lt $max_attempts ]; then  
                 clean_cache_if_needed
                 echo "等待 1 秒后重试..."  
@@ -103,6 +104,7 @@ build_image() {
             fi  
             attempt=$((attempt + 1))  
         fi
+        rm log.log
         rm output.log 
     done
 
@@ -129,9 +131,9 @@ build_image2() {
     echo "正在构建 ${project,,}-${variant} 镜像..."  
     while [ $attempt -le $max_attempts ]; do  
         if [ "$use_cache" = false ]; then
-            { time docker build --no-cache -t "${project,,}-${variant}" -f "$dockerfile" . ; } 2> output.log  
+            { time docker build --no-cache -t "${project,,}-${variant}" -f "$dockerfile" . > log.log ; } 2> output.log  
         else
-            { time docker build -t "${project,,}-${variant}" -f "$dockerfile" . ; } 2> output.log  
+            { time docker build -t "${project,,}-${variant}" -f "$dockerfile" . > log.log ; } 2> output.log  
         fi
 
         build_status=$?  
@@ -142,11 +144,12 @@ build_image2() {
             # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)  
             echo "${project,,}-${variant}, ${build_time}, ${image_size}" | tee -a "../$log_file"
             echo "${GREEN}${project,,}-${variant} 镜像构建完成${NC}"  
+            rm log.log
             rm output.log
             break  
         else  
             echo "${RED}构建 ${project,,}-${variant} 镜像失败，尝试次数: $attempt${NC}" 
-            echo -e "错误信息：\n$(<output.log)\n" >> "${error_dir}/${error_logfile}"
+            echo -e "错误信息：\n$(<log.log)\n$(<output.log)\n" >> "${error_dir}/${error_logfile}"
 
             # Retry
             if [ $attempt -lt $max_attempts ]; then 
@@ -156,6 +159,7 @@ build_image2() {
             fi
             attempt=$((attempt + 1))  
         fi
+        rm log.log
         rm output.log 
     done  
 

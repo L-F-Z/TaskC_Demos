@@ -371,7 +371,7 @@ if [ $# -eq 0 ]; then
     usage  
 fi  
 
-if [[ " $* " == *" all "* ]]; then  
+if [[ " ${project_args[*]} " == *" all "* ]]; then  
     clean_logfile
     echo "开始构建所有项目..."  
     build_CLIP  
@@ -387,7 +387,7 @@ if [[ " $* " == *" all "* ]]; then
     exit 0  
 fi  
 
-for arg in "$project_args"; do  
+for arg in "${project_args[@]}"; do  
     case "$arg" in  
         CLIP)  
             build_CLIP  

@@ -6,8 +6,6 @@ From: 192.168.143.41:10081/pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
     mkdir -p ${APPTAINER_ROOTFS}/app/sam2 
     cp -r ./sam2/* ${APPTAINER_ROOTFS}/app/sam2/
 
-    mkdir -p ${APPTAINER_ROOTFS}/.pip/
-    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf
     
 %environment  
     export DEBIAN_FRONTEND=noninteractive  
@@ -45,13 +43,17 @@ From: 192.168.143.41:10081/pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
         curl 
     
     # Modify ~/.pip/pip.conf to use PkgCache
-    mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
+    # mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
+
+    pip config set global.timeout 1000
+    pip config set global.trusted-host 192.168.143.41
+    pip config set global.index http://192.168.143.41:9081/repository/pypi/pypi
+    pip config set global.index-url http://192.168.143.41:9081/repository/pypi/simple
 
     cd ${APPTAINER_ROOTFS}/app/sam2 && \
     pip install --upgrade pip setuptools && \
-    pip install -e ".[interactive-demo]" --timeout 1000 && \
-    pip install opencv-python --timeout 1000
-
+    pip install -e ".[interactive-demo]" && \
+    pip install opencv-python 
     rm /opt/conda/bin/ffmpeg && ln -s /bin/ffmpeg /opt/conda/bin/ffmpeg
     
     curl -o ${APPTAINER_ROOTFS}/app/sam2/checkpoints/sam2.1_hiera_tiny.pt http://192.168.143.41:9081/repository/storage/sam2.1_hiera_tiny.pt

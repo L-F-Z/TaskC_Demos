@@ -7,3 +7,4 @@ YOLO11/resource/numpyDockerfile
 YOLO11/cpuDockerfile1
 pp.sh
 limitBandWidth.sh
+flag/
