@@ -131,21 +131,11 @@ pull() {
     fi
 
     if [ "$taskc_full_cpu" = true ]; then
-        if [ "$version" = "any" ]; then
-            pullTaskc "${imgName}-full" "cpu"
-        fi
-        if [ "$version" = "cpu" ]; then
-            pullTaskc "${imgName}-full-cpu" "cpu"
-        fi
+        pullTaskc "${imgName}" "cpu-full"
     fi
 
     if [ "$taskc_full_gpu" = true ]; then
-        if [ "$version" = "any" ]; then
-            pullTaskc "${imgName}-full" "gpu"
-        fi
-        if [ "$version" = "gpu" ]; then
-            pullTaskc "${imgName}-full-gpu" "gpu"
-        fi
+        pullTaskc "${imgName}" "gpu-full"
     fi
 }
 
@@ -175,6 +165,7 @@ pullApptainer() {
 
 pullTaskc() {
     local imgName=$1
+    local version=$2
     # get from remote
     time curl http://192.168.143.41:9081/repository/storage/taskc/${imgName}-${version}.taskc -o /tmp/${imgName}-${version}.taskc > pulltmp.log
     pull_time=$(grep '^real' pulltmp.log | awk '{print $2}')
