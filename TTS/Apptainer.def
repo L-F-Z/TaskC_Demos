@@ -7,8 +7,8 @@ From: 192.168.143.41:10081/nvidia/cuda:11.8.0-base-ubuntu22.04
     rm ${APPTAINER_ROOTFS}/TTS/requirements.txt
     cp ./resource/requirements.txt ${APPTAINER_ROOTFS}/TTS/requirements.txt
 
-    mkdir -p ${APPTAINER_ROOTFS}/.pip/
-    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf
+    mkdir -p ${APPTAINER_ROOTFS}/root/.pip/
+    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/root/.pip/pip.conf
 
 %post
     # Modify /etc/apt/sources.list to use PkgCache
@@ -25,10 +25,9 @@ From: 192.168.143.41:10081/nvidia/cuda:11.8.0-base-ubuntu22.04
     # Modify ~/.pip/pip.conf to use PkgCache
     # mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 https://raw.githubusercontent.com/brandnewworld/staging/refs/heads/main/pip.conf
 
-    pip3 install llvmlite --ignore-installed
-    pip3 install torch==2.1.1+cu118 torchaudio==2.1.1+cu118 --extra-index-url http://192.168.143.41:9081/repository/python/simple/
+    pip3 install -v --no-cache llvmlite --ignore-installed
+    pip3 install -v --no-cache torch==2.1.1+cu118 torchaudio==2.1.1+cu118 --extra-index-url http://192.168.143.41:9081/repository/python/simple/
 
-    rm -rf ${APPTAINER_ROOTFS}/.cache/pip
 
     cd ${APPTAINER_ROOTFS}/TTS
     make install

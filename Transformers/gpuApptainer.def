@@ -9,8 +9,8 @@ From: 192.168.143.41:10081/nvidia/cuda:12.1.0-cudnn8-devel-ubuntu22.04
     cp -r ./transformers ${APPTAINER_ROOTFS}/app/transformers  
     cp -r ./detectron2 ${APPTAINER_ROOTFS}/app/ddetectron2
 
-    mkdir -p ${APPTAINER_ROOTFS}/.pip/
-    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf
+    mkdir -p ${APPTAINER_ROOTFS}/root/.pip/
+    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/root/.pip/pip.conf
 
 
 %post
@@ -36,7 +36,7 @@ From: 192.168.143.41:10081/nvidia/cuda:12.1.0-cudnn8-devel-ubuntu22.04
     #pip source info
     pip config list
 
-    pip install --no-cache-dir -e /app/transformers \
+    pip install --no-cache-dir -v -e /app/transformers \
         timm \
         torch===2.4.0+cu121 \
         torchvision===0.19.0+cu121 \
@@ -45,7 +45,7 @@ From: 192.168.143.41:10081/nvidia/cuda:12.1.0-cudnn8-devel-ubuntu22.04
         "itsdangerous<2.1.0" \
         --extra-index-url http://192.168.143.41:9081/repository/python/simple/
 
-    cd /app/detectron2 && pip install -e .
+    cd /app/detectron2 && pip install -v -e .
     cd /app/transformers && python3 setup.py develop
 
 %runscript  

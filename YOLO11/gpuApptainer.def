@@ -9,12 +9,12 @@ From: 192.168.143.41:10081/pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
     export PIP_BREAK_SYSTEM_PACKAGES=1
 
 %setup
-    mkdir -p ${APPTAINER_ROOTFS}/.config/Ultralytics/
+    mkdir -p ${APPTAINER_ROOTFS}/root/.config/Ultralytics/
     mkdir -p ${APPTAINER_ROOTFS}/app
     cp -r ./ultralytics/* ${APPTAINER_ROOTFS}/app
 
-    mkdir -p ${APPTAINER_ROOTFS}/.pip/
-    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf
+    mkdir -p ${APPTAINER_ROOTFS}/root/.pip/
+    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/root/.pip/pip.conf
 
 %post
     export PYTHONUNBUFFERED=1
@@ -33,11 +33,11 @@ From: 192.168.143.41:10081/pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
     rm -rf /var/lib/apt/lists/*
 
     # Downloads to user config dir
-    curl -o ${APPTAINER_ROOTFS}/.config/Ultralytics/Arial.ttf http://192.168.143.41:9081/repository/storage/Arial.ttf
-    curl -o ${APPTAINER_ROOTFS}/.config/Ultralytics/Arial.Unicode.ttf http://192.168.143.41:9081/repository/storage/Arial.Unicode.ttf
+    curl -o /root/.config/Ultralytics/Arial.ttf http://192.168.143.41:9081/repository/storage/Arial.ttf
+    curl -o /root/.config/Ultralytics/Arial.Unicode.ttf http://192.168.143.41:9081/repository/storage/Arial.Unicode.ttf
     
     # Create working directory
-    cd ${APPTAINER_ROOTFS}/app
+    cd /app
 
     # Modify git config if exists
     if [ -f .git/config ]; then
@@ -45,18 +45,12 @@ From: 192.168.143.41:10081/pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
     fi
 
     # Add yolo model file
-    curl -o ${APPTAINER_ROOTFS}/app/yolo11n.pt http://192.168.143.41:9081/repository/storage/yolo11n.pt
+    curl -o /app/yolo11n.pt http://192.168.143.41:9081/repository/storage/yolo11n.pt
 
-    # Modify pip.conf to use PkgCache
-    # mkdir -p ~/.pip/
-    # if [ -f ~/.pip/pip.conf ]; then
-    #     mv ~/.pip/pip.conf ~/.pip/pip.conf.bak
-    # fi
-    # curl -s -o ~/.pip/pip.conf -m 3  http://192.168.143.41:4000/root/staging/raw/branch/main/pip.conf
 
     # Install pip packages
-    python3 -m pip install --upgrade pip wheel
-    pip install --no-cache-dir -e . "tensorrt-cu12==10.1.0" "albumentations>=1.4.6" comet pycocotools 
+    python3 -m pip install --upgrade pip wheel 
+    pip install -v --no-cache-dir -e . "tensorrt-cu12==10.1.0" "albumentations>=1.4.6" comet pycocotools 
 
     # Remove extra build files
     rm -rf tmp /root/.config/Ultralytics/persistent_cache.json

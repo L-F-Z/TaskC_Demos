@@ -9,8 +9,8 @@ From: 192.168.143.41:10081/library/python:3.10-slim
     cp -r ./transformers ${APPTAINER_ROOTFS}/app/transformers  
     cp -r ./detectron2 ${APPTAINER_ROOTFS}/app/ddetectron2
 
-    mkdir -p ${APPTAINER_ROOTFS}/.pip/
-    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf
+    # mkdir -p ${APPTAINER_ROOTFS}/root/.pip/
+    # cp ./resource/pip.conf ${APPTAINER_ROOTFS}/root/.pip/pip.conf
 
 
 %post
@@ -27,26 +27,25 @@ From: 192.168.143.41:10081/library/python:3.10-slim
         pkg-config openssh-client && \
     rm -rf /var/lib/apt/lists/*  
 
-    # mkdir ~/.pip/ && \
-    # touch ~/.pip/pip.conf && \
-    # test -f ~/.pip/pip.conf && \
-    # mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.143.41:4000/root/staging/raw/branch/main/pip.conf
-
-    # Install the Transformers library in editable mode and other dependencies  
-
     #pip source info
 
-    pip install --no-cache-dir -e /app/transformers \
+    pip config set global.timeout 1000
+    pip config set global.trusted-host 192.168.143.41
+    pip config set global.index http://192.168.143.41:9081/repository/pypi/pypi
+    pip config set global.index-url http://192.168.143.41:9081/repository/pypi/simple
+
+    pip install --no-cache-dir -v -e /app/transformers \
+        --extra-index-url http://192.168.143.41:9081/repository/python/simple/ \
         timm \
         torch===2.4.0+cpu \
         torchvision===0.19.0+cpu \
         torchaudio===2.4.0+cpu \
         pytesseract \
-        "itsdangerous<2.1.0" \
+        "itsdangerous<2.1.0" 
         # --extra-index-url https://download.pytorch.org/whl/cpu
-        --extra-index-url http://192.168.143.41:9081/repository/python/simple/
+        
 
-    cd /app/detectron2 && pip install --no-cache-dir -e .
+    cd /app/detectron2 && pip install --no-cache-dir -v -e .
     cd /app/transformers && python3 setup.py develop
 
 %runscript  

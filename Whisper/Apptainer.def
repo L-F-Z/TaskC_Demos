@@ -6,8 +6,8 @@ From: 192.168.143.41:10081/library/python:3.10-slim
     mkdir -p ${APPTAINER_ROOTFS}/app/whisper
     cp -r ./whisper/* ${APPTAINER_ROOTFS}/app/whisper/
 
-    mkdir -p ${APPTAINER_ROOTFS}/.pip/
-    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/.pip/pip.conf
+    mkdir -p ${APPTAINER_ROOTFS}/root/.pip/
+    cp ./resource/pip.conf ${APPTAINER_ROOTFS}/root/.pip/pip.conf
     
 %post  
     # Update and install necessary packages  
@@ -18,11 +18,11 @@ From: 192.168.143.41:10081/library/python:3.10-slim
     apt-get update && apt-get install -y ffmpeg
 
     # Install whisper  
-    cd ${APPTAINER_ROOTFS}/app/whisper
+    cd /app/whisper
     
     # mkdir ~/.pip/; test -f ~/.pip/pip.conf && mv ~/.pip/pip.conf ~/.pip/pip.conf.bak; curl -s -o ~/.pip/pip.conf -m 3 http://192.168.143.41:4000/root/staging/raw/branch/main/pip.conf
-    pip install --no-cache-dir torch===2.5.1+cu121 --extra-index-url http://192.168.143.41:9081/repository/python/simple/ 
-    pip install --no-cache-dir .
+    pip install -v --no-cache-dir torch===2.3.1+cu121 --extra-index-url http://192.168.143.41:9081/repository/python/simple/ 
+    pip install -v --no-cache-dir .
 
     # Run whisper command  
-    whisper --model_dir /usr/local --model medium audio >> /dev/null 2>&1 || true  
+    # whisper --model_dir /usr/local --model medium audio >> /dev/null 2>&1 || true  
