@@ -23,6 +23,16 @@ usage() {
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"  
 project_base_dir="${script_dir}"
 
+docker=false
+apptainer=false
+buildah=false
+cpu_flag=false
+gpu_flag=false
+taskc_cpu=false
+taskc_gpu=false
+taskc_full_cpu=false
+taskc_full_gpu=false
+
 project_args=()  
 for arg in "$@"; do  
     case "$arg" in  
@@ -35,6 +45,12 @@ for arg in "$@"; do
         -b)  
             buildah=true
             ;;  
+        --cpu)
+            cpu_flag=true
+            ;;
+        --gpu)
+            gpu_flag=true
+            ;;
         -tc)
             taskc_cpu=true    
             ;;
@@ -109,7 +125,7 @@ tag() {
         docker tag ${imgName}:latest ${source}/${imgName}:latest
     fi
     if [ "$buildah" = true ]; then
-        buildah tag ${imgName}:latest ${source}/${imgName}:latest
+        buildah tag localhost/${imgName}:latest ${source}/${imgName}:latest
     fi
 }
 
@@ -120,35 +136,37 @@ push() {
     local version=$2
     
     if [ "$docker" = true ]; then
-        if [ "$version" = "gpu" ]; then
-            pushDocker "${imgName}-gpu"
-        fi
-        if [ "$version" = "cpu" ]; then
-            pushDocker "${imgName}-cpu"
-        fi
         if [ "$version" = "any" ]; then
             pushDocker "${imgName}"
+        fi
+        if [ "$cpu_flag" = true ] || [ "$version" = "cpu" ] ; then
+                pushDocker "${imgName}-cpu"
+        fi
+        if [ "$gpu_flag" = true ] || [ "$version" = "gpu" ]; then
+            pushDocker "${imgName}-gpu"  
         fi
     fi
 
     if [ "$buildah" = true ]; then
-        if [ "$version" = "gpu" ]; then
-            pushBuildah "${imgName}-gpu"
-        fi
-        if [ "$version" = "cpu" ]; then
-            pushBuildah "${imgName}-cpu"
-        fi
         if [ "$version" = "any" ]; then
             pushBuildah "${imgName}"
+        elif [ "$cpu_flag" = true ]; then
+            if [ "$version" = "cpu" ]; then
+                pushBuildah "${imgName}-cpu"
+            fi
+        elif [ "$gpu_flag" = true ]; then
+            if [ "$version" = "gpu" ]; then
+                pushBuildah "${imgName}-gpu"
+            fi
         fi
     fi
 
     if [ "$apptainer" = true ]; then
         if [ "$version" = "gpu" ]; then
-            pushApptainer "${imgName}-gpu"
+            pushApptainer "${imgName}_gpu"
         fi
         if [ "$version" = "cpu" ]; then
-            pushApptainer "${imgName}-cpu"
+            pushApptainer "${imgName}_cpu"
         fi
         if [ "$version" = "any" ]; then
             pushApptainer "${imgName}"
@@ -182,13 +200,44 @@ push() {
     fi
     
 }
+convert_to_seconds() {
+    local time_str="$1"
+    
+    # 使用正则表达式提取分钟和秒
+    if [[ $time_str =~ ([0-9]+)m([0-9.]+)s ]]; then
+        local minutes="${BASH_REMATCH[1]}"
+        local seconds="${BASH_REMATCH[2]}"
+        
+        # 计算总秒数，使用 bc 进行浮点运算
+        local total_seconds=$(echo "$minutes * 60 + $seconds" | bc)
+        echo "$total_seconds"
+    else
+        echo "0"
+    fi
+}
+
+format_time() {
+    local total_secs="$1"
+    
+    # 计算分钟
+    local minutes=$(echo "$total_secs / 60" | bc)
+    
+    # 计算剩余秒数，保留小数点后三位
+    local seconds=$(echo "scale=3; $total_secs - ($minutes * 60)" | bc)
+    
+    echo "${minutes}m${seconds}s"
+}
+
 
 pushDocker() {
     local imgName=$1
-    time docker push ${source}/${imgName}:latest > pushtmp.log
+    echo "${imgName} start "
+    { time docker push ${source}/${imgName}:latest > tmp.log ; } 2> pushtmp.log
     push_time=$(grep '^real' pushtmp.log | awk '{print $2}')   
     echo "${imgName}, ${push_time}" >> $log_file
-    rm pushtmp.log
+    # rm pushtmp.log
+    echo "done"
+    read -p "按回车键结束 ${imgName} "
 }
 
 pushBuildah() {
@@ -201,10 +250,11 @@ pushBuildah() {
 
 pushApptainer() {
     local imgName=$1
-    time apptainer push /tmp/${imgName}.sif ${sourceA}/${imgName}:latest > pushtmp.log
+    # time apptainer push /tmp/${imgName}.sif ${sourceA}/${imgName}:t2 > pushtmp.log
+    { time apptainer push ~/copy/${imgName}.sif ${sourceA}/${imgName}:t2 > tmp.log ; } 2> pushtmp.log
     push_time=$(grep '^real' pushtmp.log | awk '{print $2}')
     echo "${imgName}, ${push_time}" >> $log_file
-    rm pushtmp.log
+    # rm pushtmp.log
 }
 
 pushTaskc() {
@@ -212,17 +262,24 @@ pushTaskc() {
     local version=$2
 
     # tar locally
-    time taskc save ${imgName}-${version} /tmp/ > pushtmp.log
+    echo "save"
+    { time taskc save ${imgName}-${version} /tmp/ > tmp.log; } 2> pushtmp.log  
     save_time=$(grep '^real' pushtmp.log | awk '{print $2}')
-    rm pushtmp.log
+    # rm pushtmp.log
 
     # push to remote
-    time curl -v -u admin:12345678 --upload-file /tmp/${imgName}-${version}.taskc http://192.168.143.41:9081/repository/storage/taskc/${imgName}-${version}.taskc
+    echo "push"
+    { time curl -v -u admin:12345678 --upload-file /tmp/${imgName}-${version}.taskc http://192.168.143.41:9081/repository/storage/taskczip/${imgName}-${version}.taskc > tmp.log; } 2> pushtmp.log 
     push_time=$(grep '^real' pushtmp.log | awk '{print $2}')
-    rm pushtmp.log
+    # rm pushtmp.log
 
-    all_time=$(echo "${save_time}" + "${push_time}" | bc)
-    echo "${imgName}, ${all_time}, ${save_time}, ${push_time}" >> $log_file
+    save_seconds=$(convert_to_seconds "$save_time")
+    push_seconds=$(convert_to_seconds "$push_time")
+    all_seconds=$(echo "$save_seconds + $push_seconds" | bc)
+    all_time=$(format_time "$all_seconds")
+
+    echo "${imgName}-${version}, ${all_time}, ${save_time}, ${push_time}" >> $log_file
+    sleep 1
     
 }
 

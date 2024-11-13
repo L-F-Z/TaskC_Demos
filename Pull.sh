@@ -114,29 +114,61 @@ pull() {
 
     if [ "$apptainer" = true ]; then
         if [ "$version" = "gpu" ]; then
-            pullApptainer "${imgName}-gpu"
+            pullApptainer "${imgName}_gpu"
         elif [ "$version" = "cpu" ]; then
-            pullApptainer "${imgName}-cpu"
+            pullApptainer "${imgName}_cpu"
         else
             pullApptainer "${imgName}"
         fi
     fi
 
-    if [ "$taskc_cpu" = true ]; then
+    if [ "$taskc_cpu" = true ] && ( [ "$version" = "cpu" ] || [ "$version" = "any" ] ) ; then
+        echo "${imgName} cpu"
         pullTaskc "${imgName}" "cpu"
     fi
-
-    if [ "$taskc_gpu" = true ]; then
+    
+    if [ "$taskc_gpu" = true ] && ( [ "$version" = "gpu" ] || [ "$version" = "any" ]) ; then
+        echo "${imgName} gpu"
         pullTaskc "${imgName}" "gpu"
     fi
 
-    if [ "$taskc_full_cpu" = true ]; then
+    if [ "$taskc_full_cpu" = true ] && ( [ "$version" = "cpu" ] || [ "$version" = "any" ]) ; then
+        echo "${imgName} cpu full"
         pullTaskc "${imgName}" "cpu-full"
     fi
-
-    if [ "$taskc_full_gpu" = true ]; then
+    
+    if [ "$taskc_full_gpu" = true ] && ( [ "$version" = "gpu" ] || [ "$version" = "any" ]) ; then
+        echo "${imgName} gpu-full"
         pullTaskc "${imgName}" "gpu-full"
     fi
+}
+
+convert_to_seconds() {
+    local time_str="$1"
+    
+    # 使用正则表达式提取分钟和秒
+    if [[ $time_str =~ ([0-9]+)m([0-9.]+)s ]]; then
+        local minutes="${BASH_REMATCH[1]}"
+        local seconds="${BASH_REMATCH[2]}"
+        
+        # 计算总秒数，使用 bc 进行浮点运算
+        local total_seconds=$(echo "$minutes * 60 + $seconds" | bc)
+        echo "$total_seconds"
+    else
+        echo "0"
+    fi
+}
+
+format_time() {
+    local total_secs="$1"
+    
+    # 计算分钟
+    local minutes=$(echo "$total_secs / 60" | bc)
+    
+    # 计算剩余秒数，保留小数点后三位
+    local seconds=$(echo "scale=3; $total_secs - ($minutes * 60)" | bc)
+    
+    echo "${minutes}m${seconds}s"
 }
 
 pullDocker() {
@@ -144,20 +176,25 @@ pullDocker() {
     time docker pull ${source}/${imgName}:latest > pulltmp.log
     pull_time=$(grep '^real' pulltmp.log | awk '{print $2}') 
     echo "${imgName}, ${pull_time}" >> ${log_file}
-    rm pulltmp.log
+    # rm pulltmp.log
+    # rm tmp.log
+    # bash Docker.sh cleanbuild
+    # sleep 1
 }
 
 pullBuildah() {
     local imgName=$1
-    time buildah pull ${sourceA}/${imgName}:latest > pulltmp.log
+    { time buildah pull ${source}/${imgName}:latest > tmp.log; } 2> pulltmp.log
     pull_time=$(grep '^real' pulltmp.log | awk '{print $2}') 
     echo "${imgName}, ${pull_time}" >> ${log_file}
-    rm pulltmp.log
+    # rm pulltmp.log
+    # bash Buildah.sh cleanbuild
+    # sleep 1
 }
 
 pullApptainer() {
     local imgName=$1
-    time apptainer pull /tmp/${imgName}.sif ${sourceA}/${imgName}:latest > pulltmp.log
+    { time apptainer pull /tmp/${imgName}.sif ${sourceA}/${imgName}:t1 > tmp.log; } 2> pulltmp.log
     pull_time=$(grep '^real' pulltmp.log | awk '{print $2}') 
     echo "${imgName}, ${pull_time}" >> ${log_file}
     rm pulltmp.log
@@ -166,18 +203,28 @@ pullApptainer() {
 pullTaskc() {
     local imgName=$1
     local version=$2
+
     # get from remote
-    time curl http://192.168.143.41:9081/repository/storage/taskc/${imgName}-${version}.taskc -o /tmp/${imgName}-${version}.taskc > pulltmp.log
+    { time curl http://192.168.143.41:9081/repository/storage/taskczip/${imgName}-${version}.taskc -o /tmp/${imgName}-${version}.taskc > tmp.log ; } 2> pulltmp.log
     pull_time=$(grep '^real' pulltmp.log | awk '{print $2}')
-    rm pulltmp.log
+    # rm pulltmp.log
+    echo -e "信息：\n$(<pulltmp.log)\n" >> "${error_dir}/${error_log}"
+
 
     # load locally
-    time taskc load /tmp/${imgName}-${version}.taskc --id ${imgName}-${version} > pulltmp.log
+    { time taskc load /tmp/${imgName}-${version}.taskc --id ${imgName}-${version} > tmp.log ; } 2> pulltmp.log
     load_time=$(grep '^real' pulltmp.log | awk '{print $2}')
-    rm pulltmp.log
+    # rm pulltmp.log
+    echo -e "信息：\n$(<pulltmp.log)\n----------------------------------------------------------------\n" >> "${error_dir}/${error_log}"
 
-    all_time=$( echo "${pull_time}" + "${load_time}" | bc )
-    echo "${imgName}, ${all_time}, ${pull_time}, ${load_time}" >> ${log_file}
+    load_seconds=$(convert_to_seconds "$load_time")
+    pull_seconds=$(convert_to_seconds "$pull_time")
+    all_seconds=$(echo "$load_seconds + $pull_seconds" | bc)
+    all_time=$(format_time "$all_seconds")
+
+    echo "${imgName}-${version}, ${all_time}, ${pull_time}, ${load_time}" >> ${log_file}
+    bash Taskc.sh cleanbuild
+    sleep 2
 }
 
 clean_logfile() {
@@ -234,13 +281,21 @@ pullCLIP() {
 
 pullAll() {
     pullYolo11
+    sleep 2
     pullWhisper
+    sleep 2
     pullTTS
+    sleep 2
     pullTransformers
+    sleep 2
     pullStableDiffusion
+    sleep 2
     pullStableBaselines3
+    sleep 2
     pullSAM2
+    sleep 2
     pullLoRA
+    sleep 2
     pullCLIP
 }
 
@@ -266,7 +321,7 @@ for arg in "${project_args[@]}"; do
         Transformers)
             pullTransformers
             ;;
-        stableDiffusion)
+        stablediffusion)
             pullStableDiffusion
             ;;
         Stable-Baselines3)

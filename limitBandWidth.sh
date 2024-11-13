@@ -1,40 +1,48 @@
 #!/bin/bash
 
-# Check if the bandwidth parameter is provided
+# 检查是否以 root 权限运行
+if [ "$EUID" -ne 0 ]; then
+  echo "请以 root 权限运行此脚本。使用 sudo ./limitbandwidth.sh <带宽>"
+  exit 1
+fi
+
+# 检查是否提供带宽参数
 if [ -z "$1" ]; then
-  echo "Please provide a bandwidth limit in Mbit, e.g., ./limitbandwidth 500"
+  echo "用法: $0 <带宽_in_Mbit>"
+  echo "示例: $0 500"
   exit 1
 fi
 
-# Get the bandwidth value from the command-line argument
 BANDWIDTH=$1
+INTERFACE="eth0"  # 根据实际情况修改
 
-# Delete existing qdisc (ignore the error if it doesn't exist)
-tc qdisc del dev eth0 root 2>/dev/null
+echo "开始设置 ${INTERFACE} 的带宽限制为 ${BANDWIDTH} Mbit/s"
 
-# Add a new qdisc
-if ! tc qdisc add dev eth0 root handle 1: htb default 10; then
-  echo "Failed to add qdisc"
-  exit 1
-fi
+# 删除现有的 qdisc
+echo "删除现有的 qdisc..."
+tc qdisc del dev $INTERFACE root 2>/dev/null
+tc qdisc del dev $INTERFACE ingress 2>/dev/null
 
-# Add class 1:1 with a rate of 1Gbit
-if ! tc class add dev eth0 parent 1: classid 1:1 htb rate 1gbit; then
-  echo "Failed to add class 1:1"
-  exit 1
-fi
+# 添加新的 HTB qdisc
+echo "添加 HTB qdisc..."
+tc qdisc add dev $INTERFACE root handle 1: htb default 10
 
-# Add subclass 1:10 with a rate limit provided by the command-line argument
-if ! tc class add dev eth0 parent 1:1 classid 1:10 htb rate ${BANDWIDTH}mbit ceil ${BANDWIDTH}mbit; then
-  echo "Failed to add subclass 1:10"
-  exit 1
-fi
+# 添加主类 1:1，设置为 1Gbit
+echo "添加主类 1:1..."
+tc class add dev $INTERFACE parent 1: classid 1:1 htb rate 1gbit ceil 1gbit
 
-# Add a filter
-if ! tc filter add dev eth0 protocol ip parent 1:0 prio 1 u32 match ip dst 0.0.0.0/0 flowid 1:10; then
-  echo "Failed to add filter"
-  exit 1
-fi
+# 添加子类 1:10，设置为指定的带宽
+echo "添加子类 1:10..."
+tc class add dev $INTERFACE parent 1:1 classid 1:10 htb rate ${BANDWIDTH}mbit ceil ${BANDWIDTH}mbit
 
-echo "OUT Bandwidth limit successfully set to ${BANDWIDTH} Mbit/s"
+# 添加过滤器，将所有流量导向子类 1:10
+echo "添加过滤器..."
+tc filter add dev $INTERFACE protocol ip parent 1:0 prio 1 u32 match ip dst 0.0.0.0/0 flowid 1:10
 
+# 显示当前配置
+echo "当前 ${INTERFACE} 的 tc 配置："
+tc qdisc show dev $INTERFACE
+tc class show dev $INTERFACE
+tc filter show dev $INTERFACE
+
+echo "带宽限制已成功设置为 ${BANDWIDTH} Mbit/s"

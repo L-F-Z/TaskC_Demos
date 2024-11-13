@@ -66,9 +66,9 @@ mkdir -p ${error_dir}
 log1="logTaskc.log"
 log2="logTaskc_full.log" 
 if [ "$full_version" = true ]; then
-    log_file=$log1
-else
     log_file=$log2
+else
+    log_file=$log1
 fi
 
 if [ "$full_version" = true ]; then
@@ -142,6 +142,7 @@ build_image() {
 
     cd "$script_dir" || exit
     echo "-----------------------------------"  
+    sleep 5
 }
 
 # build full with 1 version
@@ -196,6 +197,8 @@ build_image2() {
 
     cd "$script_dir" || exit
     echo "-----------------------------------"  
+    sleep 5
+
 }
 
 # build full with 2 version
@@ -249,32 +252,85 @@ build_image3() {
     done
 
     cd "$script_dir" || exit
-    echo "-----------------------------------"  
+    echo "-----------------------------------" 
+    sleep 5
+
 }
 
 buildImage() {
     local project=$1
     if [ "$full_version" = false ]; then 
         if [ "$cpu_only" = true ]; then 
+            TIMESTAMP=$(date +%s) 
+            echo "start, $TIMESTAMP" | tee -a "$log_file"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-cpu -o /tmp/${project}-cpu
             build_image "${project}" "cpu" 
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-cpu -o /tmp/${project}-cpu
+            TIMESTAMP=$(date +%s) 
+            echo "end, $TIMESTAMP" | tee -a "$log_file"
+
         fi
         if [ "$gpu_only" = true ]; then 
+            TIMESTAMP=$(date +%s) 
+            echo "start, $TIMESTAMP" | tee -a "$log_file"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-gpu -o /tmp/${project}-gpu
             build_image "${project}" "gpu" 
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-gpu -o /tmp/${project}-gpu
+            TIMESTAMP=$(date +%s) 
+            echo "end, $TIMESTAMP" | tee -a "$log_file"
         fi
         if [ "$cpu_only" = false ] && [ "$gpu_only" = false ]; then 
+            TIMESTAMP=$(date +%s) 
+            echo "start, $TIMESTAMP" | tee -a "$log_file"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-cpu -o /tmp/${project}-cpu
             build_image "${project}" "cpu"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-cpu -o /tmp/${project}-cpu
+            TIMESTAMP=$(date +%s) 
+            echo "end, $TIMESTAMP" | tee -a "$log_file"
+
+            TIMESTAMP=$(date +%s) 
+            echo "start, $TIMESTAMP" | tee -a "$log_file"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-gpu -o /tmp/${project}-gpu
             build_image "${project}" "gpu" 
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-gpu -o /tmp/${project}-gpu
+            TIMESTAMP=$(date +%s) 
+            echo "end, $TIMESTAMP" | tee -a "$log_file"
         fi
     else
         if [ "$cpu_only" = true ]; then 
+            TIMESTAMP=$(date +%s) 
+            echo "start, $TIMESTAMP" | tee -a "$log_file"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-cpu-full -o /tmp/${project}-cpu-full
             build_image2 "${project}" "cpu" 
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-cpu-full -o /tmp/${project}-cpu-full
+            TIMESTAMP=$(date +%s) 
+            echo "end, $TIMESTAMP" | tee -a "$log_file"
         fi
         if [ "$gpu_only" = true ]; then 
+            TIMESTAMP=$(date +%s) 
+            echo "start, $TIMESTAMP" | tee -a "$log_file"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-gpu-full -o /tmp/${project}-gpu-full
             build_image2 "${project}" "gpu" 
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-gpu-full  -o /tmp/${project}-gpu-full
+            TIMESTAMP=$(date +%s) 
+            echo "end, $TIMESTAMP" | tee -a "$log_file"
         fi
         if [ "$cpu_only" = false ] && [ "$gpu_only" = false ]; then 
+            TIMESTAMP=$(date +%s) 
+            echo "start, $TIMESTAMP" | tee -a "$log_file"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-cpu-full -o /tmp/${project}-cpu-full
             build_image2 "${project}" "cpu"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-cpu-full -o /tmp/${project}-cpu-full
+            TIMESTAMP=$(date +%s) 
+            echo "end, $TIMESTAMP" | tee -a "$log_file"
+
+            TIMESTAMP=$(date +%s) 
+            echo "start, $TIMESTAMP" | tee -a "$log_file"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-gpu-full -o /tmp/${project}-gpu-full
             build_image2 "${project}" "gpu" 
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-gpu-full -o /tmp/${project}-gpu-full
+            TIMESTAMP=$(date +%s) 
+            echo "end, $TIMESTAMP" | tee -a "$log_file"
         fi
     fi
 }
@@ -283,25 +339,75 @@ buildImage2() {
     local project=$1
     if [ "$full_version" = false ]; then 
         if [ "$cpu_only" = true ]; then 
+            TIMESTAMP=$(date +%s) 
+            echo "start, $TIMESTAMP" | tee -a "$log_file"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-cpu -o /tmp/${project}-cpu
             build_image "${project}" "cpu" 
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-cpu -o /tmp/${project}-cpu
+            TIMESTAMP=$(date +%s) 
+            echo "end, $TIMESTAMP" | tee -a "$log_file"
         fi
         if [ "$gpu_only" = true ]; then 
+            TIMESTAMP=$(date +%s) 
+            echo "start, $TIMESTAMP" | tee -a "$log_file"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-gpu -o /tmp/${project}-gpu
             build_image "${project}" "gpu" 
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-gpu -o /tmp/${project}-gpu
+            TIMESTAMP=$(date +%s) 
+            echo "end, $TIMESTAMP" | tee -a "$log_file"
         fi
         if [ "$cpu_only" = false ] && [ "$gpu_only" = false ]; then 
+            TIMESTAMP=$(date +%s) 
+            echo "start, $TIMESTAMP" | tee -a "$log_file"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-cpu -o /tmp/${project}-cpu
             build_image "${project}" "cpu"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-cpu -o /tmp/${project}-cpu
+            TIMESTAMP=$(date +%s) 
+            echo "end, $TIMESTAMP" | tee -a "$log_file"
+
+            TIMESTAMP=$(date +%s) 
+            echo "start, $TIMESTAMP" | tee -a "$log_file"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-gpu -o /tmp/${project}-gpu
             build_image "${project}" "gpu" 
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-gpu -o /tmp/${project}-gpu
+            TIMESTAMP=$(date +%s) 
+            echo "end, $TIMESTAMP" | tee -a "$log_file"
         fi
     else
         if [ "$cpu_only" = true ]; then 
+            TIMESTAMP=$(date +%s) 
+            echo "start, $TIMESTAMP" | tee -a "$log_file"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-cpu-full -o /tmp/${project}-cpu-full
             build_image3 "${project}" "cpu" 
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-cpu-full -o /tmp/${project}-cpu-full
+            TIMESTAMP=$(date +%s) 
+            echo "end, $TIMESTAMP" | tee -a "$log_file"
         fi
         if [ "$gpu_only" = true ]; then 
+            TIMESTAMP=$(date +%s) 
+            echo "start, $TIMESTAMP" | tee -a "$log_file"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-gpu-full -o /tmp/${project}-gpu-full
             build_image3 "${project}" "gpu" 
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-gpu-full -o /tmp/${project}-gpu-full
+            TIMESTAMP=$(date +%s) 
+            echo "end, $TIMESTAMP" | tee -a "$log_file"
         fi
         if [ "$cpu_only" = false ] && [ "$gpu_only" = false ]; then 
+            TIMESTAMP=$(date +%s) 
+            echo "start, $TIMESTAMP" | tee -a "$log_file"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-cpu-full -o /tmp/${project}-cpu-full
             build_image3 "${project}" "cpu"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-cpu-full -o /tmp/${project}-cpu-full
+            TIMESTAMP=$(date +%s) 
+            echo "end, $TIMESTAMP" | tee -a "$log_file"
+
+            TIMESTAMP=$(date +%s) 
+            echo "start, $TIMESTAMP" | tee -a "$log_file"
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-gpu-full -o /tmp/${project}-gpu-full
             build_image3 "${project}" "gpu" 
+            curl http://192.168.143.41:9081/repository/storage/taskc/${project}-gpu-full -o /tmp/${project}-gpu-full
+            TIMESTAMP=$(date +%s) 
+            echo "end, $TIMESTAMP" | tee -a "$log_file"
         fi
     fi
 }
@@ -357,14 +463,13 @@ build_YOLO11() {
 
 
 clean_logfile () {
-    rm $log1
-    rm $log2
+    < $log_file
     rm -rf $error_dir
     mkdir -p $error_dir
 }
 
 clean_taskc() {
-    taskc purge > /dev/null 2>&1
+    taskc purge 
 }
 
 if [ $# -eq 0 ]; then  

@@ -109,6 +109,8 @@ build_image() {
 
     cd "$script_dir" || exit
     echo "-----------------------------------"  
+    sleep 5
+
 }
 
 build_image2() {
@@ -165,25 +167,59 @@ build_image2() {
 
     cd "$script_dir" || exit  
     echo "-----------------------------------"  
+    sleep 5
+
 } 
 
 buildImage2() {
     local project=$1
     if [ "$cpu_only" = true ]; then  
+        TIMESTAMP=$(date +%s) 
+        echo "start, $TIMESTAMP" | tee -a "$log_file"
+        curl http://192.168.143.41:9081/repository/storage/buildah/${project}-cpu -o /tmp/${project}-cpu
         build_image2 "${project}" "cpu" "cpuDockerfile"  
+        curl http://192.168.143.41:9081/repository/storage/buildah/${project}-cpu -o /tmp/${project}-cpu
+        TIMESTAMP=$(date +%s) 
+        echo "end, $TIMESTAMP" | tee -a "$log_file"
     fi  
     if [ "$gpu_only" = true ]; then  
+        TIMESTAMP=$(date +%s) 
+        echo "start, $TIMESTAMP" | tee -a "$log_file"
+        curl http://192.168.143.41:9081/repository/storage/buildah/${project}-gpu -o /tmp/${project}-gpu
         build_image2 "${project}" "gpu" "gpuDockerfile"  
+        curl http://192.168.143.41:9081/repository/storage/buildah/${project}-gpu -o /tmp/${project}-gpu
+        TIMESTAMP=$(date +%s) 
+        echo "end, $TIMESTAMP" | tee -a "$log_file"
     fi 
     if [ "$cpu_only" = false ] && [ "$gpu_only" = false ]; then
+        TIMESTAMP=$(date +%s) 
+        echo "start, $TIMESTAMP" | tee -a "$log_file"
+        curl http://192.168.143.41:9081/repository/storage/buildah/${project}-cpu -o /tmp/${project}-cpu
         build_image2 "${project}" "cpu" "cpuDockerfile"  
+        curl http://192.168.143.41:9081/repository/storage/buildah/${project}-cpu -o /tmp/${project}-cpu
+        TIMESTAMP=$(date +%s) 
+        echo "end, $TIMESTAMP" | tee -a "$log_file"
+
+        TIMESTAMP=$(date +%s) 
+        echo "start, $TIMESTAMP" | tee -a "$log_file"
+        curl http://192.168.143.41:9081/repository/storage/buildah/${project}-gpu -o /tmp/${project}-gpu
         build_image2 "${project}" "gpu" "gpuDockerfile"
+        curl http://192.168.143.41:9081/repository/storage/buildah/${project}-gpu -o /tmp/${project}-gpu
+        TIMESTAMP=$(date +%s) 
+        echo "end, $TIMESTAMP" | tee -a "$log_file"
     fi
 }
 
 buildImage() {
     local project=$1
+    TIMESTAMP=$(date +%s) 
+    echo "start, $TIMESTAMP" | tee -a "$log_file"
+    curl http://192.168.143.41:9081/repository/storage/buildah/${project} -o /tmp/${project}
     build_image "${project}" "Dockerfile"
+    curl http://192.168.143.41:9081/repository/storage/buildah/${project} -o /tmp/${project}
+    TIMESTAMP=$(date +%s) 
+    echo "end, $TIMESTAMP" | tee -a "$log_file"
+
 }
 
 build_CLIP() {  
@@ -223,14 +259,14 @@ build_YOLO11() {
 }  
 
 clean_logfile () {
-    rm "$log_file" > /dev/null 2>&1
-    rm -rf $error_dir /dev/null 2>&1
+    rm "$log_file" 
+    rm -rf $error_dir 
     mkdir -p $error_dir
 }
 
 clean_buildah() {
     if [ "$(buildah images -q)" ]; then
-        buildah rmi -f --all > /dev/null 2>&1
+        buildah rmi -f --all 
     fi
     rm /var/lib/containers/cache/*
 }
