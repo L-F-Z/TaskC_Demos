@@ -1,5 +1,6 @@
 # TaskC_Demos
 Demo projects to demonstrate the usage of TaskC
+need to run `chmod +x Taskc.sh`
 
 ```
 |- [test case name]
