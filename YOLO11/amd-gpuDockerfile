@@ -1,0 +1,84 @@
+FROM ubuntu:22.04
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_BREAK_SYSTEM_PACKAGES=1 \
+    MKL_THREADING_LAYER=GNU
+
+# Modify sources to use mirror
+# RUN sed -i 's/archive.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list && \
+#     sed -i 's/security.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list
+RUN total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
+RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.143.41:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+RUN mv /etc/apt/sources.list.new /etc/apt/sources.list
+
+# Install linux packages
+RUN apt-get update && apt-get install -y \
+    python3.10 \
+    python3-pip \
+    python3.10-dev \
+    gcc \
+    zip \
+    unzip \
+    wget \
+    curl \
+    libgl1 \
+    libglib2.0-0 \
+    libpython3-dev \
+    gnupg \
+    g++ \
+    libusb-1.0-0 \
+    libsm6 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Security updates for openssl
+RUN apt-get update && apt-get upgrade -y openssl tar && rm -rf /var/lib/apt/lists/*
+
+# Create working directory
+WORKDIR /ultralytics
+
+# RUN mkdir -p /root/.pip && \
+#     echo '[global]' > /root/.pip/pip.conf && \
+#     echo 'index-url = https://pypi.tuna.tsinghua.edu.cn/simple' >> /root/.pip/pip.conf && \
+#     echo 'trusted-host = pypi.tuna.tsinghua.edu.cn' >> /root/.pip/pip.conf
+RUN pip config set global.timeout 1000
+RUN pip config set global.trusted-host 192.168.143.41
+RUN pip config set global.index http://192.168.143.41:9081/repository/pypi/pypi
+RUN pip config set global.index-url http://192.168.143.41:9081/repository/pypi/simple
+
+# Copy necessary wheel files for ROCm support
+# COPY torch-2.3.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl .
+# COPY torchvision-0.18.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl .
+# COPY pytorch_triton_rocm-2.3.0+rocm6.2.3.5a02332983-cp310-cp310-linux_x86_64.whl .
+ADD http://192.168.143.41:9081/repository/storage/torch-2.3.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl /ultralytics/
+ADD http://192.168.143.41:9081/repository/storage/torchvision-0.18.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl /ultralytics/
+ADD http://192.168.143.41:9081/repository/storage/pytorch_triton_rocm-2.3.0+rocm6.2.3.5a02332983-cp310-cp310-linux_x86_64.whl /ultralytics/
+
+# Install ROCm PyTorch and dependencies
+RUN python3 -m pip install --upgrade pip wheel && \
+    pip3 install pytorch_triton_rocm-2.3.0+rocm6.2.3.5a02332983-cp310-cp310-linux_x86_64.whl && \
+    pip3 install torch-2.3.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl --no-deps && \
+    pip3 install torchvision-0.18.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl && \
+    pip3 install typing-extensions sympy filelock jinja2 networkx fsspec
+
+# Copy YOLO source code
+COPY ./ultralytics/ .
+
+# Install YOLO dependencies
+RUN pip3 install --no-cache-dir -e -v . "albumentations>=1.4.6" comet pycocotools
+
+# Add YOLO model
+ADD http://192.168.143.41:9081/repository/storage/yolo11n.pt .
+
+# Add font files
+RUN mkdir -p /root/.config/Ultralytics/
+ADD http://192.168.143.41:9081/repository/storage/Arial.ttf \
+    http://192.168.143.41:9081/repository/storage/Arial.Unicode.ttf \
+    /root/.config/Ultralytics/
+
+# Clean up
+RUN rm -rf tmp /root/.config/Ultralytics/persistent_cache.json
+
+CMD ["yolo", "predict", "model=yolo11n.pt", "source=https://ultralytics.com/images/bus.jpg"]
