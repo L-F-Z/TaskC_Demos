@@ -8,4 +8,6 @@ YOLO11/cpuDockerfile1
 pp.sh
 limitBandWidth.sh
 flag/
-
+*CPU*
+*GPU*
+test.sh

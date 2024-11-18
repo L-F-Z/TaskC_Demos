@@ -112,7 +112,7 @@ build_image() {
         if [ "$version" = "cpu" ]; then
             { time taskc asm --id "${project,,}-${version}" --ignore-gpu "$buildfile" > output.log; } 2> time_output.log
         else
-            { time taskc asm --id "${project,,}-${version}" "$buildfile" > output.log; } 2> time_output.log
+            { time taskc asm --force-gpu 535.183.01 --id "${project,,}-${version}" "$buildfile" > output.log; } 2> time_output.log
         fi
 
         build_status=$? 
@@ -142,7 +142,7 @@ build_image() {
 
     cd "$script_dir" || exit
     echo "-----------------------------------"  
-    sleep 5
+    sleep 10
 }
 
 # build full with 1 version
@@ -167,7 +167,7 @@ build_image2() {
         if [ "$version" = "cpu" ]; then
             { time taskc asm --id "${project,,}-${version}-full" --ignore-gpu "$buildfile" > output.log; } 2> time_output.log
         else
-            { time taskc asm --id "${project,,}-${version}-full" "$buildfile" > output.log; } 2> time_output.log
+            { time taskc asm --force-gpu 535.183.01 --id "${project,,}-${version}-full" "$buildfile" > output.log; } 2> time_output.log
         fi
          
         build_status=$? 
@@ -197,7 +197,7 @@ build_image2() {
 
     cd "$script_dir" || exit
     echo "-----------------------------------"  
-    sleep 5
+    sleep 10
 
 }
 
@@ -223,7 +223,7 @@ build_image3() {
         if [ "$version" = "cpu" ]; then
             { time taskc asm --id "${project,,}-${version}-full" --ignore-gpu "$buildfile" > output.log; } 2> time_output.log
         else
-            { time taskc asm --id "${project,,}-${version}-full" "$buildfile" > output.log; } 2> time_output.log
+            { time taskc asm --force-gpu 535.183.01 --id "${project,,}-${version}-full" "$buildfile" > output.log; } 2> time_output.log
         fi
          
         build_status=$? 
@@ -253,7 +253,7 @@ build_image3() {
 
     cd "$script_dir" || exit
     echo "-----------------------------------" 
-    sleep 5
+    sleep 10
 
 }
 
