@@ -71,36 +71,38 @@ done
 
 error_dir="${project_base_dir}/error_logs"
 mkdir -p ${error_dir}
-
+log_file="logPush"
+error_log="push"
 # log file name
 if [ "$docker" = true ]; then
-    log_file="logPush_docker.log"
+    log_file="${log_file}_docker"
     error_log="push_docker.log"
 fi
 if [ "$buildah" = true ]; then
-    log_file="logPush_buildah.log"
+    log_file="${log_file}_buildah"
     error_log="push_buildah.log"
 fi
 if [ "$apptainer" = true ]; then
-    log_file="logPush_apptainer.log"
+    log_file="${log_file}_apptainer"
     error_log="push_apptainer.log"
 fi
 if [ "$taskc_cpu" = true ]; then
-    log_file="logPush_taskc_cpu.log"
+    log_file="${log_file}_taskccpu"
     error_log="push_taskc_cpu.log"
 fi
 if [ "$taskc_gpu" = true ]; then
-    log_file="logPush_taskc_gpu.log"
+    log_file="${log_file}_taskcgpu"
     error_log="push_taskc_gpu.log"
 fi
 if [ "$taskc_full_cpu" = true ]; then
-    log_file="logPush_taskc_full_cpu.log"
+    log_file="${log_file}_taskcfullcpu"
     error_log="push_taskc_full_cpu.log"
 fi
 if [ "$taskc_full_gpu" = true ]; then
-    log_file="logPush_taskc_full_gpu.log"
+    log_file="${log_file}_taskcfullgpu"
     error_log="push_taskc_full_gpu.log"
 fi
+log_file="${log_file}.log"
 
 tagAll() {
     tag "yolo11-gpu"
@@ -163,10 +165,10 @@ push() {
 
     if [ "$apptainer" = true ]; then
         if [ "$version" = "gpu" ]; then
-            pushApptainer "${imgName}_gpu"
+            pushApptainer "${imgName}-gpu"
         fi
         if [ "$version" = "cpu" ]; then
-            pushApptainer "${imgName}_cpu"
+            pushApptainer "${imgName}-cpu"
         fi
         if [ "$version" = "any" ]; then
             pushApptainer "${imgName}"
@@ -242,7 +244,7 @@ pushDocker() {
 
 pushBuildah() {
     local imgName=$1
-    time buildah push ${source}/${imgName}:latest > pushtmp.log
+    { time buildah push ${source}/${imgName}:latest > tmp.log ; } 2> pushtmp.log
     push_time=$(grep '^real' pushtmp.log | awk '{print $2}')
     echo "${imgName}, ${push_time}" >> $log_file
     rm pushtmp.log
@@ -251,9 +253,10 @@ pushBuildah() {
 pushApptainer() {
     local imgName=$1
     # time apptainer push /tmp/${imgName}.sif ${sourceA}/${imgName}:t2 > pushtmp.log
-    { time apptainer push ~/copy/${imgName}.sif ${sourceA}/${imgName}:t2 > tmp.log ; } 2> pushtmp.log
+    { time apptainer push /tmp/${imgName}.sif ${sourceA}/${imgName}:t4 > tmp.log ; } 2> pushtmp.log
     push_time=$(grep '^real' pushtmp.log | awk '{print $2}')
     echo "${imgName}, ${push_time}" >> $log_file
+    echo -e "信息：\n$(<tmp.log)\n\n$(<pushtmp.log)\n" >> "${error_dir}/${error_log}"
     # rm pushtmp.log
 }
 
@@ -296,10 +299,18 @@ clean_logfile() {
 
 
 pushYOLO11() {
-    echo "Pushing yolo11 gpu images..."
-    push "yolo11" "gpu"
-    echo "Pushing yolo11 cpu images..."
-    push "yolo11" "cpu"
+    if [ "$cpu_flag" = true ]; then
+        echo "Pushing yolo11 cpu images..."
+        push "yolo11" "cpu"
+    elif [ "$gpu_flag" = true ]; then
+        echo "Pushing yolo11 gpu images..."
+        push "yolo11" "gpu"
+    else
+        echo "Pushing yolo11 cpu images..."
+        push "yolo11" "cpu"
+        echo "Pushing yolo11 gpu images..."
+        push "yolo11" "gpu"
+    fi
 }
 
 pushWhisper() {
@@ -313,10 +324,19 @@ pushTTS() {
 }
 
 pushTransformers() {
-    echo "Pushing transformers gpu images..."
-    push "transformers" "gpu"
-    echo "Pushing transformers cpu images..."
-    push "transformers" "cpu"
+    if [ "$cpu_flag" = true ]; then
+        echo "Pushing transformers cpu images..."
+        push "transformers" "cpu"
+    elif [ "$gpu_flag" = true ]; then
+        echo "Pushing transformers gpu images..."
+        push "transformers" "gpu"
+    else
+        echo "Pushing transformers cpu images..."
+        push "transformers" "cpu"
+        echo "Pushing transformers gpu images..."
+        push "transformers" "gpu"
+    fi
+    
 }
 
 pushStablediffusion() {
@@ -325,10 +345,19 @@ pushStablediffusion() {
 }
 
 pushStableBaselines3() {
-    echo "Pushing stable-baselines3 gpu images..."
-    push "stable-baselines3" "gpu"
-    echo "Pushing stable-baselines3 cpu images..."
-    push "stable-baselines3" "cpu"
+    if [ "$cpu_flag" = true ]; then
+        echo "Pushing stable-baselines3 cpu images..."
+        push "stable-baselines3" "cpu"
+    elif [ "$gpu_flag" = true ]; then
+        echo "Pushing stable-baselines3 gpu images..."
+        push "stable-baselines3" "gpu"
+    else
+        echo "Pushing stable-baselines3 cpu images..."
+        push "stable-baselines3" "cpu"
+        echo "Pushing stable-baselines3 gpu images..."
+        push "stable-baselines3" "gpu"
+    fi
+    
 }
 
 pushSAM2() {
@@ -337,10 +366,19 @@ pushSAM2() {
 }
 
 pushLoRA() {
-    echo "Pushing lora gpu images..."
-    push "lora" "gpu"
-    echo "Pushing lora cpu images..."
-    push "lora" "cpu"
+    if [ "$cpu_flag" = true ]; then
+        echo "Pushing lora cpu images..."
+        push "lora" "cpu"
+    elif [ "$gpu_flag" = true ]; then
+        echo "Pushing lora gpu images..."
+        push "lora" "gpu"
+    else
+        echo "Pushing lora cpu images..."
+        push "lora" "cpu"
+        echo "Pushing lora gpu images..."
+        push "lora" "gpu"
+    fi
+    
 }
 
 pushCLIP() {

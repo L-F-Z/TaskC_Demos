@@ -25,7 +25,7 @@ usage() {
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"  
 project_base_dir="${script_dir}"  
 
-max_attempts=3
+max_attempts=1
 use_cache=true  
 cpu_only=false  
 gpu_only=false

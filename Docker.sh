@@ -110,7 +110,7 @@ build_image() {
 
     cd "$script_dir" || exit
     echo "-----------------------------------"  
-    sleep 10
+    sleep 5
 
 }
 
@@ -167,7 +167,7 @@ build_image2() {
 
     cd "$script_dir" || exit  
     echo "-----------------------------------"  
-    sleep 10
+    sleep 5
 
 } 
 

@@ -35,6 +35,12 @@ for arg in "$@"; do
         -b)  
             buildah=true
             ;;  
+        --cpu)
+            cpu_flag=true
+            ;;
+        --gpu)
+            gpu_flag=true
+            ;;
         -tc)
             taskc_cpu=true    
             ;;
@@ -55,37 +61,37 @@ done
 
 error_dir="${project_base_dir}/error_logs"
 mkdir -p ${error_dir}
-
+log_file="logPull"
 # log file name
 if [ "$docker" = true ]; then
-    log_file="logPull_docker.log"
+    log_file="${log_file}_docker"
     error_log="pull_docker.log"
 fi
 if [ "$buildah" = true ]; then
-    log_file="logPull_buildah.log"
+    log_file="${log_file}_buildah"
     error_log="pull_buildah.log"
 fi
 if [ "$apptainer" = true ]; then
-    log_file="logPull_apptainer.log"
+    log_file="${log_file}_apptainer"
     error_log="pull_apptainer.log"
 fi
 if [ "$taskc_cpu" = true ]; then
-    log_file="logPull_taskc_cpu.log"
+    log_file="${log_file}_taskccpu"
     error_log="pull_taskc_cpu.log"
 fi
 if [ "$taskc_gpu" = true ]; then
-    log_file="logPull_taskc_gpu.log"
+    log_file="${log_file}_taskcgpu"
     error_log="pull_taskc_gpu.log"
 fi
 if [ "$taskc_full_cpu" = true ]; then
-    log_file="logPull_taskc_full_cpu.log"
+    log_file="${log_file}_taskcfullcpu"
     error_log="pull_taskc_full_cpu.log"
 fi
 if [ "$taskc_full_gpu" = true ]; then
-    log_file="logPull_taskc_full_gpu.log"
+    log_file="${log_file}_taskcfullgpu"
     error_log="pull_taskc_full_gpu.log"
 fi
-
+log_file="${log_file}.log"
 
 
 pull() {
@@ -114,9 +120,9 @@ pull() {
 
     if [ "$apptainer" = true ]; then
         if [ "$version" = "gpu" ]; then
-            pullApptainer "${imgName}_gpu"
+            pullApptainer "${imgName}-gpu"
         elif [ "$version" = "cpu" ]; then
-            pullApptainer "${imgName}_cpu"
+            pullApptainer "${imgName}-cpu"
         else
             pullApptainer "${imgName}"
         fi
@@ -173,7 +179,7 @@ format_time() {
 
 pullDocker() {
     local imgName=$1
-    time docker pull ${source}/${imgName}:latest > pulltmp.log
+    { time docker pull ${source}/${imgName}:latest > tmp.log; } 2> pulltmp.log
     pull_time=$(grep '^real' pulltmp.log | awk '{print $2}') 
     echo "${imgName}, ${pull_time}" >> ${log_file}
     # rm pulltmp.log
@@ -194,7 +200,7 @@ pullBuildah() {
 
 pullApptainer() {
     local imgName=$1
-    { time apptainer pull /tmp/${imgName}.sif ${sourceA}/${imgName}:t1 > tmp.log; } 2> pulltmp.log
+    { time apptainer pull /tmp/${imgName}.sif ${sourceA}/${imgName}:t4 > tmp.log; } 2> pulltmp.log
     pull_time=$(grep '^real' pulltmp.log | awk '{print $2}') 
     echo "${imgName}, ${pull_time}" >> ${log_file}
     rm pulltmp.log
@@ -224,7 +230,6 @@ pullTaskc() {
 
     echo "${imgName}-${version}, ${all_time}, ${pull_time}, ${load_time}" >> ${log_file}
     bash Taskc.sh cleanbuild
-    sleep 2
 }
 
 clean_logfile() {
@@ -240,8 +245,14 @@ clean_logfile() {
 
 
 pullYolo11() {
-    pull "yolo11" "gpu"
-    pull "yolo11" "cpu"
+    if [ "$cpu_flag" = true ]; then
+        pull "yolo11" "cpu"
+    elif [ "$gpu_flag" = true ]; then
+        pull "yolo11" "gpu"
+    else
+        pull "yolo11" "cpu"
+        pull "yolo11" "gpu"
+    fi
 }
 
 pullWhisper() {
@@ -249,8 +260,14 @@ pullWhisper() {
 }
 
 pullTransformers() {
-    pull "transformers" "gpu"
-    pull "transformers" "cpu"
+    if [ "$cpu_flag" = true ]; then
+        pull "transformers" "cpu"
+    elif [ "$gpu_flag" = true ]; then
+        pull "transformers" "gpu"
+    else
+        pull "transformers" "cpu"
+        pull "transformers" "gpu"
+    fi
 }
 
 pullTTS() {
@@ -262,8 +279,14 @@ pullStableDiffusion() {
 }
 
 pullStableBaselines3() {
-    pull "stable-baselines3" "gpu"
-    pull "stable-baselines3" "cpu"
+    if [ "$cpu_flag" = true ]; then
+        pull "stable-baselines3" "cpu"
+    elif [ "$gpu_flag" = true ]; then
+        pull "stable-baselines3" "gpu"
+    else
+        pull "stable-baselines3" "cpu"
+        pull "stable-baselines3" "gpu"
+    fi
 }
 
 pullSAM2() {
@@ -271,8 +294,14 @@ pullSAM2() {
 }
 
 pullLoRA() {
-    pull "lora" "gpu"
-    pull "lora" "cpu"
+    if [ "$cpu_flag" = true ]; then
+        pull "lora" "cpu"
+    elif [ "$gpu_flag" = true ]; then
+        pull "lora" "gpu"
+    else
+        pull "lora" "cpu"
+        pull "lora" "gpu"
+    fi
 }
 
 pullCLIP() {
@@ -281,21 +310,13 @@ pullCLIP() {
 
 pullAll() {
     pullYolo11
-    sleep 2
     pullWhisper
-    sleep 2
-    pullTTS
-    sleep 2
     pullTransformers
-    sleep 2
+    pullTTS
     pullStableDiffusion
-    sleep 2
     pullStableBaselines3
-    sleep 2
     pullSAM2
-    sleep 2
     pullLoRA
-    sleep 2
     pullCLIP
 }
 
