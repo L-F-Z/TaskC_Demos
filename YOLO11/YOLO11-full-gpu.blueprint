@@ -40,9 +40,9 @@
 - [PyPI] albumentations [>=1.4.6]
 - [PyPI] comet [any]
 - [PyPI] pycocotools [any]
-- [LOCAL] /root/.config/Ultralytics/ [http://192.168.143.41:9081/repository/storage/Arial.ttf]
-- [LOCAL] /root/.config/Ultralytics/ [http://192.168.143.41:9081/repository/storage/Arial.Unicode.ttf]
-- [LOCAL] /ultralytics [http://192.168.143.41:9081/repository/storage/yolo11n.pt]
+- [LOCAL] /root/.config/Ultralytics/ [http://192.168.143.42:8081/repository/storage/Arial.ttf]
+- [LOCAL] /root/.config/Ultralytics/ [http://192.168.143.42:8081/repository/storage/Arial.Unicode.ttf]
+- [LOCAL] /ultralytics [http://192.168.143.42:8081/repository/storage/yolo11n.pt]
 - [LOCAL] /ultralytics [./ultralytics/ultralytics]
 - [PYTHON] yolo:ultralytics.cfg:entrypoint [./ultralytics/ultralytics]
 

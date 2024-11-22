@@ -34,10 +34,10 @@
 - [PyPI] opencv-python [any]
 - [PYTHON] [./sam2/sam2]
 - [LOCAL] /app/sam2 [./sam2]
-- [LOCAL] /app/sam2/checkpoints [http://192.168.143.41:9081/repository/storage/sam2.1_hiera_tiny.pt]
-- [LOCAL] /app/sam2/checkpoints [http://192.168.143.41:9081/repository/storage/sam2.1_hiera_small.pt]
-- [LOCAL] /app/sam2/checkpoints [http://192.168.143.41:9081/repository/storage/sam2.1_hiera_base_plus.pt]
-- [LOCAL] /app/sam2/checkpoints [http://192.168.143.41:9081/repository/storage/sam2.1_hiera_large.pt]
+- [LOCAL] /app/sam2/checkpoints [http://192.168.143.42:8081/repository/storage/sam2.1_hiera_tiny.pt]
+- [LOCAL] /app/sam2/checkpoints [http://192.168.143.42:8081/repository/storage/sam2.1_hiera_small.pt]
+- [LOCAL] /app/sam2/checkpoints [http://192.168.143.42:8081/repository/storage/sam2.1_hiera_base_plus.pt]
+- [LOCAL] /app/sam2/checkpoints [http://192.168.143.42:8081/repository/storage/sam2.1_hiera_large.pt]
 
 [WORKDIR] /app/sam2
 [CMD]
