@@ -10,6 +10,7 @@ ENV PYTHONUNBUFFERED=1 \
 # Modify sources to use mirror
 # RUN sed -i 's/archive.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list && \
 #     sed -i 's/security.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list
+
 RUN total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
 RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.143.41:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
 RUN mv /etc/apt/sources.list.new /etc/apt/sources.list
@@ -24,6 +25,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     wget \
     curl \
+    htop \
     libgl1 \
     libglib2.0-0 \
     libpython3-dev \
@@ -43,31 +45,26 @@ WORKDIR /ultralytics
 #     echo '[global]' > /root/.pip/pip.conf && \
 #     echo 'index-url = https://pypi.tuna.tsinghua.edu.cn/simple' >> /root/.pip/pip.conf && \
 #     echo 'trusted-host = pypi.tuna.tsinghua.edu.cn' >> /root/.pip/pip.conf
-RUN pip config set global.timeout 1000
-RUN pip config set global.trusted-host 192.168.143.41
-RUN pip config set global.index http://192.168.143.41:9081/repository/pypi/pypi
-RUN pip config set global.index-url http://192.168.143.41:9081/repository/pypi/simple
+RUN mkdir -p /root/.pip/ && \
+    if [ -f /root/.pip/pip.conf ]; then mv /root/.pip/pip.conf /root/.pip/pip.conf.bak; fi  
+COPY ./resource/pip.conf /root/.pip/pip.conf  
 
 # Copy necessary wheel files for ROCm support
-# COPY torch-2.3.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl .
-# COPY torchvision-0.18.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl .
-# COPY pytorch_triton_rocm-2.3.0+rocm6.2.3.5a02332983-cp310-cp310-linux_x86_64.whl .
-ADD http://192.168.143.41:9081/repository/storage/torch-2.3.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl /ultralytics/
-ADD http://192.168.143.41:9081/repository/storage/torchvision-0.18.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl /ultralytics/
-ADD http://192.168.143.41:9081/repository/storage/pytorch_triton_rocm-2.3.0+rocm6.2.3.5a02332983-cp310-cp310-linux_x86_64.whl /ultralytics/
+ADD http://192.168.143.41:9081/repository/python/packages/torchvision/0.20.0.dev20240920%2Brocm6.2/torchvision-0.20.0.dev20240920%2Brocm6.2-cp310-cp310-linux_x86_64.whl .
+ADD http://192.168.143.41:9081/repository/python/packages/torch/2.6.0.dev20240920%2Brocm6.2/torch-2.6.0.dev20240920%2Brocm6.2-cp310-cp310-linux_x86_64.whl .
+ADD http://192.168.143.41:9081/repository/python/packages/pytorch-triton-rocm/3.1.0%2B5fe38ffd73/pytorch_triton_rocm-3.1.0%2B5fe38ffd73-cp310-cp310-linux_x86_64.whl .
 
-# Install ROCm PyTorch and dependencies
 RUN python3 -m pip install --upgrade pip wheel && \
-    pip3 install pytorch_triton_rocm-2.3.0+rocm6.2.3.5a02332983-cp310-cp310-linux_x86_64.whl && \
-    pip3 install torch-2.3.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl --no-deps && \
-    pip3 install torchvision-0.18.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl && \
-    pip3 install typing-extensions sympy filelock jinja2 networkx fsspec
+    pip3 install pytorch_triton_rocm-3.1.0+5fe38ffd73-cp310-cp310-linux_x86_64.whl && \
+    pip3 install torch-2.6.0.dev20240920+rocm6.2-cp310-cp310-linux_x86_64.whl --no-deps && \
+    pip3 install torchvision-0.20.0.dev20240920+rocm6.2-cp310-cp310-linux_x86_64.whl && \
+    pip3 install -v typing-extensions sympy filelock jinja2 networkx fsspec
 
 # Copy YOLO source code
 COPY ./ultralytics/ .
 
 # Install YOLO dependencies
-RUN pip3 install --no-cache-dir -e -v . "albumentations>=1.4.6" comet pycocotools
+RUN pip3 install --no-cache-dir -e . "albumentations>=1.4.6" comet pycocotools
 
 # Add YOLO model
 ADD http://192.168.143.41:9081/repository/storage/yolo11n.pt .
