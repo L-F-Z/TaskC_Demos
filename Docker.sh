@@ -47,6 +47,12 @@ for arg in "$@"; do
         --gpu)  
             gpu_only=true  
             ;;  
+        --amd)
+            amd_env=true
+            ;;
+        --jetson)
+            jetson_env=true
+            ;;
         *)  
             project_args+=("$arg") # Collect additional arguments for projects  
             ;;  
@@ -67,6 +73,13 @@ build_image() {
 
     local project=$1  
     local dockerfile=$2   # "Dockerfile"
+    if [ "$amd_env" = true ]; then
+        dockerfile="amdDockerfile"
+    fi
+    if [ "$jetson_env" = true ]; then
+        dockerfile="jetsonDockerfile"
+    fi
+
     local project_dir="${project_base_dir}/${project}" 
     local error_logfile="docker_${project,,}_error.log"
 
@@ -257,7 +270,11 @@ build_Whisper() {
 }  
 
 build_YOLO11() {
-    buildImage2 "YOLO11"
+    if [ "$amd_env" = true ] || [ "$jetson_env" = true ] ; then
+        buildImage "YOLO11"
+    else
+        buildImage2 "YOLO11"
+    fi
 }  
 
 clean_logfile () {
