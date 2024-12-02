@@ -309,15 +309,15 @@ pullCLIP() {
 }
 
 pullAll() {
-    pullYolo11
-    pullWhisper
+    pullCLIP
+    pullLoRA
+    pullSAM2
+    pullStableBaselines3
+    pullStableDiffusion
     pullTransformers
     pullTTS
-    pullStableDiffusion
-    pullStableBaselines3
-    pullSAM2
-    pullLoRA
-    pullCLIP
+    pullWhisper
+    pullYolo11
 }
 
 if [[ " ${project_args[*]} " == *" pullall "* ]]; then

@@ -65,6 +65,7 @@ error_dir="$project_base_dir/error_logs"
 mkdir -p ${error_dir}
 log1="logTaskc.log"
 log2="logTaskc_full.log" 
+logpack="logPackTaskc.log"
 if [ "$full_version" = true ]; then
     log_file=$log2
 else
@@ -88,6 +89,51 @@ avg(){
     echo "cpu: $cpu_only"
     echo "gpu: $gpu_only"
     echo "full: $full_version"
+}
+
+pack_image() {
+    clean_cache_if_needed
+    attempt=1
+    local project=$1
+    local buildfile="${project}.blueprint"
+    local project_dir="${project_base_dir}/${project}" 
+    local error_logfile="taskcPack_${project,,}_${version}_error.log"
+
+    if [ ! -d "$project_dir" ]; then  
+        echo "${RED}错误: 项目目录不存在: $project_dir${NC}"  
+        return 1  
+    fi  
+    cd "$project_dir" || { echo "${RED}错误: 无法进入项目目录: $project_dir${NC}"; return 1; }  
+
+    echo "正在打包 ${project,,} Tasck..." 
+    while [ $attempt -le $max_attempts ]; do
+        { time  taskc pack "$buildfile" --id "${project,,}" /tmp/ > output.log; } 2> time_output.log
+        pack_status=$? 
+        pack_time=$(grep '^real' time_output.log | awk '{print $2}')  
+
+        if [ $pack_status -eq 0 ]; then  
+            packsize=$(du -sb /tmp/${project,,}.taskc | awk '{print $1}')
+            # image_size_mb=$(echo "scale=2; $image_size/1024/1024" | bc)
+            echo "${project,,}.taskc, ${pack_time}, ${packsize}" | tee -a "../$logpack"
+            echo "${GREEN}${project,,}打包完成${NC}"
+            echo -e "信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "${error_dir}/${error_logfile}"
+            rm time_output.log
+            rm output.log
+            break
+        else
+            echo "${RED}构建 ${project}打包失败，尝试次数: $attempt${NC}"  
+            echo -e "错误信息：\n$(<time_output.log)\n\n$(<output.log)\n" >> "${error_dir}/${error_logfile}"
+            if [ $attempt -lt $max_attempts ]; then  
+                clean_cache_if_needed
+                echo "等待 1 秒后重试..."  
+                sleep 1
+            fi  
+            attempt=$((attempt + 1))  
+        fi
+    done
+    cd "$script_dir" || exit
+    echo "-----------------------------------"  
+    sleep 2
 }
 
 build_image() {
@@ -412,6 +458,17 @@ buildImage2() {
     fi
 }
 
+
+packImage() {
+    local project=$1
+    TIMESTAMP=$(date +%s) 
+    echo "start, $TIMESTAMP" | tee -a "$logpack"
+    pack_image "${project}"
+    TIMESTAMP=$(date +%s) 
+    echo "end, $TIMESTAMP" | tee -a "$logpack"
+}
+
+
 build_CLIP() {  
     buildImage "CLIP"
 }  
@@ -449,21 +506,46 @@ build_YOLO11() {
     buildImage2 "YOLO11"
 }  
 
-# build_YOLOv5() {  
-#     buildImage "YOLOv5"
-# }  
+pack_CLIP() {  
+    packImage "CLIP"
+}  
 
-# build_YOLOv8() {  
-#     buildImage "YOLOv8"
-# }  
 
-# build_mmpretrain() {  
-#     buildImage "mmpretrain" 
-# }  
+pack_LoRA() {  
+    packImage "LoRA"
+}  
 
+pack_SAM2() { 
+    packImage "SAM2" 
+}  
+
+pack_Stable-Baselines3() { 
+    packImage "Stable-Baselines3" 
+}
+
+pack_stablediffusion() {  
+    packImage "stablediffusion"
+}  
+
+pack_TTS() {  
+    packImage "TTS"
+}  
+
+pack_Transformers() {  
+    packImage "Transformers"
+}  
+
+pack_Whisper() {  
+    packImage "Whisper"
+}  
+
+pack_YOLO11() {  
+    packImage "YOLO11"
+} 
 
 clean_logfile () {
     < $log_file
+    < $logpack
     rm -rf $error_dir
     mkdir -p $error_dir
 }
@@ -476,6 +558,23 @@ if [ $# -eq 0 ]; then
     usage  
 fi  
 
+if [[ " ${project_args[*]} " == *" packall "* ]]; then  
+    clean_logfile
+    rm /tmp/*.taskc
+    echo "开始打包所有项目..."  
+    pack_CLIP  
+    pack_LoRA  
+    pack_SAM2  
+    pack_Stable-Baselines3  
+    pack_stablediffusion  
+    pack_Transformers  
+    pack_TTS
+    pack_Whisper  
+    pack_YOLO11  
+    echo "${GREEN}所有项目打包完成${NC}"  
+    exit 0  
+fi  
+
 if [[ " ${project_args[*]} " == *" all "* ]]; then  
     clean_logfile
     echo "开始构建所有项目..."  
@@ -484,8 +583,8 @@ if [[ " ${project_args[*]} " == *" all "* ]]; then
     build_SAM2  
     build_Stable-Baselines3  
     build_stablediffusion  
-    build_TTS
     build_Transformers  
+    build_TTS
     build_Whisper  
     build_YOLO11  
     echo "${GREEN}所有项目构建完成${NC}"  
@@ -516,8 +615,12 @@ for arg in "${project_args[@]}"; do
             build_Whisper  
             ;;  
         YOLO11)  
+            rm /tmp/yolo*.taskc
             build_YOLO11  
             ;;  
+        YOLO11pack)  
+            pack_YOLO11  
+        ;; 
         stablediffusion)  
             build_stablediffusion  
             ;;

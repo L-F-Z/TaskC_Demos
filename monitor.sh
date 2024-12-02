@@ -2,7 +2,7 @@
 
 STATUS_FILE="./flag.txt" 
 CHECK_INTERVAL=3   
-WAIT_BEFORE_EXIT=20 
+WAIT_BEFORE_EXIT=3
 LOG_FILE="./monitor.log"
 
 get_cpu_usage() {  

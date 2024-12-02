@@ -239,7 +239,7 @@ pushDocker() {
     echo "${imgName}, ${push_time}" >> $log_file
     # rm pushtmp.log
     echo "done"
-    read -p "按回车键结束 ${imgName} "
+    # read -p "按回车键结束 ${imgName} "
 }
 
 pushBuildah() {

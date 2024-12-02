@@ -5,7 +5,7 @@
 [ENVIRONMENT] any
 
 [DEPEND]
-- [DockerHub] python [3.11]
+- [DockerHub] python [3.11-slim]
 - [Apt] libgl1 [any]
 - [Apt] libglib2.0-0 [any]
 - [Apt] libusb-1.0-0 [any]
