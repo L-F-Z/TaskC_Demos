@@ -283,8 +283,8 @@ if [[ " ${project_args[*]} " == *" all "* ]]; then
     build_SAM2  
     build_Stable-Baselines3  
     build_stablediffusion  
-    build_TTS
     build_Transformers  
+    build_TTS
     build_Whisper  
     build_YOLO11  
     echo "${GREEN}所有项目构建完成。${NC}"  
