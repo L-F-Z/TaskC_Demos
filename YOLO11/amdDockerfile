@@ -23,16 +23,10 @@ RUN apt-get update && apt-get install -y \
     gcc \
     zip \
     unzip \
-    wget \
-    curl \
-    htop \
     libgl1 \
     libglib2.0-0 \
-    libpython3-dev \
-    gnupg \
     g++ \
     libusb-1.0-0 \
-    libsm6 \
     && rm -rf /var/lib/apt/lists/*
 
 # Security updates for openssl
@@ -50,15 +44,23 @@ RUN mkdir -p /root/.pip/ && \
 COPY ./resource/pip.conf /root/.pip/pip.conf  
 
 # Copy necessary wheel files for ROCm support
-ADD http://192.168.143.41:9081/repository/python/packages/torchvision/0.20.0.dev20240920%2Brocm6.2/torchvision-0.20.0.dev20240920%2Brocm6.2-cp310-cp310-linux_x86_64.whl .
-ADD http://192.168.143.41:9081/repository/python/packages/torch/2.6.0.dev20240920%2Brocm6.2/torch-2.6.0.dev20240920%2Brocm6.2-cp310-cp310-linux_x86_64.whl .
-ADD http://192.168.143.41:9081/repository/python/packages/pytorch-triton-rocm/3.1.0%2B5fe38ffd73/pytorch_triton_rocm-3.1.0%2B5fe38ffd73-cp310-cp310-linux_x86_64.whl .
-
+ADD http://192.168.143.41:9081/repository/python/packages/torch/2.5.1%2Brocm6.2/torch-2.5.1%2Brocm6.2-cp310-cp310-linux_x86_64.whl .
+ADD http://192.168.143.41:9081/repository/python/packages/torchvision/0.20.1%2Brocm6.2/torchvision-0.20.1%2Brocm6.2-cp310-cp310-linux_x86_64.whl .
+ADD http://192.168.143.41:9081/repository/python/packages/pytorch-triton-rocm/3.1.0/pytorch_triton_rocm-3.1.0-cp310-cp310-linux_x86_64.whl .
 RUN python3 -m pip install --upgrade pip wheel && \
-    pip3 install pytorch_triton_rocm-3.1.0+5fe38ffd73-cp310-cp310-linux_x86_64.whl && \
-    pip3 install torch-2.6.0.dev20240920+rocm6.2-cp310-cp310-linux_x86_64.whl --no-deps && \
-    pip3 install torchvision-0.20.0.dev20240920+rocm6.2-cp310-cp310-linux_x86_64.whl && \
-    pip3 install -v typing-extensions sympy filelock jinja2 networkx fsspec
+    pip3 install pytorch_triton_rocm-3.1.0-cp310-cp310-linux_x86_64.whl && \
+    pip3 install torch-2.5.1+rocm6.2-cp310-cp310-linux_x86_64.whl --no-deps && \
+    pip3 install torchvision-0.20.1+rocm6.2-cp310-cp310-linux_x86_64.whl 
+
+# ADD http://192.168.143.41:9081/repository/python/packages/torchvision/0.20.0.dev20240920%2Brocm6.2/torchvision-0.20.0.dev20240920%2Brocm6.2-cp310-cp310-linux_x86_64.whl .
+# ADD http://192.168.143.41:9081/repository/python/packages/torch/2.6.0.dev20240920%2Brocm6.2/torch-2.6.0.dev20240920%2Brocm6.2-cp310-cp310-linux_x86_64.whl .
+# ADD http://192.168.143.41:9081/repository/python/packages/pytorch-triton-rocm/3.1.0%2B5fe38ffd73/pytorch_triton_rocm-3.1.0%2B5fe38ffd73-cp310-cp310-linux_x86_64.whl .
+
+# RUN python3 -m pip install --upgrade pip wheel && \
+#     pip3 install pytorch_triton_rocm-3.1.0+5fe38ffd73-cp310-cp310-linux_x86_64.whl && \
+#     pip3 install torch-2.6.0.dev20240920+rocm6.2-cp310-cp310-linux_x86_64.whl --no-deps && \
+#     pip3 install torchvision-0.20.0.dev20240920+rocm6.2-cp310-cp310-linux_x86_64.whl && \
+#     pip3 install -v typing-extensions sympy filelock jinja2 networkx fsspec
 
 # Copy YOLO source code
 COPY ./ultralytics/ .

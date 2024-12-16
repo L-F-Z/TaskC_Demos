@@ -1,0 +1,39 @@
+[BLUEPRINT] v1
+[NAME] YOLO11
+[TYPE] Prefab
+[VERSION] latest
+[ENVIRONMENT] any
+
+[DEPEND]
+- [DockerHub] python [3.10-slim]
+- [Apt] libgl1 [any]
+- [Apt] libglib2.0-0 [any]
+- [Apt] libusb-1.0-0 [any]
+- [Apt] ca-certificates [any]
+- [PyPI] numpy [>=1.23.0]
+- [PyPI] matplotlib [>=3.3.0]
+- [PyPI] opencv-python [>=4.6.0]
+- [PyPI] pillow [>=7.1.2]
+- [PyPI] pyyaml [>=5.3.1]
+- [PyPI] requests [>=2.23.0]
+- [PyPI] scipy [>=1.4.1]
+- [PyPI] torch [==2.5.1+rocm6.2]
+- [PyPI] torchvision [==0.20.1+rocm6.2]
+- [PyPI] tqdm [>=4.64.0]
+- [PyPI] psutil [any]
+- [PyPI] py-cpuinfo [any]
+- [PyPI] pandas [>=1.1.4]
+- [PyPI] seaborn [>=0.11.0]
+- [PyPI] ultralytics-thop [>=2.0.0]
+- [LOCAL] /root/.config/Ultralytics/ [http://192.168.143.41:9081/repository/storage/Arial.ttf]
+- [LOCAL] /root/.config/Ultralytics/ [http://192.168.143.41:9081/repository/storage/Arial.Unicode.ttf]
+- [LOCAL] /ultralytics [http://192.168.143.41:9081/repository/storage/yolo11n.pt]
+- [LOCAL] /ultralytics [./ultralytics/ultralytics]
+- [PYTHON] yolo:ultralytics.cfg:entrypoint [./ultralytics/ultralytics]
+
+[WORKDIR] /ultralytics
+[CMD]
+- yolo
+- predict
+- model=yolo11n.pt
+- source=https://ultralytics.com/images/bus.jpg
