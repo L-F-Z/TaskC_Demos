@@ -11,3 +11,4 @@ flag/
 *CPU*
 *GPU*
 test.sh
+*.out

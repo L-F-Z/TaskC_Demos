@@ -20,44 +20,23 @@ ADD http://192.168.143.41:9081/repository/storage/Arial.ttf \
     /root/.config/Ultralytics/
 
 ADD http://192.168.143.41:9081/repository/storage/yolo11n.pt .
+#  wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/arm64/cuda-keyring_1.1-1_all.deb
+ADD http://192.168.143.41:9081/repository/storage/cuda-keyring_1.1-1_all.deb .
+RUN dpkg -i cuda-keyring_1.1-1_all.deb
 
 # Add NVIDIA CUDA repo key and update packages
 RUN total_lines=$(wc -l < /etc/apt/sources.list) && lines_to_keep=$((total_lines - 6)) && head -n $lines_to_keep /etc/apt/sources.list > /etc/apt/sources.list.new
-RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://192.168.143.41:9081/repository/ubuntu/|g' /etc/apt/sources.list.new
+RUN sed -i 's|http://ports.ubuntu.com/ubuntu-ports/|http://192.168.143.41:9081/repository/ubuntu-ports/|g' /etc/apt/sources.list.new
 RUN mv /etc/apt/sources.list.new /etc/apt/sources.list
 
-RUN apt-get update && \
-    apt-get install -y curl wget && \
-    wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/arm64/cuda-keyring_1.1-1_all.deb && \
-    dpkg -i cuda-keyring_1.1-1_all.deb && \
-    apt-get update
+RUN sed -i 's|https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/arm64/|http://192.168.143.41:9081/repository/cuda-jammy/|g' /etc/apt/sources.list.d/cuda-ubuntu2204-arm64.list
+
+RUN apt-get update
 
 # Install system dependencies
 RUN apt-get install -y --no-install-recommends \
-    build-essential \
-    ca-certificates \
-    gcc \
-    g++ \
-    git \
-    gnupg \
-    libglib2.0-0 \
-    libgl1 \
-    libopenblas-dev \
-    libpython3-dev \
-    libsm6 \
-    libusb-1.0-0 \
-    python3.10 \
-    python3-dev \
-    python3-pip \
-    python3-libnvinfer \
-    unzip \
-    zip \
-    openssl \
-    tar \
-    cuda \
-    cudnn \
-    libcusparselt0 \
-    libcusparselt-dev && \
+    python3.10 python3-pip python3-dev libglib2.0-0 libgl1 libopenblas-dev libpython3-dev \
+    libsm6 libusb-1.0-0 unzip tar libcusparselt0 libcusparselt-dev cuda cudnn && \
     rm -rf /var/lib/apt/lists/*
 
 # Create Python symlinks
@@ -81,6 +60,6 @@ RUN python3 -m pip install --upgrade pip wheel && \
 RUN rm -rf tmp /root/.config/Ultralytics/persistent_cache.json && \
     chmod -R 777 /ultralytics
 
-COPY bus.jpg .
+# COPY bus.jpg .
 # Set default command to run YOLO prediction
-CMD ["yolo", "predict", "model=yolo11n.pt", "source=https://ultralytics.com/images/bus.jpg"]
+CMD ["yolo", "predict", "model=yolo11n.pt", "source= http://192.168.143.41:9081/repository/storage/bus.jpg"]
