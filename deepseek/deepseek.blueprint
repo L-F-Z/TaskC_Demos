@@ -1,0 +1,23 @@
+[BLUEPRINT] v1
+[TYPE] PrefabService
+[NAME] deepseek
+[VERSION] 1.0
+[ENVIRONMENT] any
+
+[DEPEND]
+- [DockerHub] python [3.13-slim]
+- [Prefab] llama.cpp [server-cuda-b4944]
+- [HuggingFace] unsloth/DeepSeek-R1-Distill-Qwen-1.5B-GGUF [DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf]
+
+[CMD]
+- /llama-server
+- -m
+- DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf
+- -c
+- 512
+- --host
+- 0.0.0.0
+- --port
+- 8080
+- -ngl
+- 100
