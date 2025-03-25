@@ -1,0 +1,13 @@
+[BLUEPRINT] v1
+[TYPE] Closure
+[NAME] 110.dynamic-html
+[VERSION] 1.0
+[ENVIRONMENT] any
+[WORKDIR] /app
+[CMD]
+- python
+- 110.dynamic-html.py
+[DEPEND]
+- [DockerHub] python [3.12-slim]
+- [PyPI] jinja2 [>=2.10.3]
+- [LOCAL] /app [.]

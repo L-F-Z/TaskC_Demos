@@ -45,8 +45,8 @@ def handler(width, height, in_path, out_path):
     }
 
 if __name__ == "__main__":
-    input_path = "input.jpg"
-    output_path = "output.jpg"
+    input_path = "0_action-adrenaline-adventure-1047051.jpg"
+    output_path = "thumbnail.jpg"
     width, height = 200, 200
     
     result = handler(width, height, input_path, output_path)
