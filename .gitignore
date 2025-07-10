@@ -12,3 +12,4 @@ flag/
 *GPU*
 test.sh
 *.out
+*.taskc
