@@ -46,7 +46,7 @@ need to run `chmod +x Taskc.sh`
   all : 构建所有项目，例如 bash Docker.sh all
   支持同时构建多个项目，例如 bash Docker.sh CLIP YOLOv5
 Flags:
-  --no-cache   每次构建时清除缓存，例如 bash --no-cache Docker.sh CLIP
+  --no-cache   每次构建时清除缓存，例如 bash Docker.sh --no-cache CLIP
   --cpu        仅构建 CPU 版本的镜像，例如 bash Docker.sh --cpu CLIP
   --gpu        仅构建 GPU 版本的镜像，例如 bash Docker.sh --gpu CLIP
 Available Commands:
